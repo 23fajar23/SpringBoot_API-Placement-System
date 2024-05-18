@@ -70,13 +70,26 @@ public class AuthController {
     @PostMapping(AppPath.LOGIN)
     public ResponseEntity<?> login(@RequestBody AuthRequest request){
         LoginResponse loginResponse = authService.login(request);
-        CommonResponse<LoginResponse> response = CommonResponse.<LoginResponse>builder()
-                .message("Success Login")
-                .statusCode(HttpStatus.OK.value())
-                .data(loginResponse)
-                .build();
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
 
+        HttpStatus httpStatus;
+        CommonResponse<LoginResponse> response;
+        if (loginResponse != null) {
+            httpStatus = HttpStatus.OK;
+            response = CommonResponse.<LoginResponse>builder()
+                    .message("Success Login")
+                    .statusCode(httpStatus.value())
+                    .data(loginResponse)
+                    .build();
+        } else {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            response = CommonResponse.<LoginResponse>builder()
+                    .message("Failed Login")
+                    .statusCode(httpStatus.value())
+                    .data(null)
+                    .build();
+        }
+
+        return ResponseEntity.status(httpStatus).body(response);
+    }
 
 }

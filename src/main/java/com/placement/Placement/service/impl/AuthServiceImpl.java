@@ -2,6 +2,7 @@ package com.placement.Placement.service.impl;
 
 
 import com.placement.Placement.constant.ERole;
+import com.placement.Placement.constant.Status;
 import com.placement.Placement.model.entity.auth.*;
 import com.placement.Placement.model.request.AuthRequest;
 import com.placement.Placement.model.response.LoginResponse;
@@ -47,6 +48,7 @@ public class AuthServiceImpl implements AuthService {
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(role)
+                    .status(Status.ACTIVE)
                     .build();
             userCredentialRepository.saveAndFlush(userCredential);
 
@@ -81,6 +83,7 @@ public class AuthServiceImpl implements AuthService {
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(role)
+                    .status(Status.ACTIVE)
                     .build();
             userCredentialRepository.saveAndFlush(userCredential);
 
@@ -114,6 +117,7 @@ public class AuthServiceImpl implements AuthService {
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(role)
+                    .status(Status.ACTIVE)
                     .build();
             userCredentialRepository.saveAndFlush(userCredential);
 
@@ -148,12 +152,20 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         AppUser appUser = (AppUser) authentication.getPrincipal();
+
         String token = jwtUtil.generateToken(appUser);
 
-        return LoginResponse.builder()
-                .email(authRequest.getEmail())
-                .token(token)
-                .role(appUser.getRole().name())
-                .build();
+        var userCredential = userCredentialRepository.findByEmail(authRequest.getEmail()).orElse(null);
+
+        if (userCredential != null) {
+            if (userCredential.getStatus() == Status.ACTIVE) {
+                return LoginResponse.builder()
+                        .email(authRequest.getEmail())
+                        .token(token)
+                        .role(appUser.getRole().name())
+                        .build();
+            }
+        }
+        return null;
     }
 }
