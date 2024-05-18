@@ -1,4 +1,4 @@
-package com.placement.Placement.service.impl;
+package com.placement.Placement.service.impl.auth;
 
 import com.placement.Placement.constant.Status;
 import com.placement.Placement.helper.convert.dto.Dto;
@@ -7,7 +7,7 @@ import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.request.BatchRequest;
 import com.placement.Placement.model.response.BatchResponse;
 import com.placement.Placement.repository.BatchRepository;
-import com.placement.Placement.service.BatchService;
+import com.placement.Placement.service.auth.BatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

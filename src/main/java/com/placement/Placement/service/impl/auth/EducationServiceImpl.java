@@ -1,4 +1,4 @@
-package com.placement.Placement.service.impl;
+package com.placement.Placement.service.impl.auth;
 
 import com.placement.Placement.helper.convert.dto.Dto;
 import com.placement.Placement.helper.convert.entity.Entity;
@@ -6,7 +6,7 @@ import com.placement.Placement.model.entity.Education;
 import com.placement.Placement.model.request.EducationRequest;
 import com.placement.Placement.model.response.EducationResponse;
 import com.placement.Placement.repository.EducationRepository;
-import com.placement.Placement.service.EducationService;
+import com.placement.Placement.service.auth.EducationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -16,9 +16,6 @@ public class SuperAdmin {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
-
     @Column(name = "name", nullable = false)
     private String name;
 

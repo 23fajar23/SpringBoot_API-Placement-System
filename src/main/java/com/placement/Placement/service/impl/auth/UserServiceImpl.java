@@ -1,9 +1,9 @@
-package com.placement.Placement.service.impl;
+package com.placement.Placement.service.impl.auth;
 
 import com.placement.Placement.model.entity.auth.AppUser;
 import com.placement.Placement.model.entity.auth.UserCredential;
 import com.placement.Placement.repository.auth.UserCredentialRepository;
-import com.placement.Placement.service.UserService;
+import com.placement.Placement.service.auth.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

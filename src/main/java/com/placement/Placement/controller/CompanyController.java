@@ -56,7 +56,7 @@ public class CompanyController {
                 .body(response);
     }
 
-    @PostMapping(AppPath.CREATE)
+    @PostMapping
     public ResponseEntity<?> createCompany(@RequestBody CompanyRequest companyRequest) {
         CompanyResponse company = companyService.create(companyRequest);
 
@@ -71,7 +71,7 @@ public class CompanyController {
                 .body(response);
     }
 
-    @PutMapping(AppPath.UPDATE)
+    @PutMapping
     public ResponseEntity<?> updateCompany(@RequestBody CompanyRequest companyRequest) {
         CompanyResponse company = companyService.update(companyRequest);
 

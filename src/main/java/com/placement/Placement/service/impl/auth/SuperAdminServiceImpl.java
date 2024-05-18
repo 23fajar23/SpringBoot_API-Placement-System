@@ -1,8 +1,8 @@
-package com.placement.Placement.service.impl;
+package com.placement.Placement.service.impl.auth;
 
 import com.placement.Placement.model.entity.auth.SuperAdmin;
 import com.placement.Placement.repository.auth.SuperAdminRepository;
-import com.placement.Placement.service.SuperAdminService;
+import com.placement.Placement.service.auth.SuperAdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

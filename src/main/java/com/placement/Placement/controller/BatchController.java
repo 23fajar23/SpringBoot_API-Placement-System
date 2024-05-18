@@ -4,8 +4,7 @@ import com.placement.Placement.constant.AppPath;
 import com.placement.Placement.model.request.BatchRequest;
 import com.placement.Placement.model.response.BatchResponse;
 import com.placement.Placement.model.response.CommonResponse;
-import com.placement.Placement.model.response.EducationResponse;
-import com.placement.Placement.service.BatchService;
+import com.placement.Placement.service.auth.BatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +60,7 @@ public class BatchController {
 
     }
 
-    @PostMapping(AppPath.CREATE)
+    @PostMapping
     public ResponseEntity<?> createBatch(@RequestBody BatchRequest batchRequest) {
         BatchResponse batch = batchService.create(batchRequest);
 
@@ -76,7 +75,7 @@ public class BatchController {
                 .body(response);
     }
 
-    @PutMapping(AppPath.UPDATE)
+    @PutMapping
     public ResponseEntity<?> updateBatch(@RequestBody BatchRequest batchRequest) {
         BatchResponse batch = batchService.update(batchRequest);
 
@@ -104,7 +103,7 @@ public class BatchController {
 
     }
 
-    @DeleteMapping(AppPath.REMOVE + AppPath.BY_ID)
+    @DeleteMapping(AppPath.BY_ID)
     public ResponseEntity<?> deleteBatch(@PathVariable String id) {
         BatchResponse batch = batchService.remove(id);
 

@@ -15,6 +15,6 @@ public class AuthRequest {
     private String name;
     private String address;
     private String mobilePhone;
-    private String batchName;
-    private String educationName;
+    private String batchId;
+    private String educationId;
 }

@@ -4,7 +4,7 @@ import com.placement.Placement.constant.AppPath;
 import com.placement.Placement.model.request.EducationRequest;
 import com.placement.Placement.model.response.CommonResponse;
 import com.placement.Placement.model.response.EducationResponse;
-import com.placement.Placement.service.EducationService;
+import com.placement.Placement.service.auth.EducationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

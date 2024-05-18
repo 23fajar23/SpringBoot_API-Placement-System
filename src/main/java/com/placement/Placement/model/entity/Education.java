@@ -17,7 +17,7 @@ public class Education {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "education", nullable = false)
+    @Column(name = "education", nullable = false, unique = true)
     private String education;
 
     @Column(name = "value")

@@ -1,7 +1,7 @@
 package com.placement.Placement.security;
 
 
-import com.placement.Placement.service.UserService;
+import com.placement.Placement.service.auth.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

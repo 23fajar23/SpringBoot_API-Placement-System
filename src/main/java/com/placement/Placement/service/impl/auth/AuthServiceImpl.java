@@ -1,4 +1,4 @@
-package com.placement.Placement.service.impl;
+package com.placement.Placement.service.impl.auth;
 
 
 import com.placement.Placement.constant.ERole;
@@ -14,7 +14,7 @@ import com.placement.Placement.model.response.LoginResponse;
 import com.placement.Placement.model.response.RegisterResponse;
 import com.placement.Placement.repository.auth.UserCredentialRepository;
 import com.placement.Placement.security.JwtUtil;
-import com.placement.Placement.service.*;
+import com.placement.Placement.service.auth.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -46,9 +46,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public RegisterResponse registerCustomer(AuthRequest request) {
         try {
-
-            BatchResponse batchResponse = batchService.getByName(request.getBatchName());
-            EducationResponse educationResponse = educationService.getByName(request.getEducationName());
+            BatchResponse batchResponse = batchService.getById(request.getBatchId());
+            EducationResponse educationResponse = educationService.getById(request.getEducationId());
 
             if (batchResponse == null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Batch is not found");
@@ -145,7 +144,6 @@ public class AuthServiceImpl implements AuthService {
             //TODO 3 : set Customer
             SuperAdmin superAdmin = SuperAdmin.builder()
                     .name(request.getName())
-                    .email(request.getEmail())
                     .phoneNumber(request.getMobilePhone())
                     .build();
 

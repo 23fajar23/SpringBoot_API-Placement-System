@@ -1,8 +1,8 @@
-package com.placement.Placement.service.impl;
+package com.placement.Placement.service.impl.auth;
 
 import com.placement.Placement.model.entity.auth.Customer;
 import com.placement.Placement.repository.auth.CustomerRepository;
-import com.placement.Placement.service.CustomerService;
+import com.placement.Placement.service.auth.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

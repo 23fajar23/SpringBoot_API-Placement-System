@@ -6,7 +6,7 @@ import com.placement.Placement.model.request.AuthRequest;
 import com.placement.Placement.model.response.CommonResponse;
 import com.placement.Placement.model.response.LoginResponse;
 import com.placement.Placement.model.response.RegisterResponse;
-import com.placement.Placement.service.AuthService;
+import com.placement.Placement.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

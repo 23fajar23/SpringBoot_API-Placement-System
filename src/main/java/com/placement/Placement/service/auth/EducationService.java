@@ -1,4 +1,4 @@
-package com.placement.Placement.service;
+package com.placement.Placement.service.auth;
 
 import com.placement.Placement.model.request.EducationRequest;
 import com.placement.Placement.model.response.EducationResponse;

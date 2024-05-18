@@ -1,9 +1,9 @@
-package com.placement.Placement.service.impl;
+package com.placement.Placement.service.impl.auth;
 
 import com.placement.Placement.constant.ERole;
 import com.placement.Placement.model.entity.auth.Role;
 import com.placement.Placement.repository.auth.RoleRepository;
-import com.placement.Placement.service.RoleService;
+import com.placement.Placement.service.auth.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
