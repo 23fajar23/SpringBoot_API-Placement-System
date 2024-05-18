@@ -1,6 +1,8 @@
 package com.placement.Placement.service.impl;
 
-import com.placement.Placement.helper.convert.dto.Convert;
+import com.placement.Placement.constant.Status;
+import com.placement.Placement.helper.convert.dto.Dto;
+import com.placement.Placement.helper.convert.entity.Entity;
 import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.request.BatchRequest;
 import com.placement.Placement.model.response.BatchResponse;
@@ -19,14 +21,14 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public List<BatchResponse> getAll() {
         return batchRepository.findAll().stream()
-                .map(Convert::convertToDto).toList();
+                .map(Entity::convertToDto).toList();
     }
 
     @Override
     public BatchResponse getById(String id) {
         Batch batch = batchRepository.findById(id).orElse(null);
         if (batch != null) {
-            return Convert.convertToDto(batch);
+            return Entity.convertToDto(batch);
         }
 
         return null;
@@ -34,14 +36,10 @@ public class BatchServiceImpl implements BatchService {
 
     @Override
     public BatchResponse create(BatchRequest batchRequest) {
-        Batch batch = Batch.builder()
-                .name(batchRequest.getName())
-                .status(batchRequest.isStatus())
-                .build();
-
+        Batch batch = Dto.convertToEntity(batchRequest);
         batchRepository.save(batch);
 
-        return Convert.convertToDto(batch);
+        return Entity.convertToDto(batch);
     }
 
     @Override
@@ -49,10 +47,9 @@ public class BatchServiceImpl implements BatchService {
         Batch batch = batchRepository.findById(batchRequest.getId()).orElse(null);
         if (batch != null) {
             batch.setName(batchRequest.getName());
-            batch.setStatus(batchRequest.isStatus());
             batchRepository.save(batch);
 
-            return Convert.convertToDto(batch);
+            return Entity.convertToDto(batch);
         }
 
         return null;
@@ -62,8 +59,9 @@ public class BatchServiceImpl implements BatchService {
     public BatchResponse remove(String id) {
         Batch batch = batchRepository.findById(id).orElse(null);
         if (batch != null) {
-            batchRepository.delete(batch);
-            return Convert.convertToDto(batch);
+            batch.setStatus(Status.NOT_ACTIVE);
+            batchRepository.save(batch);
+            return Entity.convertToDto(batch);
         }
 
         return null;

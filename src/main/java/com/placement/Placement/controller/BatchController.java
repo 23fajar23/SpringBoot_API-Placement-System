@@ -4,6 +4,7 @@ import com.placement.Placement.constant.AppPath;
 import com.placement.Placement.model.request.BatchRequest;
 import com.placement.Placement.model.response.BatchResponse;
 import com.placement.Placement.model.response.CommonResponse;
+import com.placement.Placement.model.response.EducationResponse;
 import com.placement.Placement.service.BatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,14 +37,26 @@ public class BatchController {
     public ResponseEntity<?> getBatchById(@PathVariable String id) {
         BatchResponse batch = batchService.getById(id);
 
-        CommonResponse<BatchResponse> response = CommonResponse.<BatchResponse>builder()
-                .statusCode(HttpStatus.OK.value())
-                .message("Successfully get batch")
-                .data(batch)
-                .build();
+        CommonResponse<BatchResponse> response;
+        HttpStatus httpStatus;
+        if (batch !=  null) {
+            httpStatus = HttpStatus.OK;
+            response = CommonResponse.<BatchResponse>builder()
+                    .statusCode(httpStatus.value())
+                    .message("Successfully get batch")
+                    .data(batch)
+                    .build();
+        } else {
+            httpStatus = HttpStatus.NOT_FOUND;
+            response = CommonResponse.<BatchResponse>builder()
+                    .statusCode(httpStatus.value())
+                    .message("Batch not found")
+                    .data(null)
+                    .build();
+        }
 
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(httpStatus)
                 .body(response);
 
     }
@@ -67,14 +80,26 @@ public class BatchController {
     public ResponseEntity<?> updateBatch(@RequestBody BatchRequest batchRequest) {
         BatchResponse batch = batchService.update(batchRequest);
 
-        CommonResponse<BatchResponse> response = CommonResponse.<BatchResponse>builder()
-                .statusCode(HttpStatus.OK.value())
-                .message("Successfully update batch")
-                .data(batch)
-                .build();
+        CommonResponse<BatchResponse> response;
+        HttpStatus httpStatus;
+        if (batch !=  null) {
+            httpStatus = HttpStatus.OK;
+            response = CommonResponse.<BatchResponse>builder()
+                    .statusCode(httpStatus.value())
+                    .message("Successfully update batch")
+                    .data(batch)
+                    .build();
+        } else {
+            httpStatus = HttpStatus.NOT_FOUND;
+            response = CommonResponse.<BatchResponse>builder()
+                    .statusCode(httpStatus.value())
+                    .message("Batch not found")
+                    .data(null)
+                    .build();
+        }
 
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(httpStatus)
                 .body(response);
 
     }
@@ -84,22 +109,25 @@ public class BatchController {
         BatchResponse batch = batchService.remove(id);
 
         CommonResponse<BatchResponse> response;
-        if (batch != null) {
+        HttpStatus httpStatus;
+        if (batch !=  null) {
+            httpStatus = HttpStatus.OK;
             response = CommonResponse.<BatchResponse>builder()
-                    .statusCode(HttpStatus.OK.value())
+                    .statusCode(httpStatus.value())
                     .message("Successfully remove batch")
                     .data(batch)
                     .build();
         } else {
+            httpStatus = HttpStatus.NOT_FOUND;
             response = CommonResponse.<BatchResponse>builder()
-                    .statusCode(HttpStatus.OK.value())
-                    .message("Failed remove batch")
+                    .statusCode(httpStatus.value())
+                    .message("Batch not found")
                     .data(null)
                     .build();
         }
 
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(httpStatus)
                 .body(response);
     }
 }

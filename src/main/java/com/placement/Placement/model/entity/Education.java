@@ -1,27 +1,25 @@
 package com.placement.Placement.model.entity;
 
 import com.placement.Placement.constant.DbPath;
-import com.placement.Placement.constant.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@Getter
-@Setter
 @Entity
-@Table(name = DbPath.BATCH)
-public class Batch {
+@Table(name = DbPath.EDUCATION)
+public class Education {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "education", nullable = false)
+    private String education;
 
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    @Column(name = "value")
+    private int value;
 }
