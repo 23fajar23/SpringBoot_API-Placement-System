@@ -9,12 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthRequest {
+public class SuperAdminRequest {
     private String email;
     private String password;
     private String name;
-    private String address;
     private String mobilePhone;
-    private String batchName;
-    private String educationName;
 }

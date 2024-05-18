@@ -3,8 +3,13 @@ package com.placement.Placement.service.impl;
 
 import com.placement.Placement.constant.ERole;
 import com.placement.Placement.constant.Status;
+import com.placement.Placement.helper.convert.dto.Dto;
+import com.placement.Placement.model.entity.Batch;
+import com.placement.Placement.model.entity.Education;
 import com.placement.Placement.model.entity.auth.*;
 import com.placement.Placement.model.request.AuthRequest;
+import com.placement.Placement.model.response.BatchResponse;
+import com.placement.Placement.model.response.EducationResponse;
 import com.placement.Placement.model.response.LoginResponse;
 import com.placement.Placement.model.response.RegisterResponse;
 import com.placement.Placement.repository.auth.UserCredentialRepository;
@@ -33,17 +38,35 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
-
+    private final BatchService batchService;
+    private final EducationService educationService;
     private final RoleService roleService;
 
     @Transactional(rollbackOn = Exception.class)
     @Override
     public RegisterResponse registerCustomer(AuthRequest request) {
         try {
-            //TODO 1 : set Role
+
+            BatchResponse batchResponse = batchService.getByName(request.getBatchName());
+            EducationResponse educationResponse = educationService.getByName(request.getEducationName());
+
+            if (batchResponse == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Batch is not found");
+            }
+
+            if (educationResponse == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Education is not found");
+            }
+
+            if (batchResponse.getStatus() == Status.NOT_ACTIVE) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Batch is not active");
+            }
+
+            Batch batch = Dto.convertToEntity(batchResponse);
+            Education education = Dto.convertToEntity(educationResponse);
+
             Role role = roleService.getOrSave(ERole.ROLE_CUSTOMER);
 
-            //TODO 2 : set credential
             UserCredential userCredential = UserCredential.builder()
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
@@ -52,12 +75,13 @@ public class AuthServiceImpl implements AuthService {
                     .build();
             userCredentialRepository.saveAndFlush(userCredential);
 
-            //TODO 3 : set Customer
             Customer customer = Customer.builder()
                     .name(request.getName())
                     .address(request.getAddress())
                     .mobilePhone(request.getMobilePhone())
                     .userCredential(userCredential)
+                    .batch(batch)
+                    .education(education)
                     .build();
             customerService.save(customer);
 
@@ -75,10 +99,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public RegisterResponse registerAdmin(AuthRequest request) {
         try {
-            //TODO 1 : set Role
             Role role = roleService.getOrSave(ERole.ROLE_ADMIN);
 
-            //TODO 2 : set credential
             UserCredential userCredential = UserCredential.builder()
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
@@ -87,7 +109,6 @@ public class AuthServiceImpl implements AuthService {
                     .build();
             userCredentialRepository.saveAndFlush(userCredential);
 
-            //TODO 3 : set Customer
             Admin admin = Admin.builder()
                     .name(request.getName())
                     .phoneNumber(request.getMobilePhone())
@@ -125,7 +146,6 @@ public class AuthServiceImpl implements AuthService {
             SuperAdmin superAdmin = SuperAdmin.builder()
                     .name(request.getName())
                     .email(request.getEmail())
-                    .address(request.getAddress())
                     .phoneNumber(request.getMobilePhone())
                     .build();
 

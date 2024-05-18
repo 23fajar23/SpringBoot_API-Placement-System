@@ -66,4 +66,15 @@ public class BatchServiceImpl implements BatchService {
 
         return null;
     }
+
+    @Override
+    public BatchResponse getByName(String name) {
+        Batch batch = batchRepository.findByName(name).orElse(null);
+
+        if (batch != null) {
+            return Entity.convertToDto(batch);
+        }
+
+        return null;
+    }
 }

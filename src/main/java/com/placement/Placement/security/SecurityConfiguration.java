@@ -27,8 +27,9 @@ public class SecurityConfiguration {
         return authenticationConfiguration.getAuthenticationManager();
     }
     private static final String[] WHITE_LIST_URL = {
-            "/api/auth/**",
-            "/login"
+//            "/api/auth/**",
+//            "/login"
+            "/**"
     };
 
     private static final String[] CUSTOMER_LIST_URL = {

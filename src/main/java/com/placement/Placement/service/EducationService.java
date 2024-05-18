@@ -11,4 +11,5 @@ public interface EducationService {
     EducationResponse create(EducationRequest educationRequest);
     EducationResponse update(EducationRequest educationRequest);
     EducationResponse remove(String id);
+    EducationResponse getByName(String name);
 }

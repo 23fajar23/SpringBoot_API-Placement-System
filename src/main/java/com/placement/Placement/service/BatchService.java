@@ -12,4 +12,5 @@ public interface BatchService {
     BatchResponse create(BatchRequest batchRequest);
     BatchResponse update(BatchRequest batchRequest);
     BatchResponse remove(String id);
+    BatchResponse getByName(String name);
 }

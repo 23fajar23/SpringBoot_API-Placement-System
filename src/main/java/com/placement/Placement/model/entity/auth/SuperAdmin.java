@@ -25,9 +25,6 @@ public class SuperAdmin {
     @Column(name = "phone_number", nullable = false, unique = true)
     private String phoneNumber;
 
-    @Column(name = "address", nullable = false)
-    private String address;
-
     @OneToOne
     @JoinColumn(name = "user_credential_id")
     private UserCredential userCredential;

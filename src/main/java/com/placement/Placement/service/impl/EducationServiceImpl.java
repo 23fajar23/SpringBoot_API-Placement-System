@@ -68,4 +68,14 @@ public class EducationServiceImpl implements EducationService {
 
         return null;
     }
+
+    @Override
+    public EducationResponse getByName(String name) {
+        Education education = educationRepository.findByName(name).orElse(null);
+        if (education != null) {
+            return Entity.convertToDto(education);
+        }
+
+        return null;
+    }
 }
