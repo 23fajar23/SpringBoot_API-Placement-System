@@ -6,4 +6,5 @@ public class DbPath {
     public final static String SUPER_ADMIN = "m_super_admin";
     public final static String USER_CREDENTIAL = "m_user_credential";
     public final static String ROLE = "m_role";
+    public final static String BATCH = "m_batch";
 }
