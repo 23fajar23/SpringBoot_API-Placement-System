@@ -2,10 +2,13 @@ package com.placement.Placement.helper.convert.dto;
 
 import com.placement.Placement.constant.Status;
 import com.placement.Placement.model.entity.Batch;
+import com.placement.Placement.model.entity.Company;
 import com.placement.Placement.model.entity.Education;
 import com.placement.Placement.model.request.BatchRequest;
+import com.placement.Placement.model.request.CompanyRequest;
 import com.placement.Placement.model.request.EducationRequest;
 import com.placement.Placement.model.response.BatchResponse;
+import com.placement.Placement.model.response.CompanyResponse;
 import com.placement.Placement.model.response.EducationResponse;
 
 public class Dto {
@@ -38,6 +41,26 @@ public class Dto {
                 .id(educationResponse.getId())
                 .education(educationResponse.getEducation())
                 .value(educationResponse.getValue())
+                .build();
+    }
+
+    public static Company convertToEntity(CompanyResponse companyResponse) {
+        return Company.builder()
+                .id(companyResponse.getId())
+                .name(companyResponse.getName())
+                .phoneNumber(companyResponse.getPhoneNumber())
+                .address(companyResponse.getAddress())
+                .status(companyResponse.getStatus())
+                .build();
+    }
+
+    public static Company convertToEntity(CompanyRequest companyRequest) {
+        return Company.builder()
+                .id(companyRequest.getId())
+                .name(companyRequest.getName())
+                .address(companyRequest.getAddress())
+                .phoneNumber(companyRequest.getPhoneNumber())
+                .status(Status.ACTIVE)
                 .build();
     }
 }

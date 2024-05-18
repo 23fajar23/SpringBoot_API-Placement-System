@@ -1,5 +1,6 @@
 package com.placement.Placement.model.entity.auth;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.placement.Placement.constant.DbPath;
 import com.placement.Placement.constant.Status;
 import jakarta.persistence.*;

@@ -1,12 +1,11 @@
 package com.placement.Placement.model.entity.auth;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.placement.Placement.constant.DbPath;
 import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.entity.Education;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Entity
 @Table(name = DbPath.CUSTOMER)
@@ -16,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class Customer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -41,5 +39,4 @@ public class Customer {
     @OneToOne
     @JoinColumn(name = "user_credential_id")
     private UserCredential userCredential;
-
 }

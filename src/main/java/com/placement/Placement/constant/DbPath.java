@@ -8,4 +8,5 @@ public class DbPath {
     public final static String ROLE = "m_role";
     public final static String BATCH = "m_batch";
     public final static String EDUCATION = "m_education";
+    public final static String COMPANY = "m_company";
 }
