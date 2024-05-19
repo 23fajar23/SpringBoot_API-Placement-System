@@ -21,7 +21,7 @@ public class Batch {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private EStatus status;
 }

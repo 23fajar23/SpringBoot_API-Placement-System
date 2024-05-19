@@ -36,7 +36,10 @@ public class BatchServiceImpl implements BatchService {
 
     @Override
     public BatchResponse create(BatchRequest batchRequest) {
-        Batch batch = Dto.convertToEntity(batchRequest);
+        Batch batch = Batch.builder()
+                .name(batchRequest.getName())
+                .status(EStatus.valueOf(batchRequest.getStatus()))
+                .build();
         batchRepository.save(batch);
 
         return Entity.convertToDto(batch);
@@ -47,6 +50,7 @@ public class BatchServiceImpl implements BatchService {
         Batch batch = batchRepository.findById(batchRequest.getId()).orElse(null);
         if (batch != null) {
             batch.setName(batchRequest.getName());
+            batch.setStatus(EStatus.valueOf(batchRequest.getStatus()));
             batchRepository.save(batch);
 
             return Entity.convertToDto(batch);

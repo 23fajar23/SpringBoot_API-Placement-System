@@ -13,4 +13,5 @@ import lombok.NoArgsConstructor;
 public class BatchRequest {
     private String id;
     private String name;
+    private String status;
 }

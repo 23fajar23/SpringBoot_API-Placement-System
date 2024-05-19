@@ -8,6 +8,7 @@ import com.placement.Placement.model.request.CompanyRequest;
 import com.placement.Placement.model.response.CompanyResponse;
 import com.placement.Placement.repository.CompanyRepository;
 import com.placement.Placement.service.CompanyService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,14 +36,21 @@ public class CompanyServiceImpl implements CompanyService {
         return null;
     }
 
+    @Transactional(rollbackOn = Exception.class)
     @Override
     public CompanyResponse create(CompanyRequest request) {
-        Company company = Dto.convertToEntity(request);
+        Company company = Company.builder()
+                .name(request.getName())
+                .address(request.getAddress())
+                .phoneNumber(request.getPhoneNumber())
+                .status(EStatus.valueOf(request.getStatus()))
+                .build();
         companyRepository.save(company);
 
         return Entity.convertToDto(company);
     }
 
+    @Transactional(rollbackOn = Exception.class)
     @Override
     public CompanyResponse update(CompanyRequest request) {
         Company company = companyRepository.findById(request.getId()).orElse(null);
@@ -50,6 +58,7 @@ public class CompanyServiceImpl implements CompanyService {
             company.setName(request.getName());
             company.setAddress(request.getAddress());
             company.setPhoneNumber(request.getPhoneNumber());
+            company.setStatus(EStatus.valueOf(request.getStatus()));
             companyRepository.save(company);
 
             return Entity.convertToDto(company);
@@ -58,6 +67,7 @@ public class CompanyServiceImpl implements CompanyService {
         return null;
     }
 
+    @Transactional(rollbackOn = Exception.class)
     @Override
     public CompanyResponse remove(String id) {
         Company company = companyRepository.findById(id).orElse(null);
