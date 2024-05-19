@@ -1,7 +1,6 @@
 package com.placement.Placement.service.impl;
 
 import com.placement.Placement.constant.EStatus;
-import com.placement.Placement.helper.convert.dto.Dto;
 import com.placement.Placement.helper.convert.entity.Entity;
 import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.request.BatchRequest;

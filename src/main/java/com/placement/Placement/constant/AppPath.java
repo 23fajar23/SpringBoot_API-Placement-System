@@ -16,5 +16,6 @@ public class AppPath {
     public final static String UPDATE = "/update";
     public final static String REMOVE = "/remove";
     public final static String BY_ID = "/{id}";
-
+    public final static String PLACEMENT = "/placement";
+    public final static String STAGE = "/stage";
 }

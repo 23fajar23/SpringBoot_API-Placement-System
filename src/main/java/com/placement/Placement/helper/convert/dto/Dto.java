@@ -4,12 +4,15 @@ import com.placement.Placement.constant.EStatus;
 import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.entity.Company;
 import com.placement.Placement.model.entity.Education;
+import com.placement.Placement.model.entity.Test;
 import com.placement.Placement.model.request.BatchRequest;
 import com.placement.Placement.model.request.CompanyRequest;
 import com.placement.Placement.model.request.EducationRequest;
+import com.placement.Placement.model.request.TestRequest;
 import com.placement.Placement.model.response.BatchResponse;
 import com.placement.Placement.model.response.CompanyResponse;
 import com.placement.Placement.model.response.EducationResponse;
+import com.placement.Placement.model.response.TestResponse;
 
 public class Dto {
     public static Batch convertToEntity(BatchResponse batchResponse) {
@@ -60,6 +63,28 @@ public class Dto {
                 .name(companyRequest.getName())
                 .address(companyRequest.getAddress())
                 .phoneNumber(companyRequest.getPhoneNumber())
+                .status(EStatus.ACTIVE)
+                .build();
+    }
+
+    public static Test convertToEntity(TestResponse testResponse) {
+        return Test.builder()
+                .id(testResponse.getId())
+                .placement(testResponse.getPlacement())
+                .note(testResponse.getNote())
+                .company(testResponse.getCompany())
+                .education(testResponse.getEducation())
+                .status(testResponse.getStatus())
+                .build();
+    }
+
+    public static Test convertToEntity(TestRequest testRequest) {
+        return Test.builder()
+                .id(testRequest.getId())
+                .placement(testRequest.getPlacement())
+                .note(testRequest.getNote())
+                .company(null)
+                .education(null)
                 .status(EStatus.ACTIVE)
                 .build();
     }

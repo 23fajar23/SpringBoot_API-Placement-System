@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -21,10 +22,10 @@ public class Quota {
     private String id;
 
     @Column(name = "total", nullable = false)
-    private String total;
+    private int total;
 
     @Column(name = "available", nullable = false)
-    private LocalDateTime datetime;
+    private int available;
 
     @ManyToOne
     @JoinColumn(name = "stage_id")
@@ -33,4 +34,7 @@ public class Quota {
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private EQuota type;
+
+    @OneToMany(mappedBy = "quota", cascade = CascadeType.ALL)
+    private List<QuotaBatch> quotaBatches;
 }

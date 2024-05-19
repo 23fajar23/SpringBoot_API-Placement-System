@@ -1,11 +1,13 @@
 package com.placement.Placement.helper.convert.entity;
 
+import com.placement.Placement.constant.EStatus;
 import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.entity.Company;
 import com.placement.Placement.model.entity.Education;
-import com.placement.Placement.model.response.BatchResponse;
-import com.placement.Placement.model.response.CompanyResponse;
-import com.placement.Placement.model.response.EducationResponse;
+import com.placement.Placement.model.entity.Test;
+import com.placement.Placement.model.request.StageRequest;
+import com.placement.Placement.model.response.*;
+import org.springframework.web.servlet.function.EntityResponse;
 
 public class Entity {
     public static BatchResponse convertToDto(Batch batch) {
@@ -31,6 +33,17 @@ public class Entity {
                 .address(company.getAddress())
                 .phoneNumber(company.getPhoneNumber())
                 .status(company.getStatus())
+                .build();
+    }
+
+    public static TestResponse convertToDto(Test test) {
+        return TestResponse.builder()
+                .id(test.getId())
+                .placement(test.getPlacement())
+                .company(test.getCompany())
+                .note(test.getNote())
+                .education(test.getEducation())
+                .status(EStatus.ACTIVE)
                 .build();
     }
 }

@@ -1,9 +1,12 @@
 package com.placement.Placement.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.placement.Placement.constant.DbPath;
 import com.placement.Placement.constant.EStatus;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -35,4 +38,8 @@ public class Test {
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private EStatus status;
+
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<Stage> stages;
 }
