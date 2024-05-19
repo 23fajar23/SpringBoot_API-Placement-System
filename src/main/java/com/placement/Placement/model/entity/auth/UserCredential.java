@@ -1,8 +1,7 @@
 package com.placement.Placement.model.entity.auth;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.placement.Placement.constant.DbPath;
-import com.placement.Placement.constant.Status;
+import com.placement.Placement.constant.EStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,7 +25,7 @@ public class UserCredential {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private EStatus status;
 
     @ManyToOne
     @JoinColumn(name = "role_id")

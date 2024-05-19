@@ -1,6 +1,6 @@
 package com.placement.Placement.helper.convert.dto;
 
-import com.placement.Placement.constant.Status;
+import com.placement.Placement.constant.EStatus;
 import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.entity.Company;
 import com.placement.Placement.model.entity.Education;
@@ -24,7 +24,7 @@ public class Dto {
         return Batch.builder()
                 .id(batchRequest.getId())
                 .name(batchRequest.getName())
-                .status(Status.ACTIVE)
+                .status(EStatus.ACTIVE)
                 .build();
     }
 
@@ -60,7 +60,7 @@ public class Dto {
                 .name(companyRequest.getName())
                 .address(companyRequest.getAddress())
                 .phoneNumber(companyRequest.getPhoneNumber())
-                .status(Status.ACTIVE)
+                .status(EStatus.ACTIVE)
                 .build();
     }
 }

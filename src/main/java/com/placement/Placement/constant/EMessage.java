@@ -1,5 +1,5 @@
 package com.placement.Placement.constant;
 
-public enum Status {
-    ACTIVE, NOT_ACTIVE
+public enum EMessage {
+    READ, ACCEPTED
 }

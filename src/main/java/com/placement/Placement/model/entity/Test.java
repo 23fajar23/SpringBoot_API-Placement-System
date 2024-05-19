@@ -12,16 +12,27 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@Table(name = DbPath.BATCH)
-public class Batch {
+@Table(name = DbPath.TEST)
+public class Test {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "name", nullable = false, unique = true)
-    private String name;
+    @Column(name = "placement", nullable = false)
+    private String placement;
 
-    @Column(name = "status")
+    @Column(name = "note", nullable = false)
+    private String note;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+
+    @ManyToOne
+    @JoinColumn(name = "education_id")
+    private Education education;
+
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private EStatus status;
 }

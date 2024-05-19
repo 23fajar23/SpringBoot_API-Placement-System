@@ -1,13 +1,13 @@
-package com.placement.Placement.service.impl.auth;
+package com.placement.Placement.service.impl;
 
-import com.placement.Placement.constant.Status;
+import com.placement.Placement.constant.EStatus;
 import com.placement.Placement.helper.convert.dto.Dto;
 import com.placement.Placement.helper.convert.entity.Entity;
 import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.request.BatchRequest;
 import com.placement.Placement.model.response.BatchResponse;
 import com.placement.Placement.repository.BatchRepository;
-import com.placement.Placement.service.auth.BatchService;
+import com.placement.Placement.service.BatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +59,7 @@ public class BatchServiceImpl implements BatchService {
     public BatchResponse remove(String id) {
         Batch batch = batchRepository.findById(id).orElse(null);
         if (batch != null) {
-            batch.setStatus(Status.NOT_ACTIVE);
+            batch.setStatus(EStatus.NOT_ACTIVE);
             batchRepository.save(batch);
             return Entity.convertToDto(batch);
         }

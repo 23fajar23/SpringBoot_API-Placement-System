@@ -1,6 +1,6 @@
 package com.placement.Placement.service.impl;
 
-import com.placement.Placement.constant.Status;
+import com.placement.Placement.constant.EStatus;
 import com.placement.Placement.helper.convert.dto.Dto;
 import com.placement.Placement.helper.convert.entity.Entity;
 import com.placement.Placement.model.entity.Company;
@@ -62,7 +62,7 @@ public class CompanyServiceImpl implements CompanyService {
     public CompanyResponse remove(String id) {
         Company company = companyRepository.findById(id).orElse(null);
         if (company != null) {
-            company.setStatus(Status.NOT_ACTIVE);
+            company.setStatus(EStatus.NOT_ACTIVE);
             companyRepository.save(company);
 
             return Entity.convertToDto(company);

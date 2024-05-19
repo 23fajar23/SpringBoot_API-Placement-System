@@ -1,7 +1,6 @@
 package com.placement.Placement.model.request;
 
 
-import com.placement.Placement.constant.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

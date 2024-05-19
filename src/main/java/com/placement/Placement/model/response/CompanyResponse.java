@@ -1,6 +1,6 @@
 package com.placement.Placement.model.response;
 
-import com.placement.Placement.constant.Status;
+import com.placement.Placement.constant.EStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,5 +15,5 @@ public class CompanyResponse {
     private String name;
     private String address;
     private String phoneNumber;
-    private Status status;
+    private EStatus status;
 }

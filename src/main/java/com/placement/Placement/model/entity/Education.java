@@ -20,6 +20,6 @@ public class Education {
     @Column(name = "education", nullable = false, unique = true)
     private String education;
 
-    @Column(name = "value")
+    @Column(name = "value", nullable = false)
     private int value;
 }

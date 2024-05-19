@@ -4,7 +4,7 @@ import com.placement.Placement.constant.AppPath;
 import com.placement.Placement.model.request.BatchRequest;
 import com.placement.Placement.model.response.BatchResponse;
 import com.placement.Placement.model.response.CommonResponse;
-import com.placement.Placement.service.auth.BatchService;
+import com.placement.Placement.service.BatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -2,7 +2,7 @@ package com.placement.Placement.service.impl.auth;
 
 
 import com.placement.Placement.constant.ERole;
-import com.placement.Placement.constant.Status;
+import com.placement.Placement.constant.EStatus;
 import com.placement.Placement.helper.convert.dto.Dto;
 import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.entity.Education;
@@ -14,6 +14,8 @@ import com.placement.Placement.model.response.LoginResponse;
 import com.placement.Placement.model.response.RegisterResponse;
 import com.placement.Placement.repository.auth.UserCredentialRepository;
 import com.placement.Placement.security.JwtUtil;
+import com.placement.Placement.service.BatchService;
+import com.placement.Placement.service.EducationService;
 import com.placement.Placement.service.auth.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +59,7 @@ public class AuthServiceImpl implements AuthService {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Education is not found");
             }
 
-            if (batchResponse.getStatus() == Status.NOT_ACTIVE) {
+            if (batchResponse.getStatus() == EStatus.NOT_ACTIVE) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Batch is not active");
             }
 
@@ -70,7 +72,7 @@ public class AuthServiceImpl implements AuthService {
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(role)
-                    .status(Status.ACTIVE)
+                    .status(EStatus.ACTIVE)
                     .build();
             userCredentialRepository.saveAndFlush(userCredential);
 
@@ -104,7 +106,7 @@ public class AuthServiceImpl implements AuthService {
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(role)
-                    .status(Status.ACTIVE)
+                    .status(EStatus.ACTIVE)
                     .build();
             userCredentialRepository.saveAndFlush(userCredential);
 
@@ -137,7 +139,7 @@ public class AuthServiceImpl implements AuthService {
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(role)
-                    .status(Status.ACTIVE)
+                    .status(EStatus.ACTIVE)
                     .build();
             userCredentialRepository.saveAndFlush(userCredential);
 
@@ -176,7 +178,7 @@ public class AuthServiceImpl implements AuthService {
         var userCredential = userCredentialRepository.findByEmail(authRequest.getEmail()).orElse(null);
 
         if (userCredential != null) {
-            if (userCredential.getStatus() == Status.ACTIVE) {
+            if (userCredential.getStatus() == EStatus.ACTIVE) {
                 return LoginResponse.builder()
                         .email(authRequest.getEmail())
                         .token(token)

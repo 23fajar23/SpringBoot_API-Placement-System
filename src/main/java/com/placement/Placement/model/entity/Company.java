@@ -1,8 +1,7 @@
 package com.placement.Placement.model.entity;
 
-import com.placement.Placement.constant.AppPath;
 import com.placement.Placement.constant.DbPath;
-import com.placement.Placement.constant.Status;
+import com.placement.Placement.constant.EStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,10 +24,10 @@ public class Company {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private EStatus status;
 }
