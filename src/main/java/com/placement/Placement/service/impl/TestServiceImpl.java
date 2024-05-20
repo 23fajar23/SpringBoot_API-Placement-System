@@ -6,6 +6,7 @@ import com.placement.Placement.helper.convert.dto.Dto;
 import com.placement.Placement.model.entity.*;
 import com.placement.Placement.model.request.QuotaBatchRequest;
 import com.placement.Placement.model.request.TestRequest;
+import com.placement.Placement.model.request.UpdateTestRequest;
 import com.placement.Placement.model.response.*;
 import com.placement.Placement.repository.*;
 import com.placement.Placement.service.BatchService;
@@ -199,17 +200,17 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public TestResponse update(TestRequest testRequest) {
-        Test test = testRepository.findById(testRequest.getId()).orElse(null);
+    public TestResponse update(UpdateTestRequest updateTestRequest) {
+        Test test = testRepository.findById(updateTestRequest.getId()).orElse(null);
 
         if (test != null) {
-            Company company = companyRepository.findById(testRequest.getCompanyId()).orElse(null);
-            EducationResponse educationResponse = educationService.findById(testRequest.getEducationId());
+            Company company = companyRepository.findById(updateTestRequest.getCompanyId()).orElse(null);
+            EducationResponse educationResponse = educationService.findById(updateTestRequest.getEducationId());
 
             if (company == null) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, "Company with id "
-                        + testRequest.getCompanyId() + " is not found");
+                        + updateTestRequest.getCompanyId() + " is not found");
             }
 
             if (company.getStatus() == EStatus.NOT_ACTIVE) {
@@ -220,8 +221,14 @@ public class TestServiceImpl implements TestService {
             if (educationResponse == null) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, "Education with id "
-                        + testRequest.getEducationId() + " is not found");
+                        + updateTestRequest.getEducationId() + " is not found");
             }
+
+            test.setPlacement(updateTestRequest.getPlacement());
+            test.setNote(updateTestRequest.getNote());
+            test.setCompany(company);
+            test.setEducation(Dto.convertToEntity(educationResponse));
+            test.setStatus(updateTestRequest.getStatusTest());
 
 
 

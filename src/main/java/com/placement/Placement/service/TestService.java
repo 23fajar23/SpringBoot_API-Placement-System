@@ -1,6 +1,7 @@
 package com.placement.Placement.service;
 
 import com.placement.Placement.model.request.TestRequest;
+import com.placement.Placement.model.request.UpdateTestRequest;
 import com.placement.Placement.model.response.GetTestResponse;
 import com.placement.Placement.model.response.TestRemoveResponse;
 import com.placement.Placement.model.response.TestResponse;
@@ -11,6 +12,6 @@ public interface TestService {
     List<GetTestResponse> getAll();
     GetTestResponse getById(String id);
     TestResponse create(TestRequest testRequest);
-    TestResponse update(TestRequest testRequest);
+    TestResponse update(UpdateTestRequest updateTestRequest);
     TestRemoveResponse remove(String id);
 }
