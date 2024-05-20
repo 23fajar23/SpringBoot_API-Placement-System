@@ -23,5 +23,4 @@ public class StageRequest {
     private LocalDateTime dateTime;
     private EQuota quotaBatchType;
     private int quotaTotal;
-    private EStatus status;
 }
