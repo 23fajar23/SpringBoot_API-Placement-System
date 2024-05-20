@@ -8,10 +8,7 @@ import com.placement.Placement.service.StageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,4 +30,33 @@ public class StageController {
                 .status(HttpStatus.CREATED)
                 .body(response);
     }
+
+    @PutMapping(AppPath.UPDATE)
+    public ResponseEntity<?> updateStage(@RequestBody StageRequest stageRequest) {
+        StageResponse stageResponse = stageService.update(stageRequest);
+
+        CommonResponse<StageResponse> response;
+        HttpStatus httpStatus;
+
+        if (stageResponse != null) {
+            httpStatus = HttpStatus.OK;
+            response = CommonResponse.<StageResponse>builder()
+                    .statusCode(httpStatus.value())
+                    .message("Successfully update stage")
+                    .data(stageResponse)
+                    .build();
+        } else {
+            httpStatus = HttpStatus.NOT_FOUND;
+            response = CommonResponse.<StageResponse>builder()
+                    .statusCode(httpStatus.value())
+                    .message("Failed update stage")
+                    .data(null)
+                    .build();
+        }
+
+        return ResponseEntity
+                .status(httpStatus)
+                .body(response);
+    }
+
 }

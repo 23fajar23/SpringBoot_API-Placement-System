@@ -1,7 +1,9 @@
 package com.placement.Placement.model.response;
 
+import com.placement.Placement.constant.EQuota;
 import com.placement.Placement.constant.EStatus;
 import com.placement.Placement.constant.EType;
+import com.placement.Placement.model.entity.Quota;
 import com.placement.Placement.model.entity.Test;
 import com.placement.Placement.model.request.QuotaBatchRequest;
 import lombok.AllArgsConstructor;
@@ -19,11 +21,12 @@ import java.util.List;
 public class StageResponse {
     private String id;
     private String name;
-    private LocalDateTime dateTime;
     private EType type;
-    private Test test;
+    private LocalDateTime dateTime;
     private int totalQuota;
     private int quotaAvailable;
+    private EQuota quotaBatchType;
     private EStatus status;
-    private List<QuotaBatchResponse> quotaBatchResponses;
+    private Test test;
+    private List<Quota> quotas;
 }

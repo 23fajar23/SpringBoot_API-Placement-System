@@ -29,10 +29,12 @@ public class Test {
 
     @ManyToOne
     @JoinColumn(name = "company_id")
+    @JsonBackReference
     private Company company;
 
     @ManyToOne
     @JoinColumn(name = "education_id")
+    @JsonBackReference
     private Education education;
 
     @Column(name = "status", nullable = false)
@@ -40,6 +42,5 @@ public class Test {
     private EStatus status;
 
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
-    @JsonBackReference
     private List<Stage> stages;
 }

@@ -1,5 +1,6 @@
 package com.placement.Placement.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.placement.Placement.constant.DbPath;
 import com.placement.Placement.constant.EQuota;
 import jakarta.persistence.*;
@@ -29,6 +30,7 @@ public class Quota {
 
     @ManyToOne
     @JoinColumn(name = "stage_id")
+    @JsonBackReference
     private Stage stage;
 
     @Column(name = "type", nullable = false)

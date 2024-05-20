@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface QuotaRepository extends JpaRepository<Quota, String> {
-    @Query("SELECT q FROM Quota q WHERE q.stage = :stageId")
+    @Query("SELECT q FROM Quota q WHERE q.stage.id = :stageId")
     Optional<Quota> findByStageId(@Param("stageId") String id);
 }

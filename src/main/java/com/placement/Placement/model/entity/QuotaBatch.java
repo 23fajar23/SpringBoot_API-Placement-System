@@ -1,5 +1,6 @@
 package com.placement.Placement.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.placement.Placement.constant.DbPath;
 import com.placement.Placement.constant.EQuota;
 import jakarta.persistence.*;
@@ -25,9 +26,11 @@ public class QuotaBatch {
 
     @ManyToOne
     @JoinColumn(name = "quota_id")
+    @JsonBackReference
     private Quota quota;
 
     @ManyToOne
     @JoinColumn(name = "batch_id")
+    @JsonBackReference
     private Batch batch;
 }

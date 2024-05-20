@@ -35,6 +35,5 @@ public class Company {
     private EStatus status;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    @JsonBackReference
     private List<Test> tests;
 }

@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,14 +16,12 @@ import java.util.List;
 @Builder(toBuilder = true)
 public class StageRequest {
     private String id;
-    private String name;
-    private LocalDateTime dateTime;
-    private EType type;
     private String testId;
     private String educationId;
-    private int totalQuota;
-    private int quotaAvailable;
-    private EQuota quotaBatch;
+    private String name;
+    private EType type;
+    private LocalDateTime dateTime;
+    private EQuota quotaBatchType;
+    private int quotaTotal;
     private EStatus status;
-    private List<QuotaBatchRequest> quotaBatchRequestList;
 }

@@ -31,11 +31,8 @@ public class Stage {
 
     @ManyToOne
     @JoinColumn(name = "test_id")
+    @JsonBackReference
     private Test test;
-
-    @ManyToOne
-    @JoinColumn(name = "education_id")
-    private Education education;
 
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -46,7 +43,6 @@ public class Stage {
     private EStatus status;
 
     @OneToMany(mappedBy = "stage", cascade = CascadeType.ALL)
-    @JsonBackReference
     private List<Quota> quotas;
 
 }
