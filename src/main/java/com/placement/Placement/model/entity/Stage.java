@@ -38,10 +38,6 @@ public class Stage {
     @Enumerated(EnumType.STRING)
     private EType type;
 
-    @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private EStatus status;
-
     @OneToMany(mappedBy = "stage", cascade = CascadeType.ALL)
     private List<Quota> quotas;
 

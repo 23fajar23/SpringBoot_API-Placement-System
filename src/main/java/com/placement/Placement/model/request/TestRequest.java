@@ -17,8 +17,4 @@ public class TestRequest {
     private String companyId;
     private String educationId;
     private EStatus status;
-
-//    stage
-
-
 }
