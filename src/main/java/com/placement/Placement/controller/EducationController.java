@@ -20,106 +20,27 @@ public class EducationController {
 
     @GetMapping
     public ResponseEntity<?> getAllEducations() {
-      List<EducationResponse> educations = educationService.getAll();
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(CommonResponse.builder()
-                        .statusCode(HttpStatus.OK.value())
-                        .message("Successfully get all educations")
-                        .data(educations)
-                        .build());
+        return educationService.getAll();
     }
 
     @GetMapping(AppPath.BY_ID)
     public ResponseEntity<?> getEducationById(@PathVariable String id) {
-        EducationResponse education = educationService.getById(id);
-
-        CommonResponse<EducationResponse> response;
-        HttpStatus httpStatus;
-        if (education !=  null) {
-            httpStatus = HttpStatus.OK;
-            response = CommonResponse.<EducationResponse>builder()
-                    .statusCode(httpStatus.value())
-                    .message("Successfully get education")
-                    .data(education)
-                    .build();
-        } else {
-            httpStatus = HttpStatus.NOT_FOUND;
-            response = CommonResponse.<EducationResponse>builder()
-                    .statusCode(httpStatus.value())
-                    .message("Education not found")
-                    .data(null)
-                    .build();
-        }
-
-        return ResponseEntity
-                .status(httpStatus)
-                .body(response);
+        return educationService.getById(id);
     }
 
-    @PostMapping(AppPath.CREATE)
+    @PostMapping
     public ResponseEntity<?> createEducation(@RequestBody EducationRequest educationRequest) {
-        EducationResponse education = educationService.create(educationRequest);
-        CommonResponse<EducationResponse> response = CommonResponse.<EducationResponse>builder()
-                .statusCode(HttpStatus.CREATED.value())
-                .message("Successfully create education")
-                .data(education)
-                .build();
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
+        return educationService.create(educationRequest);
     }
 
-    @PutMapping(AppPath.UPDATE)
+    @PutMapping
     public ResponseEntity<?> updateEducation(@RequestBody EducationRequest educationRequest) {
-        EducationResponse education = educationService.update(educationRequest);
-        CommonResponse<EducationResponse> response;
-        HttpStatus httpStatus;
-        if (education !=  null) {
-            httpStatus = HttpStatus.OK;
-            response = CommonResponse.<EducationResponse>builder()
-                    .statusCode(httpStatus.value())
-                    .message("Successfully update education")
-                    .data(education)
-                    .build();
-        } else {
-            httpStatus = HttpStatus.NOT_FOUND;
-            response = CommonResponse.<EducationResponse>builder()
-                    .statusCode(httpStatus.value())
-                    .message("Education not found")
-                    .data(null)
-                    .build();
-        }
-
-        return ResponseEntity
-                .status(httpStatus)
-                .body(response);
+        return educationService.update(educationRequest);
     }
 
-    @DeleteMapping(AppPath.REMOVE + AppPath.BY_ID)
+    @DeleteMapping(AppPath.BY_ID)
     public ResponseEntity<?> deleteEducation(@PathVariable String id) {
-        EducationResponse education = educationService.remove(id);
+        return educationService.remove(id);
 
-        CommonResponse<EducationResponse> response;
-        HttpStatus httpStatus;
-        if (education !=  null) {
-            httpStatus = HttpStatus.OK;
-            response = CommonResponse.<EducationResponse>builder()
-                    .statusCode(httpStatus.value())
-                    .message("Successfully remove education")
-                    .data(education)
-                    .build();
-        } else {
-            httpStatus = HttpStatus.NOT_FOUND;
-            response = CommonResponse.<EducationResponse>builder()
-                    .statusCode(httpStatus.value())
-                    .message("Education not found")
-                    .data(null)
-                    .build();
-        }
-
-        return ResponseEntity
-                .status(httpStatus)
-                .body(response);
     }
 }

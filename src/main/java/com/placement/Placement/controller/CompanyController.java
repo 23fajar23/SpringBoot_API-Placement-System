@@ -20,55 +20,17 @@ public class CompanyController {
 
     @GetMapping
     public ResponseEntity<?> getAllCompanies() {
-        List<CompanyResponse> companies = companyService.getAll();
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(CommonResponse.builder()
-                        .statusCode(HttpStatus.OK.value())
-                        .message("Successfully get all companies")
-                        .data(companies)
-                        .build());
+        return companyService.getAll();
     }
 
     @GetMapping(AppPath.BY_ID)
     public ResponseEntity<?> getCompanyById(@PathVariable String id) {
-        CompanyResponse company = companyService.getById(id);
-
-        CommonResponse<CompanyResponse> response;
-        HttpStatus httpStatus;
-        if (company != null) {
-            httpStatus = HttpStatus.OK;
-            response = CommonResponse.<CompanyResponse>builder()
-                    .statusCode(httpStatus.value())
-                    .message("Successfully get company")
-                    .data(company)
-                    .build();
-        } else {
-            httpStatus = HttpStatus.NOT_FOUND;
-            response = CommonResponse.<CompanyResponse>builder()
-                    .statusCode(httpStatus.value())
-                    .message("Company is not found")
-                    .data(null)
-                    .build();
-        }
-        return ResponseEntity
-                .status(httpStatus)
-                .body(response);
+        return companyService.getById(id);
     }
 
     @PostMapping
     public ResponseEntity<?> createCompany(@RequestBody CompanyRequest companyRequest) {
-        CompanyResponse company = companyService.create(companyRequest);
-
-        CommonResponse<CompanyResponse> response = CommonResponse.<CompanyResponse>builder()
-                .statusCode(HttpStatus.CREATED.value())
-                .message("Successfully create new company")
-                .data(company)
-                .build();
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
+        return companyService.create(companyRequest);
     }
 
     @PutMapping

@@ -21,112 +21,26 @@ public class BatchController {
 
     @GetMapping
     public ResponseEntity<?> getAllBatches() {
-        List<BatchResponse> batches = batchService.getAll();
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(CommonResponse.builder()
-                        .statusCode(HttpStatus.OK.value())
-                        .message("Successfully get all batches")
-                        .data(batches)
-                        .build());
-
+        return batchService.getAll();
     }
 
     @GetMapping(AppPath.BY_ID)
     public ResponseEntity<?> getBatchById(@PathVariable String id) {
-        BatchResponse batch = batchService.getById(id);
-
-        CommonResponse<BatchResponse> response;
-        HttpStatus httpStatus;
-        if (batch !=  null) {
-            httpStatus = HttpStatus.OK;
-            response = CommonResponse.<BatchResponse>builder()
-                    .statusCode(httpStatus.value())
-                    .message("Successfully get batch")
-                    .data(batch)
-                    .build();
-        } else {
-            httpStatus = HttpStatus.NOT_FOUND;
-            response = CommonResponse.<BatchResponse>builder()
-                    .statusCode(httpStatus.value())
-                    .message("Batch not found")
-                    .data(null)
-                    .build();
-        }
-
-        return ResponseEntity
-                .status(httpStatus)
-                .body(response);
-
+        return batchService.getById(id);
     }
 
     @PostMapping
     public ResponseEntity<?> createBatch(@RequestBody BatchRequest batchRequest) {
-        BatchResponse batch = batchService.create(batchRequest);
-
-        CommonResponse<BatchResponse> response = CommonResponse.<BatchResponse>builder()
-                .statusCode(HttpStatus.CREATED.value())
-                .message("Successfully create batch")
-                .data(batch)
-                .build();
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
+        return batchService.create(batchRequest);
     }
 
     @PutMapping
     public ResponseEntity<?> updateBatch(@RequestBody BatchRequest batchRequest) {
-        BatchResponse batch = batchService.update(batchRequest);
-
-        CommonResponse<BatchResponse> response;
-        HttpStatus httpStatus;
-        if (batch !=  null) {
-            httpStatus = HttpStatus.OK;
-            response = CommonResponse.<BatchResponse>builder()
-                    .statusCode(httpStatus.value())
-                    .message("Successfully update batch")
-                    .data(batch)
-                    .build();
-        } else {
-            httpStatus = HttpStatus.NOT_FOUND;
-            response = CommonResponse.<BatchResponse>builder()
-                    .statusCode(httpStatus.value())
-                    .message("Batch not found")
-                    .data(null)
-                    .build();
-        }
-
-        return ResponseEntity
-                .status(httpStatus)
-                .body(response);
-
+        return batchService.update(batchRequest);
     }
 
     @DeleteMapping(AppPath.BY_ID)
     public ResponseEntity<?> deleteBatch(@PathVariable String id) {
-        BatchResponse batch = batchService.remove(id);
-
-        CommonResponse<BatchResponse> response;
-        HttpStatus httpStatus;
-        if (batch !=  null) {
-            httpStatus = HttpStatus.OK;
-            response = CommonResponse.<BatchResponse>builder()
-                    .statusCode(httpStatus.value())
-                    .message("Successfully remove batch")
-                    .data(batch)
-                    .build();
-        } else {
-            httpStatus = HttpStatus.NOT_FOUND;
-            response = CommonResponse.<BatchResponse>builder()
-                    .statusCode(httpStatus.value())
-                    .message("Batch not found")
-                    .data(null)
-                    .build();
-        }
-
-        return ResponseEntity
-                .status(httpStatus)
-                .body(response);
+        return batchService.remove(id);
     }
 }

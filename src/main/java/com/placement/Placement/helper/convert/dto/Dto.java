@@ -27,7 +27,7 @@ public class Dto {
         return Batch.builder()
                 .id(batchRequest.getId())
                 .name(batchRequest.getName())
-                .status(EStatus.ACTIVE)
+                .status(EStatus.valueOf(batchRequest.getStatus()))
                 .build();
     }
 
@@ -63,7 +63,7 @@ public class Dto {
                 .name(companyRequest.getName())
                 .address(companyRequest.getAddress())
                 .phoneNumber(companyRequest.getPhoneNumber())
-                .status(EStatus.ACTIVE)
+                .status(EStatus.valueOf(companyRequest.getStatus()))
                 .build();
     }
 
