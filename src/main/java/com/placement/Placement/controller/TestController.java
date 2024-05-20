@@ -3,6 +3,7 @@ package com.placement.Placement.controller;
 import com.placement.Placement.constant.AppPath;
 import com.placement.Placement.model.request.TestRequest;
 import com.placement.Placement.model.response.CommonResponse;
+import com.placement.Placement.model.response.GetTestResponse;
 import com.placement.Placement.model.response.TestRemoveResponse;
 import com.placement.Placement.model.response.TestResponse;
 import com.placement.Placement.service.TestService;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(AppPath.API + AppPath.PLACEMENT)
@@ -18,14 +21,42 @@ public class TestController {
 
     private final TestService testService;
 
-    @GetMapping("/hello/customer")
-    public String hello(){
-        return "nice customer";
+    @GetMapping
+    public ResponseEntity<?> getAllTests(){
+        List<GetTestResponse> testResponses = testService.getAll();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully get all loan types")
+                        .data(testResponses)
+                        .build());
+
     }
 
-    @GetMapping("/hello/admin")
-    public String helloAdmin(){
-        return "nice admin";
+    @GetMapping(AppPath.BY_ID)
+    public ResponseEntity<?> getTestById(@PathVariable String id){
+        GetTestResponse testResponse = testService.getById(id);
+
+        CommonResponse<GetTestResponse> response;
+        HttpStatus httpStatus;
+        if (testResponse != null) {
+            httpStatus = HttpStatus.OK;
+            response = CommonResponse.<GetTestResponse>builder()
+                    .statusCode(httpStatus.value())
+                    .message("Successfully get test")
+                    .data(testResponse)
+                    .build();
+        } else {
+            httpStatus = HttpStatus.NOT_FOUND;
+            response = CommonResponse.<GetTestResponse>builder()
+                    .statusCode(httpStatus.value())
+                    .message("Failed get test")
+                    .data(null)
+                    .build();
+        }
+
+        return ResponseEntity.status(httpStatus)
+                .body(response);
     }
 
     @PostMapping

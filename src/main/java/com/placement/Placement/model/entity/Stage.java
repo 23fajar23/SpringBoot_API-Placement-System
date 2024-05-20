@@ -2,7 +2,6 @@ package com.placement.Placement.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.placement.Placement.constant.DbPath;
-import com.placement.Placement.constant.EStatus;
 import com.placement.Placement.constant.EType;
 import jakarta.persistence.*;
 import lombok.*;

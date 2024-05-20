@@ -3,14 +3,12 @@ package com.placement.Placement.service.impl;
 import com.placement.Placement.constant.EQuota;
 import com.placement.Placement.constant.EStatus;
 import com.placement.Placement.helper.convert.dto.Dto;
-import com.placement.Placement.helper.convert.entity.Entity;
 import com.placement.Placement.model.entity.*;
 import com.placement.Placement.model.request.QuotaBatchRequest;
 import com.placement.Placement.model.request.TestRequest;
 import com.placement.Placement.model.response.*;
 import com.placement.Placement.repository.*;
 import com.placement.Placement.service.BatchService;
-import com.placement.Placement.service.CompanyService;
 import com.placement.Placement.service.EducationService;
 import com.placement.Placement.service.TestService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Service
 @RequiredArgsConstructor
@@ -34,30 +31,61 @@ public class TestServiceImpl implements TestService {
     private final EducationService educationService;
 
     @Override
-    public List<TestResponse> getAll() {
-        return null;
+    public List<GetTestResponse> getAll() {
+        return testRepository.findAll().stream()
+                .map(test -> GetTestResponse.builder()
+                            .id(test.getId())
+                            .placement(test.getPlacement())
+                            .note(test.getNote())
+                            .statusTest(test.getStatus())
+                            .company(test.getCompany())
+                            .education(test.getEducation())
+                            .stages(test.getStages())
+                            .build()
+                ).toList();
     }
 
     @Override
-    public TestResponse getById(String id) {
+    public GetTestResponse getById(String id) {
+        Test test = testRepository.findById(id).orElse(null);
+        if (test != null) {
+            return GetTestResponse.builder()
+                    .id(test.getId())
+                    .placement(test.getPlacement())
+                    .note(test.getNote())
+                    .statusTest(test.getStatus())
+                    .stages(test.getStages())
+                    .education(test.getEducation())
+                    .company(test.getCompany())
+                    .build();
+        }
+
         return null;
     }
 
     @Override
     public TestResponse create(TestRequest testRequest) {
-        Company company = companyRepository.findById(testRequest.getCompanyId()).orElse(null);
-        EducationResponse educationResponse = educationService.findById(testRequest.getEducationId());
+        Company company = companyRepository.findById(
+                testRequest.getCompanyId()).orElse(null);
+
+        EducationResponse educationResponse = educationService.findById(
+                testRequest.getEducationId());
 
         if (company == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Company with id " + testRequest.getCompanyId() + " is not found");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Company with id " + testRequest.getCompanyId()
+                    + " is not found");
         }
 
         if (company.getStatus() == EStatus.NOT_ACTIVE) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Must use a company that is still active");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Must use a company that is still active");
         }
 
         if (educationResponse == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Education with id " + educationResponse.getEducation() + " is not found");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Education with id "
+                    + testRequest.getEducationId() + " is not found");
         }
 
         Test test = Test.builder()
@@ -102,15 +130,18 @@ public class TestServiceImpl implements TestService {
                 BatchResponse batchResponse = batchService.findById(batchId);
 
                 if (batchIdOld.equals(batchId)) {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The batch has been registered");
+                    throw new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST, "The batch has been registered");
                 }
 
                 if (batchResponse == null) {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Batch with id " + batchId + " is not found");
+                    throw new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST, "Batch with id " + batchId + " is not found");
                 }
 
                 if (batchResponse.getStatus() == EStatus.NOT_ACTIVE) {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Must use a batch that is still active");
+                    throw new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST, "Must use a batch that is still active");
                 }
 
                 totalQuoataAllBatch += quotaBatchRequest.getQuotaAvailable();
@@ -127,7 +158,9 @@ public class TestServiceImpl implements TestService {
             }
 
             if (totalQuoataAllBatch != quota.getTotal()) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The total quota input into the per batch does not match the total quota in the stage");
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        "The total quota input into the per batch does not match the total quota in the stage");
             }
 
             quotaBatchRepository.saveAllAndFlush(quotaBatches);
@@ -174,15 +207,20 @@ public class TestServiceImpl implements TestService {
             EducationResponse educationResponse = educationService.findById(testRequest.getEducationId());
 
             if (company == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Company with id " + testRequest.getCompanyId() + " is not found");
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, "Company with id "
+                        + testRequest.getCompanyId() + " is not found");
             }
 
             if (company.getStatus() == EStatus.NOT_ACTIVE) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Must use a company that is still active");
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, "Must use a company that is still active");
             }
 
             if (educationResponse == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Education with id " + educationResponse.getEducation() + " is not found");
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, "Education with id "
+                        + testRequest.getEducationId() + " is not found");
             }
 
 
@@ -197,11 +235,13 @@ public class TestServiceImpl implements TestService {
         Test test = testRepository.findById(id).orElse(null);
 
         if (test != null) {
-
-            Company company = companyRepository.findById(test.getCompany().getId()).orElse(null);
+            Company company = companyRepository.findById(
+                    test.getCompany().getId()).orElse(null);
 
             if (company == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Company with id " + test.getCompany().getId() + " is not found");
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, "Company with id "
+                        + test.getCompany().getId() + " is not found");
             }
 
             test.setStatus(EStatus.NOT_ACTIVE);
@@ -215,7 +255,6 @@ public class TestServiceImpl implements TestService {
                     .company(company)
                     .build();
         }
-
         return null;
     }
 }

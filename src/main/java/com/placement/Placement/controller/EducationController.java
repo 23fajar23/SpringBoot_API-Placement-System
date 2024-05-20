@@ -2,15 +2,10 @@ package com.placement.Placement.controller;
 
 import com.placement.Placement.constant.AppPath;
 import com.placement.Placement.model.request.EducationRequest;
-import com.placement.Placement.model.response.CommonResponse;
-import com.placement.Placement.model.response.EducationResponse;
 import com.placement.Placement.service.EducationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
