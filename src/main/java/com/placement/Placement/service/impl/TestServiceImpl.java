@@ -7,10 +7,7 @@ import com.placement.Placement.helper.convert.entity.Entity;
 import com.placement.Placement.model.entity.*;
 import com.placement.Placement.model.request.QuotaBatchRequest;
 import com.placement.Placement.model.request.TestRequest;
-import com.placement.Placement.model.response.BatchResponse;
-import com.placement.Placement.model.response.CompanyResponse;
-import com.placement.Placement.model.response.EducationResponse;
-import com.placement.Placement.model.response.TestResponse;
+import com.placement.Placement.model.response.*;
 import com.placement.Placement.repository.*;
 import com.placement.Placement.service.BatchService;
 import com.placement.Placement.service.CompanyService;
@@ -170,11 +167,55 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public TestResponse update(TestRequest testRequest) {
+        Test test = testRepository.findById(testRequest.getId()).orElse(null);
+
+        if (test != null) {
+            Company company = companyRepository.findById(testRequest.getCompanyId()).orElse(null);
+            EducationResponse educationResponse = educationService.findById(testRequest.getEducationId());
+
+            if (company == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Company with id " + testRequest.getCompanyId() + " is not found");
+            }
+
+            if (company.getStatus() == EStatus.NOT_ACTIVE) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Must use a company that is still active");
+            }
+
+            if (educationResponse == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Education with id " + educationResponse.getEducation() + " is not found");
+            }
+
+
+
+        }
+
         return null;
     }
 
     @Override
-    public TestResponse remove(TestRequest testRequest) {
+    public TestRemoveResponse remove(String id) {
+        Test test = testRepository.findById(id).orElse(null);
+
+        if (test != null) {
+
+            Company company = companyRepository.findById(test.getCompany().getId()).orElse(null);
+
+            if (company == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Company with id " + test.getCompany().getId() + " is not found");
+            }
+
+            test.setStatus(EStatus.NOT_ACTIVE);
+            testRepository.save(test);
+
+            return TestRemoveResponse.builder()
+                    .id(test.getId())
+                    .placement(test.getPlacement())
+                    .note(test.getNote())
+                    .statusTest(test.getStatus())
+                    .company(company)
+                    .build();
+        }
+
         return null;
     }
 }
