@@ -74,7 +74,6 @@ public class Dto {
                 .note(testResponse.getNote())
                 .company(testResponse.getCompany())
                 .education(testResponse.getEducation())
-                .status(testResponse.getStatus())
                 .build();
     }
 

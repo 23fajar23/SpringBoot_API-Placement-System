@@ -36,14 +36,4 @@ public class Entity {
                 .build();
     }
 
-    public static TestResponse convertToDto(Test test) {
-        return TestResponse.builder()
-                .id(test.getId())
-                .placement(test.getPlacement())
-                .company(test.getCompany())
-                .note(test.getNote())
-                .education(test.getEducation())
-                .status(EStatus.ACTIVE)
-                .build();
-    }
 }

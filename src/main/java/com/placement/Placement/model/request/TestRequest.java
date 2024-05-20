@@ -33,7 +33,7 @@ public class TestRequest {
     // Quota
     private int totalQuota;
     private int quotaAvailable;
-    private EType typeQuota;
+    private EQuota typeQuota;
 
     // Quota Batch
     private List<QuotaBatchRequest> quotaAvailableBatch;
