@@ -16,26 +16,17 @@ import java.util.List;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class TestRequest {
-
-    // This Request for Stage 1
     private String id;
     private String placement;
     private String note;
     private String companyId;
     private String educationId;
     private EStatus statusTest;
-
-    // Stage
     private String nameStage;
     private LocalDateTime dateTime;
     private EType typeStage;
-
-    // Quota
     private int totalQuota;
     private int quotaAvailable;
     private EQuota typeQuota;
-
-    // Quota Batch
     private List<QuotaBatchRequest> quotaAvailableBatch;
-
 }

@@ -55,6 +55,10 @@ public class TestServiceImpl implements TestService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Company with id " + testRequest.getCompanyId() + " is not found");
         }
 
+        if (company.getStatus() == EStatus.NOT_ACTIVE) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Must use a company that is still active");
+        }
+
         if (educationResponse == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Education with id " + educationResponse.getEducation() + " is not found");
         }
