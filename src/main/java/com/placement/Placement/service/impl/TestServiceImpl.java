@@ -49,8 +49,8 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public TestResponse create(TestRequest testRequest) {
-        EducationResponse educationResponse = educationService.getById(testRequest.getEducationId());
-        CompanyResponse companyResponse = companyService.getById(testRequest.getCompanyId());
+        EducationResponse educationResponse = educationService.findById(testRequest.getEducationId());
+        CompanyResponse companyResponse = companyService.findById(testRequest.getCompanyId());
 
         if (educationResponse == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Education with id "
@@ -76,8 +76,8 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public TestResponse update(TestRequest testRequest) {
-        EducationResponse educationResponse = educationService.getById(testRequest.getEducationId());
-        CompanyResponse companyResponse = companyService.getById(testRequest.getCompanyId());
+        EducationResponse educationResponse = educationService.findById(testRequest.getEducationId());
+        CompanyResponse companyResponse = companyService.findById(testRequest.getCompanyId());
         Test test = testRepository.findById(testRequest.getId()).orElse(null);
 
         if (test != null) {

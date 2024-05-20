@@ -2,14 +2,14 @@ package com.placement.Placement.service;
 
 import com.placement.Placement.model.request.EducationRequest;
 import com.placement.Placement.model.response.EducationResponse;
-
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 public interface EducationService {
-    List<EducationResponse> getAll();
-    EducationResponse getById(String id);
-    EducationResponse create(EducationRequest educationRequest);
-    EducationResponse update(EducationRequest educationRequest);
-    EducationResponse remove(String id);
+    ResponseEntity<Object> getAll();
+    EducationResponse findById(String id);
+    ResponseEntity<Object> getById(String id);
+    ResponseEntity<Object> create(EducationRequest educationRequest);
+    ResponseEntity<Object> update(EducationRequest educationRequest);
+    ResponseEntity<Object> remove(String id);
     EducationResponse getByName(String name);
 }

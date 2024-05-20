@@ -3,6 +3,7 @@ package com.placement.Placement.service.impl;
 import com.placement.Placement.constant.EStatus;
 import com.placement.Placement.helper.convert.dto.Dto;
 import com.placement.Placement.helper.convert.entity.Entity;
+import com.placement.Placement.helper.response.Response;
 import com.placement.Placement.model.entity.Company;
 import com.placement.Placement.model.request.CompanyRequest;
 import com.placement.Placement.model.response.CompanyResponse;
@@ -10,6 +11,8 @@ import com.placement.Placement.repository.CompanyRepository;
 import com.placement.Placement.service.CompanyService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,15 +22,26 @@ import java.util.List;
 public class CompanyServiceImpl implements CompanyService {
     private final CompanyRepository companyRepository;
     @Override
-    public List<CompanyResponse> getAll() {
-        return companyRepository.findAll()
+    public ResponseEntity<Object> getAll() {
+        List<CompanyResponse> companyResponseList = companyRepository.findAll()
                 .stream()
                 .map(Entity::convertToDto)
                 .toList();
+        return Response.responseData(HttpStatus.OK, "Successfully get all companies", companyResponseList);
     }
 
     @Override
-    public CompanyResponse getById(String id) {
+    public ResponseEntity<Object> getById(String id) {
+        Company company = companyRepository.findById(id).orElse(null);
+        if (company != null) {
+            return Response.responseData(HttpStatus.OK, "Successfully get company", company);
+        }
+
+        return Response.responseData(HttpStatus.NOT_FOUND, "Company is not found", null);
+    }
+
+    @Override
+    public CompanyResponse findById(String id) {
         Company company = companyRepository.findById(id).orElse(null);
         if (company != null) {
             return Entity.convertToDto(company);
@@ -38,16 +52,14 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Transactional(rollbackOn = Exception.class)
     @Override
-    public CompanyResponse create(CompanyRequest request) {
-        Company company = Company.builder()
-                .name(request.getName())
-                .address(request.getAddress())
-                .phoneNumber(request.getPhoneNumber())
-                .status(EStatus.valueOf(request.getStatus()))
-                .build();
-        companyRepository.save(company);
-
-        return Entity.convertToDto(company);
+    public ResponseEntity<Object> create(CompanyRequest request) {
+        try {
+            Company company = Dto.convertToEntity(request);
+            companyRepository.save(company);
+            return Response.responseData(HttpStatus.OK, "Successfully create new company", company);
+        }catch (Exception e){
+            return Response.responseData(HttpStatus.BAD_REQUEST, "Status Invalid", null);
+        }
     }
 
     @Transactional(rollbackOn = Exception.class)

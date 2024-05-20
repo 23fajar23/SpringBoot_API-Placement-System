@@ -104,7 +104,7 @@ public class StageServiceImpl implements StageService {
     public StageResponse create(StageRequest stageRequest) {
 
         TestResponse testResponse = testService.getById(stageRequest.getTestId());
-        EducationResponse educationResponse = educationService.getById(stageRequest.getEducationId());
+        EducationResponse educationResponse = educationService.findById(stageRequest.getEducationId());
 
         if (testResponse == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Test is not found");
@@ -150,7 +150,7 @@ public class StageServiceImpl implements StageService {
 
 
         for (int i = 0; i < stageRequest.getQuotaBatchRequestList().size(); i++) {
-            BatchResponse batchResponse = batchService.getById(stageRequest.getQuotaBatchRequestList().get(i).getBatchId());
+            BatchResponse batchResponse = batchService.findById(stageRequest.getQuotaBatchRequestList().get(i).getBatchId());
             Batch batch = Batch.builder()
                     .id(batchResponse.getId())
                     .name(batchResponse.getName())

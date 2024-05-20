@@ -48,8 +48,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public RegisterResponse registerCustomer(AuthRequest request) {
         try {
-            BatchResponse batchResponse = batchService.getById(request.getBatchId());
-            EducationResponse educationResponse = educationService.getById(request.getEducationId());
+            BatchResponse batchResponse = batchService.findById(request.getBatchId());
+            EducationResponse educationResponse = educationService.findById(request.getEducationId());
 
             if (batchResponse == null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Batch is not found");
