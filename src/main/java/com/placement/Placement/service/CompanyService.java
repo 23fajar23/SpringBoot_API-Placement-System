@@ -9,6 +9,6 @@ public interface CompanyService {
     ResponseEntity<Object> getById(String id);
     CompanyResponse findById(String id);
     ResponseEntity<Object> create(CompanyRequest request);
-    CompanyResponse update(CompanyRequest request);
-    CompanyResponse remove(String id);
+    ResponseEntity<Object> update(CompanyRequest request);
+    ResponseEntity<Object> remove(String id);
 }

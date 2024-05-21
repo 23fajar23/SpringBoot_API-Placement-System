@@ -64,7 +64,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Transactional(rollbackOn = Exception.class)
     @Override
-    public CompanyResponse update(CompanyRequest request) {
+    public ResponseEntity<Object> update(CompanyRequest request) {
         Company company = companyRepository.findById(request.getId()).orElse(null);
         if (company != null) {
             company.setName(request.getName());
@@ -73,23 +73,24 @@ public class CompanyServiceImpl implements CompanyService {
             company.setStatus(EStatus.valueOf(request.getStatus()));
             companyRepository.save(company);
 
-            return Entity.convertToDto(company);
+            return Response.responseData(HttpStatus.OK, "Successfully update company",
+                    Entity.convertToDto(company));
         }
 
-        return null;
+        return Response.responseData(HttpStatus.NOT_FOUND, "Company is not found", null);
     }
 
     @Transactional(rollbackOn = Exception.class)
     @Override
-    public CompanyResponse remove(String id) {
+    public ResponseEntity<Object> remove(String id) {
         Company company = companyRepository.findById(id).orElse(null);
         if (company != null) {
             company.setStatus(EStatus.NOT_ACTIVE);
             companyRepository.save(company);
 
-            return Entity.convertToDto(company);
+            return Response.responseData(HttpStatus.OK, "Successfully remove company", Entity.convertToDto(company));
         }
 
-        return null;
+        return Response.responseData(HttpStatus.NOT_FOUND, "Company is not found", null);
     }
 }

@@ -82,12 +82,18 @@ public class AdminServiceImpl implements AdminService {
 
         if (admin != null) {
 
+            UserCredential adminUserCredential = admin.getUserCredential();
+
+            if (adminUserCredential == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Admin user credential is null");
+            }
+
             UserCredential userCredential = userCredentialRepository.findById(
-                    admin.getUserCredential().getId()).orElse(null);
+                    adminUserCredential.getId()).orElse(null);
 
             if (userCredential == null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User credential with id "
-                        + admin.getUserCredential().getId()
+                        + adminUserCredential.getId()
                         + " is not found");
             }
 
@@ -131,6 +137,4 @@ public class AdminServiceImpl implements AdminService {
 
         return Response.responseData(HttpStatus.NOT_FOUND, "Admin is not found", null);
     }
-
-
 }

@@ -4,6 +4,7 @@ import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.entity.Company;
 import com.placement.Placement.model.entity.Education;
 import com.placement.Placement.model.entity.auth.Admin;
+import com.placement.Placement.model.entity.auth.Customer;
 import com.placement.Placement.model.response.*;
 
 public class Entity {
@@ -39,6 +40,18 @@ public class Entity {
                 .name(admin.getName())
                 .phoneNumber(admin.getPhoneNumber())
                 .userCredential(admin.getUserCredential())
+                .build();
+    }
+
+    public static CustomerResponse convertToDto(Customer customer) {
+        return CustomerResponse.builder()
+                .id(customer.getId())
+                .name(customer.getName())
+                .address(customer.getAddress())
+                .phoneNumber(customer.getMobilePhone())
+                .batch(customer.getBatch())
+                .education(customer.getEducation())
+                .userCredential(customer.getUserCredential())
                 .build();
     }
 }
