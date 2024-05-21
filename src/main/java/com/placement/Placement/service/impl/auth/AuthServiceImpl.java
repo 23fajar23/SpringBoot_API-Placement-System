@@ -4,6 +4,7 @@ package com.placement.Placement.service.impl.auth;
 import com.placement.Placement.constant.ERole;
 import com.placement.Placement.constant.EStatus;
 import com.placement.Placement.helper.convert.dto.Dto;
+import com.placement.Placement.helper.convert.entity.Entity;
 import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.entity.Education;
 import com.placement.Placement.model.entity.auth.*;
@@ -113,9 +114,12 @@ public class AuthServiceImpl implements AuthService {
             Admin admin = Admin.builder()
                     .name(request.getName())
                     .phoneNumber(request.getMobilePhone())
+                    .userCredential(userCredential)
                     .build();
 
-            adminService.save(admin);
+
+
+            adminService.save(Entity.convertToDto(admin));
 
             return RegisterResponse.builder()
                     .email(userCredential.getEmail())

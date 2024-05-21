@@ -1,7 +1,14 @@
 package com.placement.Placement.service.auth;
 
-import com.placement.Placement.model.entity.auth.Admin;
+import com.placement.Placement.model.request.AdminRequest;
+import com.placement.Placement.model.response.AdminResponse;
+import org.springframework.http.ResponseEntity;
 
 public interface AdminService {
-    Admin save(Admin admin);
+    ResponseEntity<Object> getAll();
+    ResponseEntity<Object> getById(String id);
+    AdminResponse findById(String id);
+    AdminResponse save(AdminResponse adminResponse);
+    ResponseEntity<Object> update(AdminRequest adminRequest);
+    ResponseEntity<Object> remove(String id);
 }

@@ -1,13 +1,10 @@
 package com.placement.Placement.helper.convert.entity;
 
-import com.placement.Placement.constant.EStatus;
 import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.entity.Company;
 import com.placement.Placement.model.entity.Education;
-import com.placement.Placement.model.entity.Test;
-import com.placement.Placement.model.request.StageRequest;
+import com.placement.Placement.model.entity.auth.Admin;
 import com.placement.Placement.model.response.*;
-import org.springframework.web.servlet.function.EntityResponse;
 
 public class Entity {
     public static BatchResponse convertToDto(Batch batch) {
@@ -36,4 +33,12 @@ public class Entity {
                 .build();
     }
 
+    public static AdminResponse convertToDto(Admin admin) {
+        return AdminResponse.builder()
+                .id(admin.getId())
+                .name(admin.getName())
+                .phoneNumber(admin.getPhoneNumber())
+                .userCredential(admin.getUserCredential())
+                .build();
+    }
 }

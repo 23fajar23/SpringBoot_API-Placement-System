@@ -12,6 +12,7 @@ import com.placement.Placement.repository.*;
 import com.placement.Placement.service.BatchService;
 import com.placement.Placement.service.EducationService;
 import com.placement.Placement.service.TestService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,7 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public TestResponse create(TestRequest testRequest) {
         Company company = companyRepository.findById(
                 testRequest.getCompanyId()).orElse(null);
@@ -200,6 +202,7 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public TestResponse update(UpdateTestRequest updateTestRequest) {
         Test test = testRepository.findById(updateTestRequest.getId()).orElse(null);
 

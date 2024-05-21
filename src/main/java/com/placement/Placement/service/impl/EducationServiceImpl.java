@@ -88,7 +88,7 @@ public class EducationServiceImpl implements EducationService {
 
         if (education != null) {
             educationRepository.delete(education);
-            return Response.responseData(HttpStatus.OK, "Successfully remove education", null);
+            return Response.responseData(HttpStatus.OK, "Successfully remove education", education);
         }else{
             return Response.responseData(HttpStatus.NOT_FOUND, "Education not found", null);
         }

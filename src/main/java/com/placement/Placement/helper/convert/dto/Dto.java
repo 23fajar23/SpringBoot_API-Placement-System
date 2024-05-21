@@ -5,14 +5,9 @@ import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.entity.Company;
 import com.placement.Placement.model.entity.Education;
 import com.placement.Placement.model.entity.Test;
-import com.placement.Placement.model.request.BatchRequest;
-import com.placement.Placement.model.request.CompanyRequest;
-import com.placement.Placement.model.request.EducationRequest;
-import com.placement.Placement.model.request.TestRequest;
-import com.placement.Placement.model.response.BatchResponse;
-import com.placement.Placement.model.response.CompanyResponse;
-import com.placement.Placement.model.response.EducationResponse;
-import com.placement.Placement.model.response.TestResponse;
+import com.placement.Placement.model.entity.auth.Admin;
+import com.placement.Placement.model.request.*;
+import com.placement.Placement.model.response.*;
 
 public class Dto {
     public static Batch convertToEntity(BatchResponse batchResponse) {
@@ -87,4 +82,14 @@ public class Dto {
                 .status(EStatus.ACTIVE)
                 .build();
     }
+
+    public static Admin convertToEntity(AdminResponse adminResponse) {
+        return Admin.builder()
+                .id(adminResponse.getId())
+                .name(adminResponse.getName())
+                .phoneNumber(adminResponse.getPhoneNumber())
+                .userCredential(adminResponse.getUserCredential())
+                .build();
+    }
+
 }
