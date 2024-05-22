@@ -27,6 +27,9 @@ public class Test {
     @Column(name = "note", nullable = false)
     private String note;
 
+    @Column(name = "role_placement", nullable = false)
+    private String rolePlacement;
+
     @ManyToOne
     @JoinColumn(name = "company_id")
     @JsonBackReference
@@ -43,4 +46,5 @@ public class Test {
 
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
     private List<Stage> stages;
+
 }

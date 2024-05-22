@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface QuotaBatchRepository extends JpaRepository<QuotaBatch, String> {
-    @Query("SELECT qb FROM QuotaBatch qb WHERE qb.quota = :quotaId")
-    Optional<QuotaBatch> findByQuotaId(@Param("quotaId") String quotaId);
+    @Query("SELECT qb FROM QuotaBatch qb WHERE qb.batch.id = :batchId AND qb.quota.id = :quotaId")
+    Optional<QuotaBatch> findByBatchId(@Param("batchId") String batchId, @Param("quotaId") String quotaId);
 }

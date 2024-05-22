@@ -2,10 +2,7 @@ package com.placement.Placement.controller;
 
 import com.placement.Placement.constant.AppPath;
 import com.placement.Placement.model.request.TestRequest;
-import com.placement.Placement.model.response.CommonResponse;
-import com.placement.Placement.model.response.GetTestResponse;
-import com.placement.Placement.model.response.TestRemoveResponse;
-import com.placement.Placement.model.response.TestResponse;
+import com.placement.Placement.model.response.*;
 import com.placement.Placement.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +24,7 @@ public class TestController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Successfully get all loan types")
+                        .message("Successfully get all tests")
                         .data(testResponses)
                         .build());
 
@@ -72,6 +69,33 @@ public class TestController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(response);
 
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateTest(@RequestBody TestRequest testRequest) {
+        UpdateTestResponse test = testService.update(testRequest);
+
+        HttpStatus httpStatus;
+        CommonResponse<UpdateTestResponse> response;
+        if (test != null) {
+            httpStatus = HttpStatus.OK;
+            response = CommonResponse.<UpdateTestResponse>builder()
+                    .statusCode(httpStatus.value())
+                    .message("Successfully update test")
+                    .data(test)
+                    .build();
+        } else {
+            httpStatus = HttpStatus.NOT_FOUND;
+            response = CommonResponse.<UpdateTestResponse>builder()
+                    .statusCode(httpStatus.value())
+                    .message("Update is not found")
+                    .data(null)
+                    .build();
+        }
+
+        return ResponseEntity
+                .status(httpStatus)
+                .body(response);
     }
 
     @DeleteMapping(AppPath.BY_ID)

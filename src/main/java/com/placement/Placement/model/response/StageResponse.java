@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,11 +23,9 @@ public class StageResponse {
     private String id;
     private String name;
     private EType type;
-    private LocalDateTime dateTime;
+    private LocalDate dateTime;
     private int totalQuota;
     private int quotaAvailable;
     private EQuota quotaBatchType;
-    private EStatus status;
-    private Test test;
     private List<Quota> quotas;
 }

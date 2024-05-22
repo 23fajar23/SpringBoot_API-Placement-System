@@ -1,12 +1,12 @@
 package com.placement.Placement.service.impl;
 
 import com.placement.Placement.constant.EQuota;
+import com.placement.Placement.constant.EStage;
 import com.placement.Placement.constant.EStatus;
 import com.placement.Placement.helper.convert.dto.Dto;
 import com.placement.Placement.model.entity.*;
 import com.placement.Placement.model.request.QuotaBatchRequest;
 import com.placement.Placement.model.request.TestRequest;
-import com.placement.Placement.model.request.UpdateTestRequest;
 import com.placement.Placement.model.response.*;
 import com.placement.Placement.repository.*;
 import com.placement.Placement.service.BatchService;
@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,14 +37,15 @@ public class TestServiceImpl implements TestService {
     public List<GetTestResponse> getAll() {
         return testRepository.findAll().stream()
                 .map(test -> GetTestResponse.builder()
-                            .id(test.getId())
-                            .placement(test.getPlacement())
-                            .note(test.getNote())
-                            .statusTest(test.getStatus())
-                            .company(test.getCompany())
-                            .education(test.getEducation())
-                            .stages(test.getStages())
-                            .build()
+                        .id(test.getId())
+                        .placement(test.getPlacement())
+                        .note(test.getNote())
+                        .rolePlacement(test.getRolePlacement())
+                        .statusTest(test.getStatus())
+                        .company(test.getCompany())
+                        .education(test.getEducation())
+                        .stages(test.getStages())
+                        .build()
                 ).toList();
     }
 
@@ -55,6 +57,7 @@ public class TestServiceImpl implements TestService {
                     .id(test.getId())
                     .placement(test.getPlacement())
                     .note(test.getNote())
+                    .rolePlacement(test.getRolePlacement())
                     .statusTest(test.getStatus())
                     .stages(test.getStages())
                     .education(test.getEducation())
@@ -96,16 +99,28 @@ public class TestServiceImpl implements TestService {
                 .note(testRequest.getNote())
                 .company(company)
                 .education(Dto.convertToEntity(educationResponse))
+                .rolePlacement(testRequest.getRolePlacement())
                 .status(EStatus.ACTIVE)
                 .build();
 
         testRepository.saveAndFlush(test);
+
+        if (testRequest.getDateTime().isBefore(LocalDate.now())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "The time input must be today or in the future");
+        }
+
+        if (testRequest.getStageStatus() == EStage.FINISHED) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Must select ongoing or coming soon when creating new test");
+        }
 
         Stage stage = Stage.builder()
                 .name(testRequest.getNameStage())
                 .dateTime(testRequest.getDateTime())
                 .type(testRequest.getTypeStage())
                 .test(test)
+                .stageStatus(testRequest.getStageStatus())
                 .build();
 
         stageRepository.saveAndFlush(stage);
@@ -202,39 +217,33 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    @Transactional(rollbackOn = Exception.class)
-    public TestResponse update(UpdateTestRequest updateTestRequest) {
-        Test test = testRepository.findById(updateTestRequest.getId()).orElse(null);
+    public UpdateTestResponse update(TestRequest testRequest) {
+        Test test = testRepository.findById(testRequest.getId()).orElse(null);
 
         if (test != null) {
-            Company company = companyRepository.findById(updateTestRequest.getCompanyId()).orElse(null);
-            EducationResponse educationResponse = educationService.findById(updateTestRequest.getEducationId());
 
-            if (company == null) {
-                throw new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, "Company with id "
-                        + updateTestRequest.getCompanyId() + " is not found");
-            }
-
-            if (company.getStatus() == EStatus.NOT_ACTIVE) {
-                throw new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, "Must use a company that is still active");
-            }
+            EducationResponse educationResponse = educationService.findById(testRequest.getEducationId());
 
             if (educationResponse == null) {
-                throw new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, "Education with id "
-                        + updateTestRequest.getEducationId() + " is not found");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Education with id "
+                        + testRequest.getEducationId()
+                        + " is not found");
             }
 
-            test.setPlacement(updateTestRequest.getPlacement());
-            test.setNote(updateTestRequest.getNote());
-            test.setCompany(company);
+            test.setPlacement(testRequest.getPlacement());
+            test.setNote(testRequest.getNote());
             test.setEducation(Dto.convertToEntity(educationResponse));
-            test.setStatus(updateTestRequest.getStatusTest());
+            test.setStatus(testRequest.getStatusTest());
+            test.setRolePlacement(testRequest.getRolePlacement());
 
-
-
+            testRepository.save(test);
+            return UpdateTestResponse.builder()
+                    .id(test.getId())
+                    .placement(test.getPlacement())
+                    .note(test.getNote())
+                    .statusTest(test.getStatus())
+                    .education(Dto.convertToEntity(educationResponse))
+                    .build();
         }
 
         return null;

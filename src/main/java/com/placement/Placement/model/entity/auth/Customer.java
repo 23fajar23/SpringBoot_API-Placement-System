@@ -1,11 +1,13 @@
 package com.placement.Placement.model.entity.auth;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.placement.Placement.constant.DbPath;
+import com.placement.Placement.model.entity.Application;
 import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.entity.Education;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = DbPath.CUSTOMER)
@@ -35,6 +37,9 @@ public class Customer {
     @ManyToOne
     @JoinColumn(name = "education_id")
     private Education education;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Application> applications;
 
     @OneToOne
     @JoinColumn(name = "user_credential_id")

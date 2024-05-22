@@ -16,4 +16,5 @@ public class DbPath {
     public final static String APPLICATION = "t_application";
     public final static String MESSAGE = "t_message";
     public final static String MESSAGE_TEMPLATE = "m_message_template";
+    public final static String TEST_RESULT = "t_test_result";
 }

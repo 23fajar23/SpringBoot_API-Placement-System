@@ -2,11 +2,12 @@ package com.placement.Placement.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.placement.Placement.constant.DbPath;
+import com.placement.Placement.constant.EStage;
 import com.placement.Placement.constant.EType;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -26,7 +27,11 @@ public class Stage {
     private String name;
 
     @Column(name = "datetime", nullable = false)
-    private LocalDateTime dateTime;
+    private LocalDate dateTime;
+
+    @Column(name = "stage_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private EStage stageStatus;
 
     @ManyToOne
     @JoinColumn(name = "test_id")

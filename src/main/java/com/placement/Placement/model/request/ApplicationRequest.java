@@ -6,11 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder(toBuilder = true)
-public class QuotaBatchRequest {
-    private String quotaBatchId;
-    private String batchId;
-    private int quotaAvailable;
+public class ApplicationRequest {
+    private String id;
+    private String customerId;
+    private String testId;
 }

@@ -52,6 +52,7 @@ public class Entity {
                 .batch(customer.getBatch())
                 .education(customer.getEducation())
                 .userCredential(customer.getUserCredential())
+                .applications(customer.getApplications())
                 .build();
     }
 }
