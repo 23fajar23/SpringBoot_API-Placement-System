@@ -7,11 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder(toBuilder = true)
-public class ApplicationRequest {
+public class ApproveTestRequest {
     private String id;
-    private String customerId;
-    private String testId;
+    private String applicationId;
+    private String stageId;
+    private EResultTest resultTest;
 }

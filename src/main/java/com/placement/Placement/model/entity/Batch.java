@@ -1,6 +1,7 @@
 package com.placement.Placement.model.entity;
 
 import com.placement.Placement.constant.DbPath;
+import com.placement.Placement.constant.ERegion;
 import com.placement.Placement.constant.EStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,8 +19,12 @@ public class Batch {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "region", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ERegion region;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)

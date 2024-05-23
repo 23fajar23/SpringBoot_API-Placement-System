@@ -11,5 +11,4 @@ public interface BatchService {
     ResponseEntity<Object> create(BatchRequest batchRequest);
     ResponseEntity<Object> update(BatchRequest batchRequest);
     ResponseEntity<Object> remove(String id);
-    BatchResponse findByName(String name);
 }

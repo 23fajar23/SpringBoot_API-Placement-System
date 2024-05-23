@@ -12,6 +12,7 @@ public class Entity {
         return BatchResponse.builder()
                 .id(batch.getId())
                 .name(batch.getName())
+                .region(batch.getRegion())
                 .status(batch.getStatus())
                 .build();
     }

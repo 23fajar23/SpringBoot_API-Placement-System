@@ -20,4 +20,5 @@ public class AppPath {
     public final static String STAGE = "/stage";
     public final static String USER_PLACMENT = "/user_placement";
     public final static String JOIN = "/join";
+    public final static String APPROVE = "/approve";
 }

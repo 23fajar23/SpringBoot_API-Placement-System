@@ -1,11 +1,14 @@
 package com.placement.Placement.service.impl;
 
 import com.placement.Placement.constant.EQuota;
+import com.placement.Placement.constant.EResultTest;
 import com.placement.Placement.helper.response.Response;
 import com.placement.Placement.model.entity.*;
 import com.placement.Placement.model.entity.auth.Customer;
 import com.placement.Placement.model.request.ApplicationRequest;
+import com.placement.Placement.model.request.ApproveTestRequest;
 import com.placement.Placement.model.response.ApplicationResponse;
+import com.placement.Placement.model.response.ApproveTestResponse;
 import com.placement.Placement.repository.*;
 import com.placement.Placement.repository.auth.CustomerRepository;
 import com.placement.Placement.service.ApplicationService;
@@ -13,6 +16,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -30,20 +34,103 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final QuotaRepository quotaRepository;
     private final TestStageResultRepository testStageResultRepository;
     private final QuotaBatchRepository quotaBatchRepository;
+    private final StageRepository stageRepository;
 
     @Override
     public ResponseEntity<Object> getAll() {
-        return null;
+        List<ApplicationResponse> applicationResponses = applicationRepository.findAll()
+                .stream()
+                .map(application -> {
+                    Test test = testRepository.findById(application.getTest().getId()).orElse(null);
+                    Customer customer = customerRepository.findById(application.getCustomer().getId()).orElse(null);
+
+                    if (test == null) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Test is not found");
+                    }
+
+                    if (customer == null) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer not found");
+                    }
+
+                    return ApplicationResponse.builder()
+                            .id(application.getId())
+                            .test(application.getTest())
+                            .customer(customer)
+                            .build();
+                }).toList();
+
+        return Response.responseData(HttpStatus.OK, "Successfully get all application", applicationResponses);
     }
 
     @Override
     public ResponseEntity<Object> getById(String id) {
-        return null;
+        Application application = applicationRepository.findById(id).orElse(null);
+
+        if (application != null) {
+
+            Test test = testRepository.findById(application.getTest().getId()).orElse(null);
+
+            Customer customer = customerRepository.findById(application.getCustomer().getId()).orElse(null);
+
+            if (test == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Test with id " + application.getTest().getId() + " is not found");
+            }
+
+            if (customer == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer with id " + application.getCustomer().getId() + " is not found");
+            }
+
+            ApplicationResponse applicationResponse = ApplicationResponse.builder()
+                    .id(application.getId())
+                    .test(test)
+                    .customer(customer)
+                    .build();
+
+            return Response.responseData(HttpStatus.OK, "Successfully get application", applicationResponse);
+        }
+
+        return Response.responseData(HttpStatus.NOT_FOUND, "Application is not found", null);
     }
 
     @Override
-    public ResponseEntity<Object> update(ApplicationRequest applicationRequest) {
-        return null;
+    @Transactional(rollbackOn = Exception.class)
+    public ResponseEntity<Object> approve(ApproveTestRequest approveTestRequest) {
+        Stage stage = stageRepository.findById(approveTestRequest.getStageId()).orElse(null);
+        Application application = applicationRepository.findById(approveTestRequest.getApplicationId()).orElse(null);
+
+        if (stage == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Stage with id " + approveTestRequest.getStageId() + " is not found");
+        }
+
+        if (application == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Application with id " + approveTestRequest.getApplicationId() + " is not found");
+        }
+
+        TestStageResult testStageResult = testStageResultRepository.findByCustomerTestAndStage(
+                application.getId(), stage.getId()
+        ).orElse(null);
+
+        if (testStageResult == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Test stage result is not found");
+        }
+
+        if (approveTestRequest.getResultTest() == EResultTest.FAILED) {
+            testStageResult.setResult(approveTestRequest.getResultTest());
+            application.setFinalResult(approveTestRequest.getResultTest());
+            testStageResultRepository.saveAndFlush(testStageResult);
+            applicationRepository.save(application);
+
+        } else {
+            testStageResult.setResult(approveTestRequest.getResultTest());
+            testStageResultRepository.save(testStageResult);
+        }
+
+        ApproveTestResponse approveTestResponse = ApproveTestResponse.builder()
+                .application(application)
+                .stage(stage)
+                .build();
+
+        return Response.responseData(HttpStatus.OK, "Successfully approve application test customer", approveTestResponse);
     }
 
     @Override
@@ -191,4 +278,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         return Response.responseData(HttpStatus.OK, "Successfully create application", applicationResponse);
     }
+
+
+
 }

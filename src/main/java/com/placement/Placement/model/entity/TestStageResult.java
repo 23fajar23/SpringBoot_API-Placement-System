@@ -3,6 +3,7 @@ package com.placement.Placement.model.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.placement.Placement.constant.DbPath;
 import com.placement.Placement.constant.EResultTest;
+import com.placement.Placement.model.entity.auth.Customer;
 import jakarta.persistence.*;
 import lombok.*;
 

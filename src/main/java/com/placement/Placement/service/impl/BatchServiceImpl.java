@@ -50,7 +50,7 @@ public class BatchServiceImpl implements BatchService {
 
     @Override
     public ResponseEntity<Object> create(BatchRequest batchRequest) {
-        Batch batch = batchRepository.findByName(batchRequest.getName()).orElse(null);
+        Batch batch = batchRepository.findByNameAndRegion(batchRequest.getName(), batchRequest.getRegion()).orElse(null);
         try {
             if (batch == null){
                 batch = Dto.convertToEntity(batchRequest);
@@ -70,6 +70,7 @@ public class BatchServiceImpl implements BatchService {
         if (batch != null) {
             batch.setName(batchRequest.getName());
             batch.setStatus(EStatus.valueOf(batchRequest.getStatus()));
+            batch.setRegion(batchRequest.getRegion());
             batchRepository.save(batch);
             return Response.responseData(HttpStatus.OK, "Successfully update batch", batch);
         }else{
@@ -87,16 +88,5 @@ public class BatchServiceImpl implements BatchService {
         }else{
             return Response.responseData(HttpStatus.NOT_FOUND, "Batch not found", null);
         }
-    }
-
-    @Override
-    public BatchResponse findByName(String name) {
-        Batch batch = batchRepository.findByName(name).orElse(null);
-
-        if (batch != null) {
-            return Entity.convertToDto(batch);
-        }
-
-        return null;
     }
 }

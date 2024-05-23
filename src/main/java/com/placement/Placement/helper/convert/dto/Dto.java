@@ -22,6 +22,7 @@ public class Dto {
         return Batch.builder()
                 .id(batchRequest.getId())
                 .name(batchRequest.getName())
+                .region(batchRequest.getRegion())
                 .status(EStatus.valueOf(batchRequest.getStatus()))
                 .build();
     }

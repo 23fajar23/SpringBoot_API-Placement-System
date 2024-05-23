@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class QuotaBatchResponse {
+    private String id;
     private String batchId;
     private int quotaAvailable;
 }
