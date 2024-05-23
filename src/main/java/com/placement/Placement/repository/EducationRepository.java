@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface EducationRepository extends JpaRepository<Education, String> {
-    @Query("SELECT edu FROM Education edu WHERE edu.education = :education")
-    Optional<Education> findByName(@Param("education") String education);
+    @Query("SELECT edu FROM Education edu WHERE edu.name = :name")
+    Optional<Education> findByName(@Param("name") String name);
 }

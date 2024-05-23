@@ -22,9 +22,5 @@ public class StageRequest {
     private String nameStage;
     private LocalDate dateTime;
     private EType typeStage;
-    private int totalQuota;
-    private int quotaAvailable;
-    private EQuota typeQuota;
     private EStage stageStatus;
-    private List<QuotaBatchRequest> quotaAvailableBatch;
 }

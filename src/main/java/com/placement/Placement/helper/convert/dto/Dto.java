@@ -30,7 +30,7 @@ public class Dto {
     public static Education convertToEntity(EducationRequest educationRequest) {
         return Education.builder()
                 .id(educationRequest.getId())
-                .education(educationRequest.getEducation())
+                .name(educationRequest.getName())
                 .value(educationRequest.getValue())
                 .build();
     }
@@ -38,7 +38,7 @@ public class Dto {
     public static Education convertToEntity(EducationResponse educationResponse) {
         return Education.builder()
                 .id(educationResponse.getId())
-                .education(educationResponse.getEducation())
+                .name(educationResponse.getName())
                 .value(educationResponse.getValue())
                 .build();
     }

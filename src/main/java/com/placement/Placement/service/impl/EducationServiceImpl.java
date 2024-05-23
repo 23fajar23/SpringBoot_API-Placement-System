@@ -52,7 +52,7 @@ public class EducationServiceImpl implements EducationService {
 
     @Override
     public ResponseEntity<Object> create(EducationRequest educationRequest) {
-        Education education = educationRepository.findByName(educationRequest.getEducation()).orElse(null);
+        Education education = educationRepository.findByName(educationRequest.getName()).orElse(null);
         if (education == null)
         {
             education = Dto.convertToEntity(educationRequest);
@@ -66,11 +66,11 @@ public class EducationServiceImpl implements EducationService {
     @Override
     public ResponseEntity<Object> update(EducationRequest educationRequest) {
         Education education = educationRepository.findById(educationRequest.getId()).orElse(null);
-        Education available = educationRepository.findByName(educationRequest.getEducation()).orElse(null);
+        Education available = educationRepository.findByName(educationRequest.getName()).orElse(null);
 
         if (education != null) {
             if (available == null){
-                education.setEducation(educationRequest.getEducation());
+                education.setName(educationRequest.getName());
                 education.setValue(educationRequest.getValue());
                 educationRepository.save(education);
                 return Response.responseData(HttpStatus.OK, "Successfully update education", education);

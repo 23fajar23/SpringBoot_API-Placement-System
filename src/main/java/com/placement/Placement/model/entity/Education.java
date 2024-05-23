@@ -18,7 +18,7 @@ public class Education {
     private String id;
 
     @Column(name = "education", nullable = false, unique = true)
-    private String education;
+    private String name;
 
     @Column(name = "value", nullable = false)
     private int value;

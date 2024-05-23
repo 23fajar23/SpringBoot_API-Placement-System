@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EducationRequest {
     private String id;
-    private String education;
+    private String name;
     private int value;
 }

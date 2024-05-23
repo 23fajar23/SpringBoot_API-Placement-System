@@ -20,7 +20,7 @@ public class Entity {
     public static EducationResponse convertToDto(Education education) {
         return EducationResponse.builder()
                 .id(education.getId())
-                .education(education.getEducation())
+                .name(education.getName())
                 .value(education.getValue())
                 .build();
     }

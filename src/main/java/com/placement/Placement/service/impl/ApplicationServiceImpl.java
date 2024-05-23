@@ -173,7 +173,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The test quota is full");
         }
 
-        if (test.getEducation() != customer.getEducation()) {
+        if (customer.getEducation().getValue() < test.getEducation().getValue()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Customer education does not meet the requirements");
         }
