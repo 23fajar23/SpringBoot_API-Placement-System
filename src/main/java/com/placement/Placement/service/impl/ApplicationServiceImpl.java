@@ -2,6 +2,7 @@ package com.placement.Placement.service.impl;
 
 import com.placement.Placement.constant.EQuota;
 import com.placement.Placement.constant.EResultTest;
+import com.placement.Placement.constant.EStage;
 import com.placement.Placement.helper.response.Response;
 import com.placement.Placement.model.entity.*;
 import com.placement.Placement.model.entity.auth.Customer;
@@ -16,7 +17,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -100,6 +100,10 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         if (stage == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Stage with id " + approveTestRequest.getStageId() + " is not found");
+        }
+
+        if (stage.getStageStatus() != EStage.FINISHED) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Approve can only be done when the test has been completed");
         }
 
         if (application == null) {
@@ -204,6 +208,14 @@ public class ApplicationServiceImpl implements ApplicationService {
                         .getId() + " is not found ");
             }
 
+            if (quotaBatch.getAvailable() <= 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Quota batch has run out");
+            }
+
+            if (quota.getAvailable() <= 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Quota has run out");
+            }
+
             quotaBatch.setAvailable(quotaBatch.getAvailable() - 1);
             quota.setAvailable(quota.getAvailable() - 1);
 
@@ -278,7 +290,5 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         return Response.responseData(HttpStatus.OK, "Successfully create application", applicationResponse);
     }
-
-
 
 }

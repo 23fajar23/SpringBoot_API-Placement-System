@@ -7,9 +7,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface StageService {
-    List<StageResponse> getAll();
-    StageResponse getById(String id);
+    ResponseEntity<Object> getById(String id);
     ResponseEntity<Object> create(StageRequest stageRequest);
     ResponseEntity<Object> update(StageRequest stageRequest);
-    StageResponse remove(String id);
 }

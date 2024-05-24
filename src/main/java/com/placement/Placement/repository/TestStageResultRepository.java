@@ -16,6 +16,7 @@ public interface TestStageResultRepository extends JpaRepository<TestStageResult
     @Query("SELECT tsr FROM TestStageResult tsr WHERE tsr.application.id = :applicationId AND tsr.stage.id = :stageId")
     Optional<TestStageResult> findByCustomerTestAndStage(@Param("applicationId") String applicationId, @Param("stageId") String stageId);
 
-    @Query("SELECT tsr FROM TestStageResult tsr WHERE tsr.stage.id = :stageId AND tsr.result = :result")
-    List<Optional<TestStageResult>> findByStage(@Param("stageId") String stageId, @Param("result")EResultTest resultTest);
+    @Query("SELECT tsr FROM TestStageResult tsr WHERE tsr.stage.id = :stageId")
+    List<Optional<TestStageResult>> findByStage(@Param("stageId") String stageId);
+
 }

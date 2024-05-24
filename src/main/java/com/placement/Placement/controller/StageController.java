@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.*;
 public class StageController {
 
     private final StageService stageService;
+
+    @GetMapping(AppPath.BY_ID)
+    public ResponseEntity<?> getStageById(@PathVariable String id) {
+        return stageService.getById(id);
+    }
+
     @PostMapping
     public ResponseEntity<?> createStage(@RequestBody StageRequest stageRequest) {
         return stageService.create(stageRequest);

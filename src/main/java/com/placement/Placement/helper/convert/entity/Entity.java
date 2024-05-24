@@ -1,9 +1,6 @@
 package com.placement.Placement.helper.convert.entity;
 
-import com.placement.Placement.model.entity.Batch;
-import com.placement.Placement.model.entity.Company;
-import com.placement.Placement.model.entity.Education;
-import com.placement.Placement.model.entity.Message;
+import com.placement.Placement.model.entity.*;
 import com.placement.Placement.model.entity.auth.Admin;
 import com.placement.Placement.model.entity.auth.Customer;
 import com.placement.Placement.model.response.*;
@@ -66,6 +63,17 @@ public class Entity {
                 .content(message.getContent())
                 .read(message.getRead())
                 .status(message.getStatus())
+                .build();
+    }
+
+    public static StageResponse convertToDto(Stage stage) {
+        return StageResponse.builder()
+                .id(stage.getId())
+                .nameStage(stage.getName())
+                .typeStage(stage.getType())
+                .dateTime(stage.getDateTime())
+                .test(stage.getTest())
+                .stageStatus(stage.getStageStatus())
                 .build();
     }
 }
