@@ -25,7 +25,7 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private Customer recepient;
+    private Customer recipient;
 
     @Column(name = "sender", nullable = false)
     private String sender;

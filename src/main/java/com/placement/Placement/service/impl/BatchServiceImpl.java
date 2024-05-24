@@ -32,7 +32,7 @@ public class BatchServiceImpl implements BatchService {
     public ResponseEntity<Object> getById(String id) {
         Batch batch = batchRepository.findById(id).orElse(null);
         if (batch != null) {
-            return Response.responseData(HttpStatus.OK, "Successfully get batch", batch);
+            return Response.responseData(HttpStatus.OK, "Successfully get batch", Entity.convertToDto(batch));
         }else{
             return Response.responseData(HttpStatus.NOT_FOUND, "Batch not found", null);
         }
@@ -55,7 +55,7 @@ public class BatchServiceImpl implements BatchService {
             if (batch == null){
                 batch = Dto.convertToEntity(batchRequest);
                 batchRepository.save(batch);
-                return Response.responseData(HttpStatus.OK, "Successfully create batch", batch);
+                return Response.responseData(HttpStatus.OK, "Successfully create batch", Entity.convertToDto(batch));
             }else {
                 return Response.responseData(HttpStatus.FOUND, "Batch already exist", null);
             }
@@ -72,7 +72,7 @@ public class BatchServiceImpl implements BatchService {
             batch.setStatus(EStatus.valueOf(batchRequest.getStatus()));
             batch.setRegion(batchRequest.getRegion());
             batchRepository.save(batch);
-            return Response.responseData(HttpStatus.OK, "Successfully update batch", batch);
+            return Response.responseData(HttpStatus.OK, "Successfully update batch", Entity.convertToDto(batch));
         }else{
             return Response.responseData(HttpStatus.NOT_FOUND, "Batch not found", null);
         }
@@ -84,7 +84,7 @@ public class BatchServiceImpl implements BatchService {
         if (batch != null) {
             batch.setStatus(EStatus.NOT_ACTIVE);
             batchRepository.save(batch);
-            return Response.responseData(HttpStatus.OK, "Successfully remove batch", batch);
+            return Response.responseData(HttpStatus.OK, "Successfully remove batch", Entity.convertToDto(batch));
         }else{
             return Response.responseData(HttpStatus.NOT_FOUND, "Batch not found", null);
         }

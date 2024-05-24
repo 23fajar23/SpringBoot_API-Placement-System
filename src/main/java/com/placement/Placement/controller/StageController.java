@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.*;
 public class StageController {
 
     private final StageService stageService;
-    @PostMapping(AppPath.CREATE)
+    @PostMapping
     public ResponseEntity<?> createStage(@RequestBody StageRequest stageRequest) {
         return stageService.create(stageRequest);
     }
 
-    @PutMapping(AppPath.UPDATE)
+    @PutMapping
     public ResponseEntity<?> updateStage(@RequestBody StageRequest stageRequest) {
        return stageService.update(stageRequest);
     }

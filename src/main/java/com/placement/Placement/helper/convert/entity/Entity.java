@@ -3,6 +3,7 @@ package com.placement.Placement.helper.convert.entity;
 import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.entity.Company;
 import com.placement.Placement.model.entity.Education;
+import com.placement.Placement.model.entity.Message;
 import com.placement.Placement.model.entity.auth.Admin;
 import com.placement.Placement.model.entity.auth.Customer;
 import com.placement.Placement.model.response.*;
@@ -54,6 +55,17 @@ public class Entity {
                 .education(customer.getEducation())
                 .userCredential(customer.getUserCredential())
                 .applications(customer.getApplications())
+                .build();
+    }
+
+    public static MessageResponse convertToDto(Message message) {
+        return MessageResponse.builder()
+                .id(message.getId())
+                .customer_id(message.getRecipient().getId())
+                .sender(message.getSender())
+                .content(message.getContent())
+                .read(message.getRead())
+                .status(message.getStatus())
                 .build();
     }
 }

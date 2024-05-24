@@ -47,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findById(id).orElse(null);
 
         if (customer != null) {
-            return Response.responseData(HttpStatus.OK, "Successfully get customer", customer);
+            return Response.responseData(HttpStatus.OK, "Successfully get customer", Entity.convertToDto(customer));
         }
 
         return Response.responseData(HttpStatus.NOT_FOUND, "Customer is not found", null);
