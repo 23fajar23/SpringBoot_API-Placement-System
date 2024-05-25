@@ -11,5 +11,4 @@ public interface EducationService {
     ResponseEntity<Object> create(EducationRequest educationRequest);
     ResponseEntity<Object> update(EducationRequest educationRequest);
     ResponseEntity<Object> remove(String id);
-    EducationResponse getByName(String name);
 }

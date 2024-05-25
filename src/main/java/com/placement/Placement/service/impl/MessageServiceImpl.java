@@ -30,7 +30,7 @@ public class MessageServiceImpl implements MessageService {
     public ResponseEntity<Object> getAll() {
         List<MessageResponse> messageResponseList = messageRepository.findAll().stream()
                 .map(Entity::convertToDto).toList();
-        return Response.responseData(HttpStatus.OK, "Successfully get all message", messageResponseList);
+        return Response.responseData(HttpStatus.OK, "Successfully get all message", messageResponseList, null);
     }
 
     @Override
@@ -47,9 +47,9 @@ public class MessageServiceImpl implements MessageService {
     public ResponseEntity<Object> getById(String id) {
         Message message = messageRepository.findById(id).orElse(null);
         if (message != null) {
-            return Response.responseData(HttpStatus.OK, "Successfully get message", message);
+            return Response.responseData(HttpStatus.OK, "Successfully get message", message, null);
         }else{
-            return Response.responseData(HttpStatus.NOT_FOUND, "Message not found", null);
+            return Response.responseData(HttpStatus.NOT_FOUND, "Message not found", null, null);
         }
     }
 
@@ -57,7 +57,7 @@ public class MessageServiceImpl implements MessageService {
     public ResponseEntity<Object> getByCustomerId(String id) {
         List<MessageResponse> messageResponseList = messageRepository.findByCustomer(id).stream()
                 .map(Entity::convertToDto).toList();
-        return Response.responseData(HttpStatus.OK, "Successfully get customer message", messageResponseList);
+        return Response.responseData(HttpStatus.OK, "Successfully get customer message", messageResponseList, null);
     }
 
     @Override
@@ -66,9 +66,9 @@ public class MessageServiceImpl implements MessageService {
         if (message != null) {
             message.setRead(EMessage.READ);
             messageRepository.save(message);
-            return Response.responseData(HttpStatus.OK, "Successfully open message", null);
+            return Response.responseData(HttpStatus.OK, "Successfully open message", null, null);
         }else{
-            return Response.responseData(HttpStatus.NOT_FOUND, "Message not found", null);
+            return Response.responseData(HttpStatus.NOT_FOUND, "Message not found", null, null);
         }
     }
 
@@ -96,12 +96,12 @@ public class MessageServiceImpl implements MessageService {
                         .build();
 
                 messageRepository.save(message);
-                return Response.responseData(HttpStatus.OK, "Successfully send message", Entity.convertToDto(message));
+                return Response.responseData(HttpStatus.OK, "Successfully send message", Entity.convertToDto(message), null);
             }else{
-                return Response.responseData(HttpStatus.FOUND, "Recipient not found", null);
+                return Response.responseData(HttpStatus.FOUND, "Recipient not found", null, null);
             }
         }catch (Exception e) {
-            return Response.responseData(HttpStatus.BAD_REQUEST, "Status Invalid", null);
+            return Response.responseData(HttpStatus.BAD_REQUEST, "Status Invalid", null, null);
         }
     }
 
@@ -112,18 +112,18 @@ public class MessageServiceImpl implements MessageService {
             if (message != null) {
 
                 if (message.getRead() == EMessage.READ){
-                    return Response.responseData(HttpStatus.BAD_REQUEST, "Message has been read", null);
+                    return Response.responseData(HttpStatus.BAD_REQUEST, "Message has been read", null, null);
                 }
 
                 message.setContent(messageRequest.getContent());
                 message.setStatus(messageRequest.getStatus());
                 messageRepository.save(message);
-                return Response.responseData(HttpStatus.OK, "Successfully update message", Entity.convertToDto(message));
+                return Response.responseData(HttpStatus.OK, "Successfully update message", Entity.convertToDto(message), null);
             }else{
-                return Response.responseData(HttpStatus.FOUND, "Message not found", null);
+                return Response.responseData(HttpStatus.FOUND, "Message not found", null, null);
             }
         }catch (Exception e) {
-            return Response.responseData(HttpStatus.BAD_REQUEST, "Status Invalid", null);
+            return Response.responseData(HttpStatus.BAD_REQUEST, "Status Invalid", null, null);
         }
     }
 
@@ -132,9 +132,9 @@ public class MessageServiceImpl implements MessageService {
         Message message = messageRepository.findById(id).orElse(null);
         if (message != null) {
             messageRepository.deleteById(id);
-            return Response.responseData(HttpStatus.OK, "Successfully delete message", null);
+            return Response.responseData(HttpStatus.OK, "Successfully delete message", null, null);
         }else{
-            return Response.responseData(HttpStatus.NOT_FOUND, "Message not found", null);
+            return Response.responseData(HttpStatus.NOT_FOUND, "Message not found", null, null);
         }
     }
 }

@@ -39,10 +39,10 @@ public class StageServiceImpl implements StageService {
         Stage stage = stageRepository.findById(id).orElse(null);
 
         if (stage != null) {
-            return Response.responseData(HttpStatus.OK,"Successfully get stage", Entity.convertToDto(stage));
+            return Response.responseData(HttpStatus.OK,"Successfully get stage", Entity.convertToDto(stage), null);
         }
 
-        return Response.responseData(HttpStatus.BAD_REQUEST, "Stage is not found", null);
+        return Response.responseData(HttpStatus.BAD_REQUEST, "Stage is not found", null, null);
     }
 
     @Transactional(rollbackOn = Exception.class)
@@ -171,7 +171,7 @@ public class StageServiceImpl implements StageService {
                 .test(stage.getTest())
                 .build();
 
-        return Response.responseData(HttpStatus.OK, "Successfully create new stage", result);
+        return Response.responseData(HttpStatus.OK, "Successfully create new stage", result, null);
     }
 
     @Override
@@ -188,10 +188,10 @@ public class StageServiceImpl implements StageService {
 
             stageRepository.saveAndFlush(stage);
 
-            return Response.responseData(HttpStatus.OK, "Successfully update stage", Entity.convertToDto(stage));
+            return Response.responseData(HttpStatus.OK, "Successfully update stage", Entity.convertToDto(stage), null);
         }
 
-        return Response.responseData(HttpStatus.NOT_FOUND, "Stage is not found", null);
+        return Response.responseData(HttpStatus.NOT_FOUND, "Stage is not found", null, null);
     }
 
     private static List<TestStageResult> getPassedParticipants(List<Optional<TestStageResult>> participants) {

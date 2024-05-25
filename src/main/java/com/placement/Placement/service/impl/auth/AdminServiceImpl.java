@@ -8,16 +8,24 @@ import com.placement.Placement.model.entity.auth.Admin;
 import com.placement.Placement.model.entity.auth.UserCredential;
 import com.placement.Placement.model.request.AdminRequest;
 import com.placement.Placement.model.response.AdminResponse;
+import com.placement.Placement.model.response.PagingResponse;
 import com.placement.Placement.repository.auth.AdminRepository;
 import com.placement.Placement.repository.auth.UserCredentialRepository;
 import com.placement.Placement.service.auth.AdminService;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,8 +45,7 @@ public class AdminServiceImpl implements AdminService {
         return Response.responseData(
                 HttpStatus.OK,
                 "Successfully get all admin",
-                adminList);
-
+                adminList, null);
     }
 
     @Override
@@ -48,13 +55,13 @@ public class AdminServiceImpl implements AdminService {
             return Response.responseData(
                     HttpStatus.OK,
                     "Successfully get admin",
-                    admin);
+                    admin, null);
         }
 
         return Response.responseData(
                 HttpStatus.NOT_FOUND,
                 "Admin is not found",
-                null);
+                null, null);
     }
 
     @Override
@@ -106,13 +113,13 @@ public class AdminServiceImpl implements AdminService {
 
             return Response.responseData(HttpStatus.OK,
                     "Successfully update admin",
-                    admin);
+                    admin, null);
         }
 
         return Response.responseData(
                 HttpStatus.NOT_FOUND,
                 "Admin is not found",
-                null);
+                null, null);
     }
 
     @Override
@@ -132,9 +139,37 @@ public class AdminServiceImpl implements AdminService {
             userCredential.setStatus(EStatus.NOT_ACTIVE);
             userCredentialRepository.save(userCredential);
 
-            return Response.responseData(HttpStatus.OK, "Successfully remove admin", admin);
+            return Response.responseData(HttpStatus.OK, "Successfully remove admin", admin, null);
         }
 
-        return Response.responseData(HttpStatus.NOT_FOUND, "Admin is not found", null);
+        return Response.responseData(HttpStatus.NOT_FOUND, "Admin is not found", null, null);
+    }
+
+    public ResponseEntity<Object> getAllByName(String name, Integer page, Integer size) {
+        Specification<Admin> specification = (root , query , criteriaBuilder) ->{
+            List<Predicate> predicates = new ArrayList<>();
+            if (name != null){
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%"));
+            }
+            return query.where(predicates.toArray(new Predicate[]{})).getRestriction();
+        };
+
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Admin> admins = adminRepository.findAll(specification,pageable);
+
+        List<AdminResponse> adminResponses = new ArrayList<>();
+        for (Admin admin : admins.getContent()){
+            adminResponses.add(Entity.convertToDto(admin));
+        }
+
+        PageImpl<AdminResponse> results = new PageImpl<>(adminResponses,pageable,admins.getTotalElements());
+
+        PagingResponse pagingResponse = PagingResponse.builder()
+                .currentPage(page)
+                .totalPage(admins.getTotalPages())
+                .size(size)
+                .build();
+
+        return Response.responseData(HttpStatus.OK, "Success get all admin by name", results, pagingResponse);
     }
 }

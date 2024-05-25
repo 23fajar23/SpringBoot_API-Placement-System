@@ -7,21 +7,26 @@ import com.placement.Placement.helper.response.Response;
 import com.placement.Placement.model.entity.auth.Customer;
 import com.placement.Placement.model.entity.auth.UserCredential;
 import com.placement.Placement.model.request.CustomerRequest;
-import com.placement.Placement.model.response.BatchResponse;
-import com.placement.Placement.model.response.CustomerResponse;
-import com.placement.Placement.model.response.EducationResponse;
+import com.placement.Placement.model.response.*;
 import com.placement.Placement.repository.auth.CustomerRepository;
 import com.placement.Placement.repository.auth.UserCredentialRepository;
 import com.placement.Placement.service.BatchService;
 import com.placement.Placement.service.EducationService;
 import com.placement.Placement.service.auth.CustomerService;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,7 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .map(Entity::convertToDto)
                 .toList();
 
-        return Response.responseData(HttpStatus.OK, "Successfully get all customers", customers);
+        return Response.responseData(HttpStatus.OK, "Successfully get all customers", customers, null);
     }
 
     @Override
@@ -47,10 +52,10 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findById(id).orElse(null);
 
         if (customer != null) {
-            return Response.responseData(HttpStatus.OK, "Successfully get customer", Entity.convertToDto(customer));
+            return Response.responseData(HttpStatus.OK, "Successfully get customer", Entity.convertToDto(customer), null);
         }
 
-        return Response.responseData(HttpStatus.NOT_FOUND, "Customer is not found", null);
+        return Response.responseData(HttpStatus.NOT_FOUND, "Customer is not found", null, null);
     }
 
     @Override
@@ -110,10 +115,10 @@ public class CustomerServiceImpl implements CustomerService {
             userCredentialRepository.saveAndFlush(userCredential);
             customerRepository.save(customer);
 
-            return Response.responseData(HttpStatus.OK, "Successfully update customer", customer);
+            return Response.responseData(HttpStatus.OK, "Successfully update customer", customer, null);
         }
 
-        return Response.responseData(HttpStatus.NOT_FOUND, "Customer is not found", null);
+        return Response.responseData(HttpStatus.NOT_FOUND, "Customer is not found", null, null);
     }
 
     @Override
@@ -147,9 +152,37 @@ public class CustomerServiceImpl implements CustomerService {
 
             userCredentialRepository.save(userCredential);
 
-            return Response.responseData(HttpStatus.OK, "Successfully remove customer", customer);
+            return Response.responseData(HttpStatus.OK, "Successfully remove customer", customer, null);
         }
 
-        return Response.responseData(HttpStatus.NOT_FOUND, "Customer is not found", null);
+        return Response.responseData(HttpStatus.NOT_FOUND, "Customer is not found", null, null);
+    }
+
+    public ResponseEntity<Object> getAllByName(String name, Integer page, Integer size) {
+        Specification<Customer> specification = (root , query , criteriaBuilder) ->{
+            List<Predicate> predicates = new ArrayList<>();
+            if (name != null){
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%"));
+            }
+            return query.where(predicates.toArray(new Predicate[]{})).getRestriction();
+        };
+
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Customer> customers = customerRepository.findAll(specification,pageable);
+
+        List<CustomerResponse> customerResponses = new ArrayList<>();
+        for (Customer customer : customers.getContent()){
+            customerResponses.add(Entity.convertToDto(customer));
+        }
+
+        PageImpl<CustomerResponse> results = new PageImpl<>(customerResponses,pageable,customers.getTotalElements());
+
+        PagingResponse pagingResponse = PagingResponse.builder()
+                .currentPage(page)
+                .totalPage(customers.getTotalPages())
+                .size(size)
+                .build();
+
+        return Response.responseData(HttpStatus.OK, "Success get all customers by name", results, pagingResponse);
     }
 }

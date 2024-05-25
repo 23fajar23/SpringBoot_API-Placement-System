@@ -27,16 +27,16 @@ public class EducationServiceImpl implements EducationService {
                 .stream()
                 .map(Entity::convertToDto)
                 .toList();
-        return Response.responseData(HttpStatus.OK, "Successfully get all educations", responseList);
+        return Response.responseData(HttpStatus.OK, "Successfully get all educations", responseList, null);
     }
 
     @Override
     public ResponseEntity<Object> getById(String id) {
         Education education = educationRepository.findById(id).orElse(null);
         if (education !=  null) {
-            return Response.responseData(HttpStatus.OK, "Successfully get education", education);
+            return Response.responseData(HttpStatus.OK, "Successfully get education", education, null);
         }else{
-            return Response.responseData(HttpStatus.NOT_FOUND, "Education not found", null);
+            return Response.responseData(HttpStatus.NOT_FOUND, "Education not found", null, null);
         }
     }
 
@@ -57,9 +57,9 @@ public class EducationServiceImpl implements EducationService {
         {
             education = Dto.convertToEntity(educationRequest);
             educationRepository.save(education);
-            return Response.responseData(HttpStatus.OK, "Successfully create education", education);
+            return Response.responseData(HttpStatus.OK, "Successfully create education", education, null);
         }else{
-            return Response.responseData(HttpStatus.FOUND, "Education already exist", null);
+            return Response.responseData(HttpStatus.FOUND, "Education already exist", null, null);
         }
     }
 
@@ -73,13 +73,13 @@ public class EducationServiceImpl implements EducationService {
                 education.setName(educationRequest.getName());
                 education.setValue(educationRequest.getValue());
                 educationRepository.save(education);
-                return Response.responseData(HttpStatus.OK, "Successfully update education", education);
+                return Response.responseData(HttpStatus.OK, "Successfully update education", education, null);
             }else{
-                return Response.responseData(HttpStatus.FOUND, "Education Name already exist", null);
+                return Response.responseData(HttpStatus.FOUND, "Education Name already exist", null, null);
             }
         }
 
-        return Response.responseData(HttpStatus.NOT_FOUND, "Education not found", null);
+        return Response.responseData(HttpStatus.NOT_FOUND, "Education not found", null, null);
     }
 
     @Override
@@ -88,19 +88,9 @@ public class EducationServiceImpl implements EducationService {
 
         if (education != null) {
             educationRepository.delete(education);
-            return Response.responseData(HttpStatus.OK, "Successfully remove education", education);
+            return Response.responseData(HttpStatus.OK, "Successfully remove education", education, null);
         }else{
-            return Response.responseData(HttpStatus.NOT_FOUND, "Education not found", null);
+            return Response.responseData(HttpStatus.NOT_FOUND, "Education not found", null, null);
         }
-    }
-
-    @Override
-    public EducationResponse getByName(String name) {
-        Education education = educationRepository.findByName(name).orElse(null);
-        if (education != null) {
-            return Entity.convertToDto(education);
-        }
-
-        return null;
     }
 }

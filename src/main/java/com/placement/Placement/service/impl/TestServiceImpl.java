@@ -4,6 +4,7 @@ import com.placement.Placement.constant.EQuota;
 import com.placement.Placement.constant.EStage;
 import com.placement.Placement.constant.EStatus;
 import com.placement.Placement.helper.convert.dto.Dto;
+import com.placement.Placement.helper.response.Response;
 import com.placement.Placement.model.entity.*;
 import com.placement.Placement.model.request.QuotaBatchRequest;
 import com.placement.Placement.model.request.TestRequest;
@@ -14,9 +15,16 @@ import com.placement.Placement.service.EducationService;
 import com.placement.Placement.service.TestService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import jakarta.persistence.criteria.Predicate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,8 +42,49 @@ public class TestServiceImpl implements TestService {
     private final EducationService educationService;
 
     @Override
-    public List<GetTestResponse> getAll() {
-        return testRepository.findAll().stream()
+    public ResponseEntity<Object> getAllByPlacementAndRole(String placement, String rolePlacement, Integer page, Integer size) {
+        Specification<Test> specification = (root , query , criteriaBuilder) ->{
+            List<Predicate> predicates = new ArrayList<>();
+            if (placement != null){
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("placement")), "%" + placement.toLowerCase() + "%"));
+            }
+            if (rolePlacement != null){
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("rolePlacement")), "%" + rolePlacement.toLowerCase() + "%"));
+            }
+            return query.where(predicates.toArray(new Predicate[]{})).getRestriction();
+        };
+
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Test> tests = testRepository.findAll(specification,pageable);
+
+        List<GetTestResponse> testResponses = new ArrayList<>();
+        for (Test test : tests.getContent()){
+            testResponses.add(GetTestResponse.builder()
+                    .id(test.getId())
+                    .placement(test.getPlacement())
+                    .note(test.getNote())
+                    .rolePlacement(test.getRolePlacement())
+                    .statusTest(test.getStatus())
+                    .company(test.getCompany())
+                    .education(test.getEducation())
+                    .stages(test.getStages())
+                    .build());
+        }
+
+        PageImpl<GetTestResponse> results = new PageImpl<>(testResponses,pageable,tests.getTotalElements());
+
+        PagingResponse pagingResponse = PagingResponse.builder()
+                .currentPage(page)
+                .totalPage(tests.getTotalPages())
+                .size(size)
+                .build();
+
+        return Response.responseData(HttpStatus.OK, "Successfully get all test by placement and role placement", results, pagingResponse);
+    }
+
+    @Override
+    public ResponseEntity<Object> getAll() {
+        var results = testRepository.findAll().stream()
                 .map(test -> GetTestResponse.builder()
                         .id(test.getId())
                         .placement(test.getPlacement())
@@ -47,13 +96,14 @@ public class TestServiceImpl implements TestService {
                         .stages(test.getStages())
                         .build()
                 ).toList();
+        return Response.responseData(HttpStatus.OK, "Success get all tests", results, null);
     }
 
     @Override
-    public GetTestResponse getById(String id) {
+    public ResponseEntity<Object> getById(String id) {
         Test test = testRepository.findById(id).orElse(null);
         if (test != null) {
-            return GetTestResponse.builder()
+            var result = GetTestResponse.builder()
                     .id(test.getId())
                     .placement(test.getPlacement())
                     .note(test.getNote())
@@ -63,14 +113,16 @@ public class TestServiceImpl implements TestService {
                     .education(test.getEducation())
                     .company(test.getCompany())
                     .build();
+
+            return Response.responseData(HttpStatus.OK, "Successfully get test", result, null);
         }
 
-        return null;
+        return Response.responseData(HttpStatus.BAD_REQUEST, "Test is not found", null, null);
     }
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public TestResponse create(TestRequest testRequest) {
+    public ResponseEntity<Object> create(TestRequest testRequest) {
         Company company = companyRepository.findById(
                 testRequest.getCompanyId()).orElse(null);
 
@@ -205,7 +257,7 @@ public class TestServiceImpl implements TestService {
         company.setTests(companyListTest);
         companyRepository.save(company);
 
-        return TestResponse.builder()
+        var result = TestResponse.builder()
                 .id(test.getId())
                 .placement(test.getPlacement())
                 .note(test.getNote())
@@ -214,10 +266,12 @@ public class TestServiceImpl implements TestService {
                 .education(Dto.convertToEntity(educationResponse))
                 .company(company)
                 .build();
+
+        return Response.responseData(HttpStatus.OK, "Successfully create new test", result, null);
     }
 
     @Override
-    public UpdateTestResponse update(TestRequest testRequest) {
+    public ResponseEntity<Object> update(TestRequest testRequest) {
         Test test = testRepository.findById(testRequest.getId()).orElse(null);
 
         if (test != null) {
@@ -237,20 +291,22 @@ public class TestServiceImpl implements TestService {
             test.setRolePlacement(testRequest.getRolePlacement());
 
             testRepository.save(test);
-            return UpdateTestResponse.builder()
+            var result = UpdateTestResponse.builder()
                     .id(test.getId())
                     .placement(test.getPlacement())
                     .note(test.getNote())
                     .statusTest(test.getStatus())
                     .education(Dto.convertToEntity(educationResponse))
                     .build();
+
+            return Response.responseData(HttpStatus.OK, "Successfully update test", result, null);
         }
 
-        return null;
+        return Response.responseData(HttpStatus.NOT_FOUND, "Test is not found", null, null);
     }
 
     @Override
-    public TestRemoveResponse remove(String id) {
+    public ResponseEntity<Object> remove(String id) {
         Test test = testRepository.findById(id).orElse(null);
 
         if (test != null) {
@@ -266,14 +322,16 @@ public class TestServiceImpl implements TestService {
             test.setStatus(EStatus.NOT_ACTIVE);
             testRepository.save(test);
 
-            return TestRemoveResponse.builder()
+            var result = TestRemoveResponse.builder()
                     .id(test.getId())
                     .placement(test.getPlacement())
                     .note(test.getNote())
                     .statusTest(test.getStatus())
                     .company(company)
                     .build();
+
+            return Response.responseData(HttpStatus.OK, "Successfully remove test", result, null);
         }
-        return null;
+        return Response.responseData(HttpStatus.NOT_FOUND, "Test is not found", null,null);
     }
 }

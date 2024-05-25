@@ -17,6 +17,15 @@ public class CustomerController {
         return customerService.getAll();
     }
 
+    @GetMapping(AppPath.PAGE)
+    public ResponseEntity<?> getAllCustomersPage(
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "page" , required = false, defaultValue = "0") Integer page,
+            @RequestParam(name = "size" , required = false, defaultValue = "5") Integer size
+    ) {
+        return customerService.getAllByName(name, page, size);
+    }
+
     @GetMapping(AppPath.BY_ID)
     public ResponseEntity<?> getCustomerById(@PathVariable String id) {
         return customerService.getById(id);

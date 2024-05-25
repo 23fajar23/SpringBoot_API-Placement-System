@@ -14,4 +14,5 @@ public interface CustomerService {
     ResponseEntity<Object> update(CustomerRequest customerRequest);
     Customer save(Customer customer);
     ResponseEntity<Object> remove(String id);
+    ResponseEntity<Object> getAllByName(String name, Integer page, Integer size);
 }

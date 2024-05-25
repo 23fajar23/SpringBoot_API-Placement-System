@@ -11,4 +11,5 @@ public interface AdminService {
     AdminResponse save(AdminResponse adminResponse);
     ResponseEntity<Object> update(AdminRequest adminRequest);
     ResponseEntity<Object> remove(String id);
+    ResponseEntity<Object> getAllByName(String name, Integer page, Integer size);
 }

@@ -59,7 +59,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                             .build();
                 }).toList();
 
-        return Response.responseData(HttpStatus.OK, "Successfully get all application", applicationResponses);
+        return Response.responseData(HttpStatus.OK, "Successfully get all application", applicationResponses, null);
     }
 
     @Override
@@ -86,10 +86,10 @@ public class ApplicationServiceImpl implements ApplicationService {
                     .customer(customer)
                     .build();
 
-            return Response.responseData(HttpStatus.OK, "Successfully get application", applicationResponse);
+            return Response.responseData(HttpStatus.OK, "Successfully get application", applicationResponse, null);
         }
 
-        return Response.responseData(HttpStatus.NOT_FOUND, "Application is not found", null);
+        return Response.responseData(HttpStatus.NOT_FOUND, "Application is not found", null, null);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 .stage(stage)
                 .build();
 
-        return Response.responseData(HttpStatus.OK, "Successfully approve application test customer", approveTestResponse);
+        return Response.responseData(HttpStatus.OK, "Successfully approve application test customer", approveTestResponse, null);
     }
 
     @Override
@@ -288,7 +288,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 .test(test)
                 .build();
 
-        return Response.responseData(HttpStatus.OK, "Successfully create application", applicationResponse);
+        return Response.responseData(HttpStatus.OK, "Successfully create application", applicationResponse, null);
     }
 
 }

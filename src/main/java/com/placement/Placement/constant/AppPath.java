@@ -23,4 +23,5 @@ public class AppPath {
     public final static String USER_PLACMENT = "/user_placement";
     public final static String JOIN = "/join";
     public final static String APPROVE = "/approve";
+    public final static String PAGE = "/page";
 }

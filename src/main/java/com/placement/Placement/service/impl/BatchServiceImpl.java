@@ -25,16 +25,16 @@ public class BatchServiceImpl implements BatchService {
     public ResponseEntity<Object> getAll() {
         List<BatchResponse> batchResponseList = batchRepository.findAll().stream()
                 .map(Entity::convertToDto).toList();
-        return Response.responseData(HttpStatus.OK, "Successfully get all batches", batchResponseList);
+        return Response.responseData(HttpStatus.OK, "Successfully get all batches", batchResponseList, null);
     }
 
     @Override
     public ResponseEntity<Object> getById(String id) {
         Batch batch = batchRepository.findById(id).orElse(null);
         if (batch != null) {
-            return Response.responseData(HttpStatus.OK, "Successfully get batch", Entity.convertToDto(batch));
+            return Response.responseData(HttpStatus.OK, "Successfully get batch", Entity.convertToDto(batch),null);
         }else{
-            return Response.responseData(HttpStatus.NOT_FOUND, "Batch not found", null);
+            return Response.responseData(HttpStatus.NOT_FOUND, "Batch not found", null, null);
         }
     }
 
@@ -55,12 +55,12 @@ public class BatchServiceImpl implements BatchService {
             if (batch == null){
                 batch = Dto.convertToEntity(batchRequest);
                 batchRepository.save(batch);
-                return Response.responseData(HttpStatus.OK, "Successfully create batch", Entity.convertToDto(batch));
+                return Response.responseData(HttpStatus.OK, "Successfully create batch", Entity.convertToDto(batch), null);
             }else {
-                return Response.responseData(HttpStatus.FOUND, "Batch already exist", null);
+                return Response.responseData(HttpStatus.FOUND, "Batch already exist", null, null);
             }
         }catch (Exception e){
-            return Response.responseData(HttpStatus.BAD_REQUEST, "Status Invalid", null);
+            return Response.responseData(HttpStatus.BAD_REQUEST, "Status Invalid", null, null);
         }
     }
 
@@ -72,9 +72,9 @@ public class BatchServiceImpl implements BatchService {
             batch.setStatus(EStatus.valueOf(batchRequest.getStatus()));
             batch.setRegion(batchRequest.getRegion());
             batchRepository.save(batch);
-            return Response.responseData(HttpStatus.OK, "Successfully update batch", Entity.convertToDto(batch));
+            return Response.responseData(HttpStatus.OK, "Successfully update batch", Entity.convertToDto(batch), null);
         }else{
-            return Response.responseData(HttpStatus.NOT_FOUND, "Batch not found", null);
+            return Response.responseData(HttpStatus.NOT_FOUND, "Batch not found", null, null);
         }
     }
 
@@ -84,9 +84,9 @@ public class BatchServiceImpl implements BatchService {
         if (batch != null) {
             batch.setStatus(EStatus.NOT_ACTIVE);
             batchRepository.save(batch);
-            return Response.responseData(HttpStatus.OK, "Successfully remove batch", Entity.convertToDto(batch));
+            return Response.responseData(HttpStatus.OK, "Successfully remove batch", Entity.convertToDto(batch), null);
         }else{
-            return Response.responseData(HttpStatus.NOT_FOUND, "Batch not found", null);
+            return Response.responseData(HttpStatus.NOT_FOUND, "Batch not found", null, null);
         }
     }
 }

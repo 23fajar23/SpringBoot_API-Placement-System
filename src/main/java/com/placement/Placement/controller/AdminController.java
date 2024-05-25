@@ -18,6 +18,15 @@ public class AdminController {
         return adminService.getAll();
     }
 
+    @GetMapping(AppPath.PAGE)
+    public ResponseEntity<?> getAllAdminsPage(
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "page" , required = false, defaultValue = "0") Integer page,
+            @RequestParam(name = "size" , required = false, defaultValue = "5") Integer size
+    ) {
+        return adminService.getAllByName(name, page, size);
+    }
+
     @GetMapping(AppPath.BY_ID)
     public ResponseEntity<?> getAdminById(@PathVariable String id) {
         return adminService.getById(id);

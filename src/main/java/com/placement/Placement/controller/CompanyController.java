@@ -14,9 +14,20 @@ import org.springframework.web.bind.annotation.*;
 public class CompanyController {
     private final CompanyService companyService;
 
+
+
     @GetMapping
     public ResponseEntity<?> getAllCompanies() {
         return companyService.getAll();
+    }
+
+    @GetMapping(AppPath.PAGE)
+    public ResponseEntity<?> getAllCompanyPage(
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "page" , required = false, defaultValue = "0") Integer page,
+            @RequestParam(name = "size" , required = false, defaultValue = "5") Integer size
+    ) {
+        return companyService.getAllByName(name, page, size);
     }
 
     @GetMapping(AppPath.BY_ID)

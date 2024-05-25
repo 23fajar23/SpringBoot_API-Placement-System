@@ -1,5 +1,6 @@
 package com.placement.Placement.model.response;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommonResponse<T> {
-    private Integer statusCode;
-    private String message;
-    private T data;
-    private PagingResponse pagingResponse;
+public class PagingResponse {
+    private Integer currentPage;
+    private Integer totalPage;
+    private Integer size;
 }
