@@ -14,6 +14,7 @@ public class AppPath {
     public final static String SUPER_ADMIN = "/super_admin";
     public final static String ADMIN = "/admin";
     public final static String LOGIN = "/login";
+    public final static String MOBILE = "/mobile";
     public final static String CREATE = "/create";
     public final static String UPDATE = "/update";
     public final static String REMOVE = "/remove";

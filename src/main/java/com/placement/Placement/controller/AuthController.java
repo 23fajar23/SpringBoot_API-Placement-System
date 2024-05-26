@@ -92,4 +92,29 @@ public class AuthController {
         return ResponseEntity.status(httpStatus).body(response);
     }
 
+    @PostMapping(AppPath.LOGIN + AppPath.MOBILE)
+    public ResponseEntity<?> loginMobile(@RequestBody AuthRequest request){
+        LoginResponse loginResponse = authService.loginMobile(request);
+
+        HttpStatus httpStatus;
+        CommonResponse<LoginResponse> response;
+        if (loginResponse != null) {
+            httpStatus = HttpStatus.OK;
+            response = CommonResponse.<LoginResponse>builder()
+                    .message("Success Login")
+                    .statusCode(httpStatus.value())
+                    .data(loginResponse)
+                    .build();
+        } else {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            response = CommonResponse.<LoginResponse>builder()
+                    .message("Failed Login")
+                    .statusCode(httpStatus.value())
+                    .data(null)
+                    .build();
+        }
+
+        return ResponseEntity.status(httpStatus).body(response);
+    }
+
 }

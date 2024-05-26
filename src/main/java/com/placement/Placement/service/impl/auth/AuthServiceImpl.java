@@ -192,4 +192,42 @@ public class AuthServiceImpl implements AuthService {
         }
         return null;
     }
+
+    @Override
+    public LoginResponse loginMobile(AuthRequest authRequest) {
+        UserCredential credential = userCredentialRepository.findByEmail(authRequest.getEmail()).orElse(null);
+
+        if (credential == null) {
+            return null;
+        }
+
+        if (credential.getRole().getName() != ERole.ROLE_CUSTOMER) {
+            return null;
+        }
+
+        Authentication authentication = authenticationManager.authenticate(new
+                UsernamePasswordAuthenticationToken(
+                authRequest.getEmail().toLowerCase(),
+                authRequest.getPassword()
+        ));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        AppUser appUser = (AppUser) authentication.getPrincipal();
+
+        String token = jwtUtil.generateToken(appUser);
+
+        var userCredential = userCredentialRepository.findByEmail(authRequest.getEmail()).orElse(null);
+
+        if (userCredential != null) {
+            if (userCredential.getStatus() == EStatus.ACTIVE) {
+                return LoginResponse.builder()
+                        .email(authRequest.getEmail())
+                        .token(token)
+                        .role(appUser.getRole().name())
+                        .build();
+            }
+        }
+        return null;
+    }
 }
