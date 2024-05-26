@@ -172,4 +172,14 @@ public class AdminServiceImpl implements AdminService {
 
         return Response.responseData(HttpStatus.OK, "Success get all admin by name", results, pagingResponse);
     }
+
+    @Override
+    public AdminResponse findByUserCredentialId(String userCredential) {
+        Admin admin = adminRepository.findByUserCredentialId(userCredential).orElse(null);
+        if (admin != null) {
+            return Entity.convertToDto(admin);
+        }
+
+        return null;
+    }
 }

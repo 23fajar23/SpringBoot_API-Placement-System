@@ -105,6 +105,17 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     }
 
     @Override
+    public SuperAdminResponse findByUserCredentialId(String userCredential) {
+        SuperAdmin superAdmin = superAdminRepository.findByUserCredentialId(userCredential).orElse(null);
+
+        if (superAdmin != null) {
+            return Entity.convertToDto(superAdmin);
+        }
+
+        return null;
+    }
+
+    @Override
     public SuperAdmin save(SuperAdmin superAdmin) {
         return superAdminRepository.save(superAdmin);
     }

@@ -12,4 +12,5 @@ public interface AdminService {
     ResponseEntity<Object> update(AdminRequest adminRequest);
     ResponseEntity<Object> remove(String id);
     ResponseEntity<Object> getAllByName(String name, Integer page, Integer size);
+    AdminResponse findByUserCredentialId(String userCredential);
 }

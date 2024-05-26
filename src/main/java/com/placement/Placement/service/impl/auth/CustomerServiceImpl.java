@@ -185,4 +185,15 @@ public class CustomerServiceImpl implements CustomerService {
 
         return Response.responseData(HttpStatus.OK, "Success get all customers by name", results, pagingResponse);
     }
+
+    @Override
+    public CustomerResponse findByUserCredentialId(String userCredential) {
+        Customer customer = customerRepository.findByUserCredentialId(userCredential).orElse(null);
+
+        if (customer != null) {
+            return Entity.convertToDto(customer);
+        }
+
+        return null;
+    }
 }

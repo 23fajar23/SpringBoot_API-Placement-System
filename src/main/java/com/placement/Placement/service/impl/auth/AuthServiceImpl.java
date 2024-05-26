@@ -184,7 +184,31 @@ public class AuthServiceImpl implements AuthService {
 
         if (userCredential != null) {
             if (userCredential.getStatus() == EStatus.ACTIVE) {
+
+                Object user;
+                if (userCredential.getRole().getName() == ERole.ROLE_ADMIN) {
+                    user = adminService.findByUserCredentialId(userCredential.getId());
+
+                    if (user == null) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Admin with user credential id " + userCredential.getId() + " is not found");
+                    }
+                } else if (userCredential.getRole().getName() == ERole.ROLE_SUPER_ADMIN) {
+                    user = superAdminService.findByUserCredentialId(userCredential.getId());
+
+                    if (user == null) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Super Admin with user credential id " + userCredential.getId() + " is not found");
+                    }
+
+                } else {
+                    user = customerService.findByUserCredentialId(userCredential.getId());
+
+                    if (user == null) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer with user credential id " + userCredential.getId() + " is not found");
+                    }
+                }
+
                 return LoginResponse.builder()
+                        .user(user)
                         .email(authRequest.getEmail())
                         .token(token)
                         .role(appUser.getRole().name())
@@ -222,7 +246,31 @@ public class AuthServiceImpl implements AuthService {
 
         if (userCredential != null) {
             if (userCredential.getStatus() == EStatus.ACTIVE) {
+
+                Object user;
+                if (userCredential.getRole().getName() == ERole.ROLE_ADMIN) {
+                    user = adminService.findByUserCredentialId(userCredential.getId());
+
+                    if (user == null) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Admin with user credential id " + userCredential.getId() + " is not found");
+                    }
+                } else if (userCredential.getRole().getName() == ERole.ROLE_SUPER_ADMIN) {
+                    user = superAdminService.findByUserCredentialId(userCredential.getId());
+
+                    if (user == null) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Super Admin with user credential id " + userCredential.getId() + " is not found");
+                    }
+
+                } else {
+                    user = customerService.findByUserCredentialId(userCredential.getId());
+
+                    if (user == null) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer with user credential id " + userCredential.getId() + " is not found");
+                    }
+                }
+
                 return LoginResponse.builder()
+                        .user(user)
                         .email(authRequest.getEmail())
                         .token(token)
                         .role(appUser.getRole().name())
@@ -231,4 +279,5 @@ public class AuthServiceImpl implements AuthService {
         }
         return null;
     }
+
 }
