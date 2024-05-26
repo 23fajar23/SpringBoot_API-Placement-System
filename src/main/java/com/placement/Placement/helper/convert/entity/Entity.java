@@ -3,6 +3,7 @@ package com.placement.Placement.helper.convert.entity;
 import com.placement.Placement.model.entity.*;
 import com.placement.Placement.model.entity.auth.Admin;
 import com.placement.Placement.model.entity.auth.Customer;
+import com.placement.Placement.model.entity.auth.SuperAdmin;
 import com.placement.Placement.model.response.*;
 
 public class Entity {
@@ -74,6 +75,15 @@ public class Entity {
                 .dateTime(stage.getDateTime())
                 .test(stage.getTest())
                 .stageStatus(stage.getStageStatus())
+                .build();
+    }
+
+    public static SuperAdminResponse convertToDto(SuperAdmin superAdmin) {
+        return SuperAdminResponse.builder()
+                .id(superAdmin.getId())
+                .name(superAdmin.getName())
+                .phoneNumber(superAdmin.getPhoneNumber())
+                .userCredential(superAdmin.getUserCredential())
                 .build();
     }
 }

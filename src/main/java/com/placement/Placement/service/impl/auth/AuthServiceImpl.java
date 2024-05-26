@@ -151,6 +151,7 @@ public class AuthServiceImpl implements AuthService {
             SuperAdmin superAdmin = SuperAdmin.builder()
                     .name(request.getName())
                     .phoneNumber(request.getMobilePhone())
+                    .userCredential(userCredential)
                     .build();
 
             superAdminService.save(superAdmin);
