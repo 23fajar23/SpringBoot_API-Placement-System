@@ -15,7 +15,7 @@ public class TestController {
 
     private final TestService testService;
 
-    @GetMapping
+    @GetMapping(AppPath.ALL)
     public ResponseEntity<?> getAllTests(){
         return testService.getAll();
     }

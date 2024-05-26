@@ -27,21 +27,41 @@ public class SecurityConfiguration {
         return authenticationConfiguration.getAuthenticationManager();
     }
     private static final String[] WHITE_LIST_URL = {
-//            "/api/auth/**",
-//            "/login"
-            "/**"
+            "/api/auth/**"
     };
 
     private static final String[] CUSTOMER_LIST_URL = {
-            "/test/hello/customer"
+            "/api/user_placement/join",
+            "/api/user_placement/{id}",
+            "/api/batch/all",
+            "/api/company/all",
+            "/api/customer/{id}",
+            "/api/customer",
+            "/api/education/all",
+            "/api/message/customer/**",
+            "/api/test/page",
+            "/api/test/all",
     };
 
     private static final String[] SUPER_ADMIN_LIST_URL = {
-            "/test/hello/super_admin"
+            "/api/admin/**",
+            "/api/user_placement/**",
+            "/api/batch/**",
+            "/api/company/**",
+            "/api/customer/**",
+            "/api/education/**",
+            "/api/message/**",
+            "/api/stage/**",
+            "/api/test/**"
     };
 
     private static final String[] ADMIN_LIST_URL = {
-            "/test/hello/admin"
+            "/api/admin",
+            "/api/user_placement/**",
+            "/api/company/**",
+            "/api/message/**",
+            "/api/stage/**",
+            "/api/test/**"
     };
 
     @Bean

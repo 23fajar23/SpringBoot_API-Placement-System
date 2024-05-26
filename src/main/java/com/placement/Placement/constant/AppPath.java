@@ -18,10 +18,11 @@ public class AppPath {
     public final static String CREATE = "/create";
     public final static String UPDATE = "/update";
     public final static String REMOVE = "/remove";
+    public final static String ALL = "/all";
     public final static String BY_ID = "/{id}";
     public final static String PLACEMENT = "/placement";
     public final static String STAGE = "/stage";
-    public final static String USER_PLACMENT = "/user_placement";
+    public final static String USER_PLACEMENT = "/user_placement";
     public final static String JOIN = "/join";
     public final static String APPROVE = "/approve";
     public final static String PAGE = "/page";

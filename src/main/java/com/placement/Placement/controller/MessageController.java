@@ -15,7 +15,7 @@ public class MessageController {
 
     private final MessageService messageService;
 
-    @GetMapping
+    @GetMapping(AppPath.ALL)
     public ResponseEntity<?> getAllMessage() {
         return messageService.getAll();
     }
@@ -26,7 +26,7 @@ public class MessageController {
     }
 
     @GetMapping(AppPath.BY_ID)
-    public ResponseEntity<?> getBatchById(@PathVariable String id) {
+    public ResponseEntity<?> getMessageById(@PathVariable String id) {
         return messageService.getById(id);
     }
 
@@ -36,7 +36,7 @@ public class MessageController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createBatch(@RequestBody MessageRequest messageRequest) {
+    public ResponseEntity<?> createMessage(@RequestBody MessageRequest messageRequest) {
         return messageService.create(messageRequest);
     }
 

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final AdminService adminService;
-    @GetMapping
+    @GetMapping(AppPath.ALL)
     public ResponseEntity<?> getAllAdmins() {
         return adminService.getAll();
     }

@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class CompanyController {
     private final CompanyService companyService;
 
-
-
-    @GetMapping
+    @GetMapping(AppPath.ALL)
     public ResponseEntity<?> getAllCompanies() {
         return companyService.getAll();
     }

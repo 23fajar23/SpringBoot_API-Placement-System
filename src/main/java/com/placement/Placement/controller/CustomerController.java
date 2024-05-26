@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(AppPath.API + AppPath.CUSTOMER)
 public class CustomerController {
     private final CustomerService customerService;
-    @GetMapping
+    @GetMapping(AppPath.ALL)
     public ResponseEntity<?> getAllCustomers() {
         return customerService.getAll();
     }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(AppPath.API + AppPath.USER_PLACMENT)
+@RequestMapping(AppPath.API + AppPath.USER_PLACEMENT)
 public class ApplicationController {
     private final ApplicationService applicationService;
     @PostMapping(AppPath.JOIN)
@@ -23,7 +23,7 @@ public class ApplicationController {
         return applicationService.approve(approveTestRequest);
     }
 
-    @GetMapping
+    @GetMapping(AppPath.ALL)
     public ResponseEntity<Object> getAllApplications() {
         return applicationService.getAll();
     }

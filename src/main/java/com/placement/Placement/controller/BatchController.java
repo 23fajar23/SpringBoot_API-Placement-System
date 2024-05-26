@@ -19,7 +19,7 @@ public class BatchController {
 
     private final BatchService batchService;
 
-    @GetMapping
+    @GetMapping(AppPath.ALL)
     public ResponseEntity<?> getAllBatches() {
         return batchService.getAll();
     }

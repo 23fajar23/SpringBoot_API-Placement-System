@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class EducationController {
     private final EducationService educationService;
 
-    @GetMapping
+    @GetMapping(AppPath.ALL)
     public ResponseEntity<?> getAllEducations() {
         return educationService.getAll();
     }
