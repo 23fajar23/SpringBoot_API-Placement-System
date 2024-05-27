@@ -117,8 +117,6 @@ public class AuthServiceImpl implements AuthService {
                     .userCredential(userCredential)
                     .build();
 
-
-
             adminService.save(Entity.convertToDto(admin));
 
             return RegisterResponse.builder()
@@ -209,7 +207,6 @@ public class AuthServiceImpl implements AuthService {
 
                 return LoginResponse.builder()
                         .user(user)
-                        .email(authRequest.getEmail())
                         .token(token)
                         .role(appUser.getRole().name())
                         .build();
@@ -271,7 +268,6 @@ public class AuthServiceImpl implements AuthService {
 
                 return LoginResponse.builder()
                         .user(user)
-                        .email(authRequest.getEmail())
                         .token(token)
                         .role(appUser.getRole().name())
                         .build();
