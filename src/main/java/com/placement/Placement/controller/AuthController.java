@@ -28,7 +28,7 @@ public class AuthController {
 
         CommonResponse<RegisterResponse> response = CommonResponse.<RegisterResponse>builder()
                 .message("Successfully register new customer")
-                .statusCode(HttpStatus.CREATED.value())
+                .status(HttpStatus.CREATED.value())
                 .data(registerResponse)
                 .build();
 
@@ -43,7 +43,7 @@ public class AuthController {
 
         CommonResponse<RegisterResponse> response = CommonResponse.<RegisterResponse>builder()
                 .message("Successfully register new Admim")
-                .statusCode(HttpStatus.CREATED.value())
+                .status(HttpStatus.CREATED.value())
                 .data(registerResponse)
                 .build();
 
@@ -58,7 +58,7 @@ public class AuthController {
 
         CommonResponse<RegisterResponse> response = CommonResponse.<RegisterResponse>builder()
                 .message("Successfully register new Super Admin")
-                .statusCode(HttpStatus.CREATED.value())
+                .status(HttpStatus.CREATED.value())
                 .data(registerResponse)
                 .build();
 
@@ -77,14 +77,14 @@ public class AuthController {
             httpStatus = HttpStatus.OK;
             response = CommonResponse.<LoginResponse>builder()
                     .message("Success Login")
-                    .statusCode(httpStatus.value())
+                    .status(httpStatus.value())
                     .data(loginResponse)
                     .build();
         } else {
             httpStatus = HttpStatus.BAD_REQUEST;
             response = CommonResponse.<LoginResponse>builder()
                     .message("Failed Login")
-                    .statusCode(httpStatus.value())
+                    .status(httpStatus.value())
                     .data(null)
                     .build();
         }
@@ -102,14 +102,14 @@ public class AuthController {
             httpStatus = HttpStatus.OK;
             response = CommonResponse.<LoginResponse>builder()
                     .message("Success Login")
-                    .statusCode(httpStatus.value())
+                    .status(httpStatus.value())
                     .data(loginResponse)
                     .build();
         } else {
             httpStatus = HttpStatus.BAD_REQUEST;
             response = CommonResponse.<LoginResponse>builder()
                     .message("Failed Login")
-                    .statusCode(httpStatus.value())
+                    .status(httpStatus.value())
                     .data(null)
                     .build();
         }

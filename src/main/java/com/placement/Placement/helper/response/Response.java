@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 public class Response {
     public static ResponseEntity<Object> responseData(HttpStatus httpStatus, String message, Object data, PagingResponse pagingResponse) {
         CommonResponse<Object> response = CommonResponse.<Object>builder()
-                .statusCode(httpStatus.value())
+                .status(httpStatus.value())
                 .message(message)
                 .data(data)
                 .pagingResponse(pagingResponse)

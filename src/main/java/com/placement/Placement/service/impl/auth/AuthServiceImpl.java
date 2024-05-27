@@ -275,7 +275,6 @@ public class AuthServiceImpl implements AuthService {
                         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer with user credential id " + userCredential.getId() + " is not found");
                     }
                 }
-
                 return LoginResponse.builder()
                         .user(user)
                         .token(token)
