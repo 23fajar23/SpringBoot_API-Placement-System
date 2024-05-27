@@ -30,76 +30,35 @@ public class SecurityConfiguration {
             "/api/auth/**",
             "/api/batch/all",
             "/api/education/all",
-
-
     };
 
     private static final String[] CUSTOMER_LIST_URL = {
-            "/api/test/all",
-            "/api/test/page",
-//            "/api/test/{id}",
-
+            "/api/placement/all",
+            "/api/placement/page",
             "/api/message/customer",
-//            "/api/message/{id}",
-//            "/api/message/open/{id}",
-
             "/api/user_placement/join",
-//            "/api/user_placement/{id}",
-
             "/api/company/all",
 
-//            "/api/user_placement/join",
-//            "/api/user_placement/{id}",
-//            "/api/company/all",
-//            "/api/customer/{id}",
-//            "/api/customer",
-//            "/api/message/customer/**",
-//            "/api/test/page",
-//            "/api/test/all",
     };
 
     private static final String[] SUPER_ADMIN_LIST_URL = {
             "/api/batch",
-//            "/api/batch/{id}",
             "/api/education",
-//            "/api/education/{id}",
             "/api/super_admin",
-//            "/api/super_admin/{id}",
             "/api/admin/all",
             "/api/admin/page",
-
-//            "/api/user_placement/**",
-//            "/api/batch/**",
-//            "/api/company/**",
-//            "/api/customer/**",
-//            "/api/education/**",
-//            "/api/message/**",
-//            "/api/stage/**",
-//            "/api/test/**"
     };
 
     private static final String[] ADMIN_LIST_URL = {
             "/api/message",
             "/api/user_placement/approve",
             "/api/user_placement",
-//            "/api/admin/{id}",
             "/api/admin",
             "/api/company/page",
-//            "/api/company/{id}",
-//            "/api/stage/{id}",
             "/api/stage",
-            "/api/test",
+            "/api/placement",
             "/api/company",
             "/api/company/page",
-//            "/api/company/{id}",
-            "/api/company",
-
-//            "/api/admin",
-//            "/api/user_placement/**",
-//            "/api/company/**",
-//            "/api/message/**",
-//            "/api/stage/**",
-//            "/api/test/**"
     };
 
     @Bean
