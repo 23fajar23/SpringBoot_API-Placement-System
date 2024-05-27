@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 public interface CustomerService {
     ResponseEntity<Object> getAll();
     ResponseEntity<Object> getById(String id);
+    ResponseEntity<Object> getByEmail(String id);
     CustomerResponse findById(String id);
     ResponseEntity<Object> update(CustomerRequest customerRequest);
     Customer save(Customer customer);

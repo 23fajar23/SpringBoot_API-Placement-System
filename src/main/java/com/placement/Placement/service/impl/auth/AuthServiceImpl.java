@@ -166,6 +166,16 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginResponse login(AuthRequest authRequest) {
+        UserCredential credential = userCredentialRepository.findByEmail(authRequest.getEmail()).orElse(null);
+
+        if (credential == null) {
+            return null;
+        }
+
+        if (credential.getRole().getName() == ERole.ROLE_CUSTOMER) {
+            return null;
+        }
+
         Authentication authentication = authenticationManager.authenticate(new
                 UsernamePasswordAuthenticationToken(
                 authRequest.getEmail().toLowerCase(),

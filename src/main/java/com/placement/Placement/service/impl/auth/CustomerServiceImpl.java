@@ -59,6 +59,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public ResponseEntity<Object> getByEmail(String email) {
+        Customer customer = customerRepository.findById(email).orElse(null);
+
+        if (customer != null) {
+            return Response.responseData(HttpStatus.OK, "Successfully get customer", Entity.convertToDto(customer), null);
+        }
+
+        return Response.responseData(HttpStatus.NOT_FOUND, "Customer is not found", null, null);
+    }
+
+    @Override
     public CustomerResponse findById(String id) {
         Customer customer = customerRepository.findById(id).orElse(null);
 
