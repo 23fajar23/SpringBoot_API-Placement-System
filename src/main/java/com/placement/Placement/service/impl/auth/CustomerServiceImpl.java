@@ -172,7 +172,7 @@ public class CustomerServiceImpl implements CustomerService {
 
             customer.setName(customerRequest.getName());
             customer.setAddress(customerRequest.getAddress());
-            customer.setMobilePhone(customerRequest.getPhoneNumber());
+            customer.setMobilePhone(customerRequest.getMobilePhone());
             customer.setBatch(Dto.convertToEntity(batchResponse));
             customer.setEducation(Dto.convertToEntity(educationResponse));
 

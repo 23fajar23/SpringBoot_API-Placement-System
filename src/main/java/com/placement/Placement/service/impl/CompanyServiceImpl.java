@@ -77,7 +77,7 @@ public class CompanyServiceImpl implements CompanyService {
         if (company != null) {
             company.setName(request.getName());
             company.setAddress(request.getAddress());
-            company.setPhoneNumber(request.getPhoneNumber());
+            company.setPhoneNumber(request.getMobilePhone());
             company.setStatus(EStatus.valueOf(request.getStatus()));
             companyRepository.save(company);
 

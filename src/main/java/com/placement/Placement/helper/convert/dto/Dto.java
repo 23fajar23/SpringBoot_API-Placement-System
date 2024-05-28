@@ -48,7 +48,7 @@ public class Dto {
         return Company.builder()
                 .id(companyResponse.getId())
                 .name(companyResponse.getName())
-                .phoneNumber(companyResponse.getPhoneNumber())
+                .phoneNumber(companyResponse.getMobilePhone())
                 .address(companyResponse.getAddress())
                 .status(companyResponse.getStatus())
                 .build();
@@ -59,7 +59,7 @@ public class Dto {
                 .id(companyRequest.getId())
                 .name(companyRequest.getName())
                 .address(companyRequest.getAddress())
-                .phoneNumber(companyRequest.getPhoneNumber())
+                .phoneNumber(companyRequest.getMobilePhone())
                 .status(EStatus.valueOf(companyRequest.getStatus()))
                 .build();
     }
@@ -89,7 +89,7 @@ public class Dto {
         return Admin.builder()
                 .id(adminResponse.getId())
                 .name(adminResponse.getName())
-                .phoneNumber(adminResponse.getPhoneNumber())
+                .phoneNumber(adminResponse.getMobilePhone())
                 .userCredential(adminResponse.getUserCredential())
                 .build();
     }

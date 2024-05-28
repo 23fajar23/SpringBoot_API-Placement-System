@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class AdminResponse {
     private String id;
     private String name;
-    private String phoneNumber;
+    private String mobilePhone;
     private UserCredential userCredential;
 }

@@ -105,7 +105,7 @@ public class AdminServiceImpl implements AdminService {
             }
 
             admin.setName(adminRequest.getName());
-            admin.setPhoneNumber(adminRequest.getPhoneNumber());
+            admin.setPhoneNumber(adminRequest.getMobilePhone());
             userCredential.setStatus(adminRequest.getStatus());
 
             userCredentialRepository.saveAndFlush(userCredential);

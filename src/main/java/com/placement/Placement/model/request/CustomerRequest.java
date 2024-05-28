@@ -14,7 +14,7 @@ public class CustomerRequest {
     private String id;
     private String name;
     private String address;
-    private String phoneNumber;
+    private String mobilePhone;
     private String batchId;
     private String educationId;
     private EStatus status;

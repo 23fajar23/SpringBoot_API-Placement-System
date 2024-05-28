@@ -31,7 +31,7 @@ public class Entity {
                 .id(company.getId())
                 .name(company.getName())
                 .address(company.getAddress())
-                .phoneNumber(company.getPhoneNumber())
+                .mobilePhone(company.getPhoneNumber())
                 .status(company.getStatus())
                 .build();
     }
@@ -40,7 +40,7 @@ public class Entity {
         return AdminResponse.builder()
                 .id(admin.getId())
                 .name(admin.getName())
-                .phoneNumber(admin.getPhoneNumber())
+                .mobilePhone(admin.getPhoneNumber())
                 .userCredential(admin.getUserCredential())
                 .build();
     }
@@ -50,7 +50,7 @@ public class Entity {
                 .id(customer.getId())
                 .name(customer.getName())
                 .address(customer.getAddress())
-                .phoneNumber(customer.getMobilePhone())
+                .mobilePhone(customer.getMobilePhone())
                 .batch(customer.getBatch())
                 .education(customer.getEducation())
                 .userCredential(customer.getUserCredential())
@@ -63,7 +63,7 @@ public class Entity {
                 .id(customer.getId())
                 .name(customer.getName())
                 .address(customer.getAddress())
-                .phoneNumber(customer.getMobilePhone())
+                .mobilePhone(customer.getMobilePhone())
                 .batch(customer.getBatch())
                 .education(customer.getEducation())
                 .userCredential(customer.getUserCredential())
@@ -97,7 +97,7 @@ public class Entity {
         return SuperAdminResponse.builder()
                 .id(superAdmin.getId())
                 .name(superAdmin.getName())
-                .phoneNumber(superAdmin.getPhoneNumber())
+                .mobilePhone(superAdmin.getPhoneNumber())
                 .userCredential(superAdmin.getUserCredential())
                 .build();
     }

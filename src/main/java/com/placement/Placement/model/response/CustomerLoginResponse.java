@@ -18,7 +18,7 @@ public class CustomerLoginResponse {
     private String id;
     private String name;
     private String address;
-    private String phoneNumber;
+    private String mobilePhone;
     private Batch batch;
     private Education education;
     private UserCredential userCredential;

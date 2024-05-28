@@ -11,6 +11,6 @@ import lombok.*;
 public class SuperAdminResponse {
     private String id;
     private String name;
-    private String phoneNumber;
+    private String mobilePhone;
     private UserCredential userCredential;
 }

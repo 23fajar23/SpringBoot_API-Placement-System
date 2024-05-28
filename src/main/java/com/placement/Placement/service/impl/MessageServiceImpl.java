@@ -81,7 +81,7 @@ public class MessageServiceImpl implements MessageService {
                         .id(customerResponse.getId())
                         .name(customerResponse.getName())
                         .address(customerResponse.getAddress())
-                        .mobilePhone(customerResponse.getPhoneNumber())
+                        .mobilePhone(customerResponse.getMobilePhone())
                         .batch(customerResponse.getBatch())
                         .education(customerResponse.getEducation())
                         .build();
