@@ -24,8 +24,9 @@ public class TestResponse {
     private String id;
     private String placement;
     private String note;
+    private String rolePlacement;
     private EStatus statusTest;
-    private Stage stage;
+    private List<StageResponse> stages;
     private Education education;
     private Company company;
 }

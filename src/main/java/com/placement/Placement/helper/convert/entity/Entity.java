@@ -6,6 +6,8 @@ import com.placement.Placement.model.entity.auth.Customer;
 import com.placement.Placement.model.entity.auth.SuperAdmin;
 import com.placement.Placement.model.response.*;
 
+import java.util.List;
+
 public class Entity {
     public static BatchResponse convertToDto(Batch batch) {
         return BatchResponse.builder()
@@ -53,6 +55,19 @@ public class Entity {
                 .education(customer.getEducation())
                 .userCredential(customer.getUserCredential())
                 .applications(customer.getApplications())
+                .build();
+    }
+
+    public static CustomerLoginResponse convertToDto(Customer customer, List<ApplicationTestResponse> applicationTestResponse) {
+        return CustomerLoginResponse.builder()
+                .id(customer.getId())
+                .name(customer.getName())
+                .address(customer.getAddress())
+                .phoneNumber(customer.getMobilePhone())
+                .batch(customer.getBatch())
+                .education(customer.getEducation())
+                .userCredential(customer.getUserCredential())
+                .applications(applicationTestResponse)
                 .build();
     }
 

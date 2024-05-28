@@ -159,7 +159,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 .orElse(null);
 
         if (application != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer already registered in test");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Customer already registered in test");
         }
 
         Quota quota = quotaRepository.findById(test

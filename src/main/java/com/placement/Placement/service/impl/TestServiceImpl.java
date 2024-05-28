@@ -67,7 +67,26 @@ public class TestServiceImpl implements TestService {
                     .statusTest(test.getStatus())
                     .company(test.getCompany())
                     .education(test.getEducation())
-                    .stages(test.getStages())
+                    .stages(test.getStages().stream().map(stage -> StageResponse.builder()
+                                    .id(stage.getId())
+                                    .nameStage(stage.getName())
+                                    .dateTime(stage.getDateTime())
+                                    .test(stage.getTest())
+                                    .typeStage(stage.getType())
+                                    .stageStatus(stage.getStageStatus())
+                                    .quotaBatches(stage.getQuotas().get(0).getQuotaBatches().stream().map(quotaBatch -> QuotaBatchResponse.builder()
+                                                    .id(quotaBatch.getId())
+                                                    .batch(BatchResponse.builder()
+                                                            .id(quotaBatch.getBatch().getId())
+                                                            .name(quotaBatch.getBatch().getName())
+                                                            .region(quotaBatch.getBatch().getRegion())
+                                                            .status(quotaBatch.getBatch().getStatus())
+                                                            .build())
+                                                    .quotaAvailable(quotaBatch.getAvailable())
+                                                    .build())
+                                            .toList())
+                                    .build())
+                            .toList())
                     .build());
         }
 
@@ -93,7 +112,26 @@ public class TestServiceImpl implements TestService {
                         .statusTest(test.getStatus())
                         .company(test.getCompany())
                         .education(test.getEducation())
-                        .stages(test.getStages())
+                        .stages(test.getStages().stream().map(stage -> StageResponse.builder()
+                                        .id(stage.getId())
+                                        .nameStage(stage.getName())
+                                        .dateTime(stage.getDateTime())
+                                        .test(stage.getTest())
+                                        .typeStage(stage.getType())
+                                        .stageStatus(stage.getStageStatus())
+                                        .quotaBatches(stage.getQuotas().get(0).getQuotaBatches().stream().map(quotaBatch -> QuotaBatchResponse.builder()
+                                                        .id(quotaBatch.getId())
+                                                        .batch(BatchResponse.builder()
+                                                                .id(quotaBatch.getBatch().getId())
+                                                                .name(quotaBatch.getBatch().getName())
+                                                                .region(quotaBatch.getBatch().getRegion())
+                                                                .status(quotaBatch.getBatch().getStatus())
+                                                                .build())
+                                                        .quotaAvailable(quotaBatch.getAvailable())
+                                                .build())
+                                                .toList())
+                                        .build())
+                                .toList())
                         .build()
                 ).toList();
         return Response.responseData(HttpStatus.OK, "Success get all tests", results, null);
@@ -109,9 +147,28 @@ public class TestServiceImpl implements TestService {
                     .note(test.getNote())
                     .rolePlacement(test.getRolePlacement())
                     .statusTest(test.getStatus())
-                    .stages(test.getStages())
-                    .education(test.getEducation())
                     .company(test.getCompany())
+                    .education(test.getEducation())
+                    .stages(test.getStages().stream().map(stage -> StageResponse.builder()
+                                    .id(stage.getId())
+                                    .nameStage(stage.getName())
+                                    .dateTime(stage.getDateTime())
+                                    .test(stage.getTest())
+                                    .typeStage(stage.getType())
+                                    .stageStatus(stage.getStageStatus())
+                                    .quotaBatches(stage.getQuotas().get(0).getQuotaBatches().stream().map(quotaBatch -> QuotaBatchResponse.builder()
+                                                    .id(quotaBatch.getId())
+                                                    .batch(BatchResponse.builder()
+                                                            .id(quotaBatch.getBatch().getId())
+                                                            .name(quotaBatch.getBatch().getName())
+                                                            .region(quotaBatch.getBatch().getRegion())
+                                                            .status(quotaBatch.getBatch().getStatus())
+                                                            .build())
+                                                    .quotaAvailable(quotaBatch.getAvailable())
+                                                    .build())
+                                            .toList())
+                                    .build())
+                            .toList())
                     .build();
 
             return Response.responseData(HttpStatus.OK, "Successfully get test", result, null);
@@ -187,7 +244,6 @@ public class TestServiceImpl implements TestService {
         quotaRepository.saveAndFlush(quota);
 
         List<QuotaBatch> quotaBatches = new ArrayList<>();
-
         if (quota.getType() == EQuota.BATCH) {
             List<QuotaBatchRequest> quotaBatchesRequest= testRequest.getQuotaAvailableBatch();
 
@@ -234,6 +290,7 @@ public class TestServiceImpl implements TestService {
             }
 
             quotaBatchRepository.saveAllAndFlush(quotaBatches);
+
         }
 
         List<Test> companyListTest = company.getTests();
@@ -261,10 +318,30 @@ public class TestServiceImpl implements TestService {
                 .id(test.getId())
                 .placement(test.getPlacement())
                 .note(test.getNote())
+                .rolePlacement(test.getRolePlacement())
                 .statusTest(test.getStatus())
-                .stage(stage)
-                .education(Dto.convertToEntity(educationResponse))
-                .company(company)
+                .company(test.getCompany())
+                .education(test.getEducation())
+                .stages(test.getStages().stream().map(s -> StageResponse.builder()
+                                .id(s.getId())
+                                .nameStage(s.getName())
+                                .dateTime(s.getDateTime())
+                                .test(s.getTest())
+                                .typeStage(s.getType())
+                                .stageStatus(s.getStageStatus())
+                                .quotaBatches(s.getQuotas().get(0).getQuotaBatches().stream().map(quotaBatch -> QuotaBatchResponse.builder()
+                                                .id(quotaBatch.getId())
+                                                .batch(BatchResponse.builder()
+                                                        .id(quotaBatch.getBatch().getId())
+                                                        .name(quotaBatch.getBatch().getName())
+                                                        .region(quotaBatch.getBatch().getRegion())
+                                                        .status(quotaBatch.getBatch().getStatus())
+                                                        .build())
+                                                .quotaAvailable(quotaBatch.getAvailable())
+                                                .build())
+                                        .toList())
+                                .build())
+                        .toList())
                 .build();
 
         return Response.responseData(HttpStatus.OK, "Successfully create new test", result, null);

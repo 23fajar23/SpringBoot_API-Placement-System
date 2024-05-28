@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,4 +23,5 @@ public class StageResponse {
     private Test test;
     private EType typeStage;
     private EStage stageStatus;
+    private List<QuotaBatchResponse> quotaBatches;
 }

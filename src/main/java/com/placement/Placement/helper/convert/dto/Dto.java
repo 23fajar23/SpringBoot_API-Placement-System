@@ -15,6 +15,7 @@ public class Dto {
                 .id(batchResponse.getId())
                 .name(batchResponse.getName())
                 .status(batchResponse.getStatus())
+                .region(batchResponse.getRegion())
                 .build();
     }
 

@@ -1,16 +1,16 @@
 package com.placement.Placement.model.response;
 
+import com.placement.Placement.model.entity.Application;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder(toBuilder = true)
-public class QuotaBatchResponse {
-    private String id;
-    private BatchResponse batch;
-    private int quotaAvailable;
+public class ApplicationTestResponse {
+    private Application application;
+    private TestResponse test;
 }

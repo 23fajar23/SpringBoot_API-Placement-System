@@ -81,6 +81,53 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public CustomerLoginResponse findByIdLogin(String id) {
+        Customer customer = customerRepository.findById(id).orElse(null);
+
+        if (customer != null) {
+
+            List<ApplicationTestResponse> applicationTestResponses = customer.getApplications().stream()
+                    .map(application -> ApplicationTestResponse.builder()
+                            .application(application)
+                            .test(TestResponse.builder()
+                                    .id(application.getTest().getId())
+                                    .note(application.getTest().getNote())
+                                    .placement(application.getTest().getPlacement())
+                                    .rolePlacement(application.getTest().getRolePlacement())
+                                    .statusTest(application.getTest().getStatus())
+                                    .stages(application.getTest().getStages().stream().map(stage -> StageResponse.builder()
+                                                    .id(stage.getId())
+                                                    .nameStage(stage.getName())
+                                                    .dateTime(stage.getDateTime())
+                                                    .test(stage.getTest())
+                                                    .typeStage(stage.getType())
+                                                    .stageStatus(stage.getStageStatus())
+                                                    .quotaBatches(stage.getQuotas().get(0).getQuotaBatches().stream().map(
+                                                            quotaBatch -> QuotaBatchResponse.builder()
+                                                                    .id(quotaBatch.getId())
+                                                                    .batch(BatchResponse.builder()
+                                                                            .id(quotaBatch.getBatch().getId())
+                                                                            .name(quotaBatch.getBatch().getName())
+                                                                            .region(quotaBatch.getBatch().getRegion())
+                                                                            .status(quotaBatch.getBatch().getStatus())
+                                                                            .build())
+                                                                    .build()
+                                                    ).toList())
+                                                    .build())
+                                            .toList())
+                                    .education(application.getTest().getEducation())
+                                    .company(application.getTest().getCompany())
+                                    .build())
+                            .build())
+                    .toList();
+
+            return Entity.convertToDto(customer, applicationTestResponses);
+        }
+
+        return null;
+    }
+
+    @Override
     @Transactional(rollbackOn = Exception.class)
     public ResponseEntity<Object> update(CustomerRequest customerRequest) {
         Customer customer = customerRepository.findById(customerRequest.getId())
@@ -198,11 +245,46 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerResponse findByUserCredentialId(String userCredential) {
+    public CustomerLoginResponse findByUserCredentialId(String userCredential) {
         Customer customer = customerRepository.findByUserCredentialId(userCredential).orElse(null);
 
         if (customer != null) {
-            return Entity.convertToDto(customer);
+            List<ApplicationTestResponse> applicationTestResponses = customer.getApplications().stream()
+                    .map(application -> ApplicationTestResponse.builder()
+                            .application(application)
+                            .test(TestResponse.builder()
+                                    .id(application.getTest().getId())
+                                    .note(application.getTest().getNote())
+                                    .placement(application.getTest().getPlacement())
+                                    .rolePlacement(application.getTest().getRolePlacement())
+                                    .statusTest(application.getTest().getStatus())
+                                    .stages(application.getTest().getStages().stream().map(stage -> StageResponse.builder()
+                                                    .id(stage.getId())
+                                                    .nameStage(stage.getName())
+                                                    .dateTime(stage.getDateTime())
+                                                    .test(stage.getTest())
+                                                    .typeStage(stage.getType())
+                                                    .stageStatus(stage.getStageStatus())
+                                                    .quotaBatches(stage.getQuotas().get(0).getQuotaBatches().stream().map(
+                                                            quotaBatch -> QuotaBatchResponse.builder()
+                                                                    .id(quotaBatch.getId())
+                                                                    .batch(BatchResponse.builder()
+                                                                            .id(quotaBatch.getBatch().getId())
+                                                                            .name(quotaBatch.getBatch().getName())
+                                                                            .region(quotaBatch.getBatch().getRegion())
+                                                                            .status(quotaBatch.getBatch().getStatus())
+                                                                            .build())
+                                                                    .build()
+                                                    ).toList())
+                                                    .build())
+                                            .toList())
+                                    .education(application.getTest().getEducation())
+                                    .company(application.getTest().getCompany())
+                                    .build())
+                            .build())
+                    .toList();
+
+            return Entity.convertToDto(customer, applicationTestResponses);
         }
 
         return null;
