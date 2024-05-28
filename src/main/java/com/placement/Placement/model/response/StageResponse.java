@@ -23,5 +23,5 @@ public class StageResponse {
     private Test test;
     private EType typeStage;
     private EStage stageStatus;
-    private List<QuotaBatchResponse> quotaBatches;
+    private List<QuotaResponse> quotas;
 }
