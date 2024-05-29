@@ -45,21 +45,8 @@ public class Entity {
                 .build();
     }
 
-    public static CustomerResponse convertToDto(Customer customer) {
+    public static CustomerResponse convertToDto(Customer customer, List<ApplicationTestResponse> applicationTestResponse) {
         return CustomerResponse.builder()
-                .id(customer.getId())
-                .name(customer.getName())
-                .address(customer.getAddress())
-                .mobilePhone(customer.getMobilePhone())
-                .batch(customer.getBatch())
-                .education(customer.getEducation())
-                .userCredential(customer.getUserCredential())
-                .applications(customer.getApplications())
-                .build();
-    }
-
-    public static CustomerLoginResponse convertToDto(Customer customer, List<ApplicationTestResponse> applicationTestResponse) {
-        return CustomerLoginResponse.builder()
                 .id(customer.getId())
                 .name(customer.getName())
                 .address(customer.getAddress())

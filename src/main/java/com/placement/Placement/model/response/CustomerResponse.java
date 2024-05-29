@@ -1,6 +1,5 @@
 package com.placement.Placement.model.response;
 
-import com.placement.Placement.model.entity.Application;
 import com.placement.Placement.model.entity.Batch;
 import com.placement.Placement.model.entity.Education;
 import com.placement.Placement.model.entity.auth.UserCredential;
@@ -23,5 +22,5 @@ public class CustomerResponse {
     private Batch batch;
     private Education education;
     private UserCredential userCredential;
-    private List<Application> applications;
+    private List<ApplicationTestResponse> applications;
 }

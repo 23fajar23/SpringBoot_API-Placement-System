@@ -41,7 +41,52 @@ public class CustomerServiceImpl implements CustomerService {
     public ResponseEntity<Object> getAll() {
         List<CustomerResponse> customers = customerRepository.findAll()
                 .stream()
-                .map(Entity::convertToDto)
+                .map(customer -> {
+                    List<ApplicationTestResponse> applicationTestResponses = customer.getApplications().stream()
+                            .map(application -> ApplicationTestResponse.builder()
+                                    .application(application)
+                                    .test(TestResponse.builder()
+                                            .id(application.getTest().getId())
+                                            .note(application.getTest().getNote())
+                                            .placement(application.getTest().getPlacement())
+                                            .rolePlacement(application.getTest().getRolePlacement())
+                                            .statusTest(application.getTest().getStatus())
+                                            .stages(application.getTest().getStages().stream().map(stage -> StageResponse.builder()
+                                                            .id(stage.getId())
+                                                            .nameStage(stage.getName())
+                                                            .dateTime(stage.getDateTime())
+                                                            .test(stage.getTest())
+                                                            .typeStage(stage.getType())
+                                                            .stageStatus(stage.getStageStatus())
+                                                            .quotas(stage.getQuotas().stream().map(quota -> QuotaResponse.builder()
+                                                                            .id(quota.getId())
+                                                                            .total(quota.getTotal())
+                                                                            .available(quota.getAvailable())
+                                                                            .type(quota.getType())
+                                                                            .stage(quota.getStage())
+                                                                            .quotaBatches(quota.getQuotaBatches().stream().map(quotaBatch -> QuotaBatchResponse.builder()
+                                                                                            .id(quotaBatch.getId())
+                                                                                            .batch(BatchResponse.builder()
+                                                                                                    .id(quotaBatch.getBatch().getId())
+                                                                                                    .name(quotaBatch.getBatch().getName())
+                                                                                                    .region(quotaBatch.getBatch().getRegion())
+                                                                                                    .status(quotaBatch.getBatch().getStatus())
+                                                                                                    .build())
+                                                                                            .quotaAvailable(quotaBatch.getAvailable())
+                                                                                            .build())
+                                                                                    .toList())
+                                                                            .build())
+                                                                    .toList())
+                                                            .build())
+                                                    .toList())
+                                            .education(application.getTest().getEducation())
+                                            .company(application.getTest().getCompany())
+                                            .build())
+                                    .build())
+                            .toList();
+
+                    return Entity.convertToDto(customer, applicationTestResponses);
+                })
                 .toList();
 
         return Response.responseData(HttpStatus.OK, "Successfully get all customers", customers, null);
@@ -52,7 +97,50 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findById(id).orElse(null);
 
         if (customer != null) {
-            return Response.responseData(HttpStatus.OK, "Successfully get customer", Entity.convertToDto(customer), null);
+            List<ApplicationTestResponse> applicationTestResponses = customer.getApplications().stream()
+                    .map(application -> ApplicationTestResponse.builder()
+                            .application(application)
+                            .test(TestResponse.builder()
+                                    .id(application.getTest().getId())
+                                    .note(application.getTest().getNote())
+                                    .placement(application.getTest().getPlacement())
+                                    .rolePlacement(application.getTest().getRolePlacement())
+                                    .statusTest(application.getTest().getStatus())
+                                    .stages(application.getTest().getStages().stream().map(stage -> StageResponse.builder()
+                                                    .id(stage.getId())
+                                                    .nameStage(stage.getName())
+                                                    .dateTime(stage.getDateTime())
+                                                    .test(stage.getTest())
+                                                    .typeStage(stage.getType())
+                                                    .stageStatus(stage.getStageStatus())
+                                                    .quotas(stage.getQuotas().stream().map(quota -> QuotaResponse.builder()
+                                                                    .id(quota.getId())
+                                                                    .total(quota.getTotal())
+                                                                    .available(quota.getAvailable())
+                                                                    .type(quota.getType())
+                                                                    .stage(quota.getStage())
+                                                                    .quotaBatches(quota.getQuotaBatches().stream().map(quotaBatch -> QuotaBatchResponse.builder()
+                                                                                    .id(quotaBatch.getId())
+                                                                                    .batch(BatchResponse.builder()
+                                                                                            .id(quotaBatch.getBatch().getId())
+                                                                                            .name(quotaBatch.getBatch().getName())
+                                                                                            .region(quotaBatch.getBatch().getRegion())
+                                                                                            .status(quotaBatch.getBatch().getStatus())
+                                                                                            .build())
+                                                                                    .quotaAvailable(quotaBatch.getAvailable())
+                                                                                    .build())
+                                                                            .toList())
+                                                                    .build())
+                                                            .toList())
+                                                    .build())
+                                            .toList())
+                                    .education(application.getTest().getEducation())
+                                    .company(application.getTest().getCompany())
+                                    .build())
+                            .build())
+                    .toList();
+
+            return Response.responseData(HttpStatus.OK, "Successfully get customer", Entity.convertToDto(customer, applicationTestResponses), null);
         }
 
         return Response.responseData(HttpStatus.NOT_FOUND, "Customer is not found", null, null);
@@ -63,7 +151,51 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findById(email).orElse(null);
 
         if (customer != null) {
-            return Response.responseData(HttpStatus.OK, "Successfully get customer", Entity.convertToDto(customer), null);
+
+            List<ApplicationTestResponse> applicationTestResponses = customer.getApplications().stream()
+                    .map(application -> ApplicationTestResponse.builder()
+                            .application(application)
+                            .test(TestResponse.builder()
+                                    .id(application.getTest().getId())
+                                    .note(application.getTest().getNote())
+                                    .placement(application.getTest().getPlacement())
+                                    .rolePlacement(application.getTest().getRolePlacement())
+                                    .statusTest(application.getTest().getStatus())
+                                    .stages(application.getTest().getStages().stream().map(stage -> StageResponse.builder()
+                                                    .id(stage.getId())
+                                                    .nameStage(stage.getName())
+                                                    .dateTime(stage.getDateTime())
+                                                    .test(stage.getTest())
+                                                    .typeStage(stage.getType())
+                                                    .stageStatus(stage.getStageStatus())
+                                                    .quotas(stage.getQuotas().stream().map(quota -> QuotaResponse.builder()
+                                                                    .id(quota.getId())
+                                                                    .total(quota.getTotal())
+                                                                    .available(quota.getAvailable())
+                                                                    .type(quota.getType())
+                                                                    .stage(quota.getStage())
+                                                                    .quotaBatches(quota.getQuotaBatches().stream().map(quotaBatch -> QuotaBatchResponse.builder()
+                                                                                    .id(quotaBatch.getId())
+                                                                                    .batch(BatchResponse.builder()
+                                                                                            .id(quotaBatch.getBatch().getId())
+                                                                                            .name(quotaBatch.getBatch().getName())
+                                                                                            .region(quotaBatch.getBatch().getRegion())
+                                                                                            .status(quotaBatch.getBatch().getStatus())
+                                                                                            .build())
+                                                                                    .quotaAvailable(quotaBatch.getAvailable())
+                                                                                    .build())
+                                                                            .toList())
+                                                                    .build())
+                                                            .toList())
+                                                    .build())
+                                            .toList())
+                                    .education(application.getTest().getEducation())
+                                    .company(application.getTest().getCompany())
+                                    .build())
+                            .build())
+                    .toList();
+
+            return Response.responseData(HttpStatus.OK, "Successfully get customer", Entity.convertToDto(customer, applicationTestResponses), null);
         }
 
         return Response.responseData(HttpStatus.NOT_FOUND, "Customer is not found", null, null);
@@ -74,14 +206,57 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findById(id).orElse(null);
 
         if (customer != null) {
-            return Entity.convertToDto(customer);
+            List<ApplicationTestResponse> applicationTestResponses = customer.getApplications().stream()
+                    .map(application -> ApplicationTestResponse.builder()
+                            .application(application)
+                            .test(TestResponse.builder()
+                                    .id(application.getTest().getId())
+                                    .note(application.getTest().getNote())
+                                    .placement(application.getTest().getPlacement())
+                                    .rolePlacement(application.getTest().getRolePlacement())
+                                    .statusTest(application.getTest().getStatus())
+                                    .stages(application.getTest().getStages().stream().map(stage -> StageResponse.builder()
+                                                    .id(stage.getId())
+                                                    .nameStage(stage.getName())
+                                                    .dateTime(stage.getDateTime())
+                                                    .test(stage.getTest())
+                                                    .typeStage(stage.getType())
+                                                    .stageStatus(stage.getStageStatus())
+                                                    .quotas(stage.getQuotas().stream().map(quota -> QuotaResponse.builder()
+                                                                    .id(quota.getId())
+                                                                    .total(quota.getTotal())
+                                                                    .available(quota.getAvailable())
+                                                                    .type(quota.getType())
+                                                                    .stage(quota.getStage())
+                                                                    .quotaBatches(quota.getQuotaBatches().stream().map(quotaBatch -> QuotaBatchResponse.builder()
+                                                                                    .id(quotaBatch.getId())
+                                                                                    .batch(BatchResponse.builder()
+                                                                                            .id(quotaBatch.getBatch().getId())
+                                                                                            .name(quotaBatch.getBatch().getName())
+                                                                                            .region(quotaBatch.getBatch().getRegion())
+                                                                                            .status(quotaBatch.getBatch().getStatus())
+                                                                                            .build())
+                                                                                    .quotaAvailable(quotaBatch.getAvailable())
+                                                                                    .build())
+                                                                            .toList())
+                                                                    .build())
+                                                            .toList())
+                                                    .build())
+                                            .toList())
+                                    .education(application.getTest().getEducation())
+                                    .company(application.getTest().getCompany())
+                                    .build())
+                            .build())
+                    .toList();
+
+            return Entity.convertToDto(customer, applicationTestResponses);
         }
 
         return null;
     }
 
     @Override
-    public CustomerLoginResponse findByIdLogin(String id) {
+    public CustomerResponse findByIdLogin(String id) {
         Customer customer = customerRepository.findById(id).orElse(null);
 
         if (customer != null) {
@@ -238,7 +413,51 @@ public class CustomerServiceImpl implements CustomerService {
 
         List<CustomerResponse> customerResponses = new ArrayList<>();
         for (Customer customer : customers.getContent()){
-            customerResponses.add(Entity.convertToDto(customer));
+
+            List<ApplicationTestResponse> applicationTestResponses = customer.getApplications().stream()
+                    .map(application -> ApplicationTestResponse.builder()
+                            .application(application)
+                            .test(TestResponse.builder()
+                                    .id(application.getTest().getId())
+                                    .note(application.getTest().getNote())
+                                    .placement(application.getTest().getPlacement())
+                                    .rolePlacement(application.getTest().getRolePlacement())
+                                    .statusTest(application.getTest().getStatus())
+                                    .stages(application.getTest().getStages().stream().map(stage -> StageResponse.builder()
+                                                    .id(stage.getId())
+                                                    .nameStage(stage.getName())
+                                                    .dateTime(stage.getDateTime())
+                                                    .test(stage.getTest())
+                                                    .typeStage(stage.getType())
+                                                    .stageStatus(stage.getStageStatus())
+                                                    .quotas(stage.getQuotas().stream().map(quota -> QuotaResponse.builder()
+                                                                    .id(quota.getId())
+                                                                    .total(quota.getTotal())
+                                                                    .available(quota.getAvailable())
+                                                                    .type(quota.getType())
+                                                                    .stage(quota.getStage())
+                                                                    .quotaBatches(quota.getQuotaBatches().stream().map(quotaBatch -> QuotaBatchResponse.builder()
+                                                                                    .id(quotaBatch.getId())
+                                                                                    .batch(BatchResponse.builder()
+                                                                                            .id(quotaBatch.getBatch().getId())
+                                                                                            .name(quotaBatch.getBatch().getName())
+                                                                                            .region(quotaBatch.getBatch().getRegion())
+                                                                                            .status(quotaBatch.getBatch().getStatus())
+                                                                                            .build())
+                                                                                    .quotaAvailable(quotaBatch.getAvailable())
+                                                                                    .build())
+                                                                            .toList())
+                                                                    .build())
+                                                            .toList())
+                                                    .build())
+                                            .toList())
+                                    .education(application.getTest().getEducation())
+                                    .company(application.getTest().getCompany())
+                                    .build())
+                            .build())
+                    .toList();
+
+            customerResponses.add(Entity.convertToDto(customer, applicationTestResponses));
         }
 
         PageImpl<CustomerResponse> results = new PageImpl<>(customerResponses,pageable,customers.getTotalElements());
@@ -253,7 +472,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerLoginResponse findByUserCredentialId(String userCredential) {
+    public CustomerResponse findByUserCredentialId(String userCredential) {
         Customer customer = customerRepository.findByUserCredentialId(userCredential).orElse(null);
 
         if (customer != null) {
