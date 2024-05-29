@@ -174,7 +174,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
 
         if (quota.getAvailable() <= 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The test quota is full");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The test quota is full");
         }
 
         if (customer.getEducation().getValue() < test.getEducation().getValue()) {
@@ -213,7 +213,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             }
 
             if (quota.getAvailable() <= 0) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Quota has run out");
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Quota has run out");
             }
 
             quotaBatch.setAvailable(quotaBatch.getAvailable() - 1);
