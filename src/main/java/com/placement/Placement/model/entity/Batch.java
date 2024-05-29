@@ -19,7 +19,7 @@ public class Batch {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = false)
     private String name;
 
     @Column(name = "region", nullable = false)
