@@ -69,6 +69,10 @@ public class AuthServiceImpl implements AuthService {
 
             Role role = roleService.getOrSave(ERole.ROLE_CUSTOMER);
 
+            if (!request.getPassword().matches(".*[A-Z].*")) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The password must contain one capital letter");
+            }
+
             UserCredential userCredential = UserCredential.builder()
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
@@ -103,6 +107,10 @@ public class AuthServiceImpl implements AuthService {
         try {
             Role role = roleService.getOrSave(ERole.ROLE_ADMIN);
 
+            if (!request.getPassword().matches(".*[A-Z].*")) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The password must contain one capital letter");
+            }
+
             UserCredential userCredential = UserCredential.builder()
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
@@ -135,6 +143,10 @@ public class AuthServiceImpl implements AuthService {
         try {
             //TODO 1 : set Role
             Role role = roleService.getOrSave(ERole.ROLE_SUPER_ADMIN);
+
+            if (!request.getPassword().matches(".*[A-Z].*")) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The password must contain one capital letter");
+            }
 
             //TODO 2 : set credential
             UserCredential userCredential = UserCredential.builder()
