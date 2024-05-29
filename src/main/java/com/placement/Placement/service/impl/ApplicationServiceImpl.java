@@ -262,12 +262,21 @@ public class ApplicationServiceImpl implements ApplicationService {
 
             applicationRepository.saveAndFlush(application);
 
+            if (quota.getAvailable() <= 0) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Quota has run out");
+            }
+
+            quota.setAvailable(quota.getAvailable() - 1);
+
+            quotaRepository.saveAndFlush(quota);
+
             List<Application> applications = customer.getApplications();
             applications.add(application);
 
             customer.setApplications(applications);
 
             customerRepository.saveAndFlush(customer);
+
 
             TestStageResult testStageResult = TestStageResult.builder()
                     .application(application)
@@ -276,8 +285,10 @@ public class ApplicationServiceImpl implements ApplicationService {
 
             testStageResultRepository.saveAndFlush(testStageResult);
 
-            List<TestStageResult> testStageResultList = application.getTestStageResultList();
+            List<TestStageResult> testStageResultList = (application.getTestStageResultList() == null) ? new ArrayList<>() : application.getTestStageResultList();
             testStageResultList.add(testStageResult);
+
+            application.setTestStageResultList(testStageResultList);
 
             applicationRepository.save(application);
         }
