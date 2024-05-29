@@ -14,5 +14,5 @@ import lombok.NoArgsConstructor;
 public class ApplicationResponse {
     private String id;
     private Customer customer;
-    private Test test;
+    private TestResponse test;
 }

@@ -20,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -182,6 +181,12 @@ public class StageServiceImpl implements StageService {
         if (stage != null) {
 
             stage.setName(stageRequest.getNameStage());
+
+            if (stageRequest.getDateTime().isBefore(LocalDate.now())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        "The time input must be today or in the future");
+            }
+
             stage.setDateTime(stageRequest.getDateTime());
             stage.setStageStatus(stageRequest.getStageStatus());
             stage.setType(stageRequest.getTypeStage());
